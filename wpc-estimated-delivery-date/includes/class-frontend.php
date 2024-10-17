@@ -63,8 +63,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			add_action( 'woocommerce_before_variations_form', [ $this, 'before_variations_form' ] );
 
 			// AJAX
-			add_action( 'wp_ajax_wpced_reload_dates', [ $this, 'ajax_reload_dates' ] );
-			add_action( 'wp_ajax_nopriv_wpced_reload_dates', [ $this, 'ajax_reload_dates' ] );
+			add_action( 'wc_ajax_wpced_reload_dates', [ $this, 'ajax_reload_dates' ] );
 
 			// Cart
 			if ( Wpced_Backend()->get_setting( 'cart_item', 'no' ) === 'yes' ) {
@@ -92,7 +91,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			wp_enqueue_style( 'wpced-frontend', WPCED_URI . 'assets/css/frontend.css', [], WPCED_VERSION );
 			wp_enqueue_script( 'wpced-frontend', WPCED_URI . 'assets/js/frontend.js', [ 'jquery' ], WPCED_VERSION, true );
 			wp_localize_script( 'wpced-frontend', 'wpced_vars', [
-				'ajax_url'     => admin_url( 'admin-ajax.php' ),
+				'wc_ajax_url'  => WC_AJAX::get_endpoint( '%%endpoint%%' ),
 				'nonce'        => wp_create_nonce( 'wpced-security' ),
 				'reload_dates' => apply_filters( 'wpced_reload_dates', wc_string_to_bool( Wpced_Backend()->get_setting( 'reload_dates', 'no' ) ) )
 			] );

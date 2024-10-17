@@ -20,17 +20,19 @@
           action: 'wpced_reload_dates', ids: ids, nonce: wpced_vars.nonce,
         };
 
-        $.post(wpced_vars.ajax_url, data, function(response) {
-          if (!$.isEmptyObject(response)) {
-            $.each(response, function(key, value) {
-              $('.' + key).each(function() {
-                if (!$(this).closest('.order_item').length) {
-                  $(this).replaceWith(value);
-                }
-              });
+        $.post(wpced_vars.wc_ajax_url.toString().
+                replace('%%endpoint%%', 'wpced_reload_dates'), data,
+            function(response) {
+              if (!$.isEmptyObject(response)) {
+                $.each(response, function(key, value) {
+                  $('.' + key).each(function() {
+                    if (!$(this).closest('.order_item').length) {
+                      $(this).replaceWith(value);
+                    }
+                  });
+                });
+              }
             });
-          }
-        });
       }
     }
   });
