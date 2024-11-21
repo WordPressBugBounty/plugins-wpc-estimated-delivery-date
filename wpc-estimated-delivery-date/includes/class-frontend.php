@@ -281,7 +281,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 
 			if ( ! empty( $rule['min'] ) ) {
 				$min_time        = self::get_date( $rule['min'], $rule['scheduled'] );
-				$delivery_date   .= self::date_format( $min_time );
+				$delivery_date   .= self::format_date( $min_time );
 				$delivery_date_u = $min_time;
 
 				if ( empty( $rule['max'] ) ) {
@@ -299,7 +299,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 					$is_max = true;
 				}
 
-				$delivery_date   .= self::date_format( $max_time );
+				$delivery_date   .= self::format_date( $max_time );
 				$delivery_date_u .= $max_time;
 			}
 
@@ -440,7 +440,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				if ( ! empty( $overall ) ) {
 					sort( $overall );
 
-					$delivery_date = self::date_format( end( $overall ) );
+					$delivery_date = self::format_date( end( $overall ) );
 					$delivery_text = Wpced_Backend()->get_setting( 'text_cart_overall', /* translators: date */ esc_html__( 'Overall estimated dispatch date: %s', 'wpc-estimated-delivery-date' ) );
 
 					if ( empty( $delivery_text ) ) {
@@ -468,7 +468,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			$current_time         = current_time( 'h:i a' );
 			$current_date         = current_time( 'm/d/Y' );
 			$extra_time_line      = Wpced_Backend()->get_setting( 'extra_time_line' );
-			$date_format          = apply_filters( 'wpced_date_format', Wpced_Backend()->get_setting( 'date_format', 'M j, Y' ) );
+			$date_format          = self::get_date_format();
 			$current_date_skipped = false;
 
 			while ( self::check_skipped( strtotime( $current_date ) ) && ( $j <= 100 ) ) {
@@ -504,8 +504,8 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			return apply_filters( 'wpced_get_date', $get_date, $days, $scheduled );
 		}
 
-		function date_format( $time ) {
-			$date_format = apply_filters( 'wpced_date_format', Wpced_Backend()->get_setting( 'date_format', 'M j, Y' ) );
+		function format_date( $time ) {
+			$date_format = self::get_date_format();
 
 			if ( empty( $date_format ) ) {
 				$date_format = 'M j, Y';
@@ -516,6 +516,19 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			}
 
 			return wp_date( $date_format, $time );
+		}
+
+		function get_date_format() {
+			$date_format        = Wpced_Backend()->get_setting( 'date_format', 'M j, Y' );
+			$date_format_custom = Wpced_Backend()->get_setting( 'date_format_custom', 'M j, Y' );
+
+			if ( ( $date_format === 'custom' ) && ! empty( $date_format_custom ) ) {
+				$date_format = $date_format_custom;
+			}
+
+			$date_format = apply_filters( 'wpced_date_format', $date_format );
+
+			return apply_filters( 'wpced_get_date_format', $date_format );
 		}
 
 		function check_skipped( $time ) {

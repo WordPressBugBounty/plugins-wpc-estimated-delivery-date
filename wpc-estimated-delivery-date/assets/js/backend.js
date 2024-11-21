@@ -1,5 +1,7 @@
+'use strict';
+
 (function($) {
-  'use strict';
+  var wpced_timer = 0;
 
   $(function() {
     // ready
@@ -9,6 +11,25 @@
     init_date();
     init_time();
     init_scheduled();
+    init_date_format();
+  });
+
+  $(document).on('change', '.wpced-date-format', function() {
+    init_date_format();
+  });
+
+  $(document).on('keyup change', '.wpced-date-format-custom', function() {
+    let value = $(this).val();
+
+    if (value !== '') {
+      if (wpced_timer != null) {
+        clearTimeout(wpced_timer);
+      }
+
+      wpced_timer = setTimeout(date_format_preview, 300);
+    } else {
+      $('.wpced-date-format-preview').html('');
+    }
   });
 
   $(document).
@@ -179,6 +200,16 @@
         addClass('wpced_dpk_init');
   }
 
+  function init_date_format() {
+    if ($('.wpced-date-format').val() === 'custom') {
+      $('.wpced-date-format-custom').show();
+      $('.wpced-date-format-preview').show();
+    } else {
+      $('.wpced-date-format-custom').hide();
+      $('.wpced-date-format-preview').hide();
+    }
+  }
+
   function init_date() {
     $('.wpced-date-val:not(.wpced_dpk_init)').
         wpcdpk().addClass('wpced_dpk_init');
@@ -240,6 +271,18 @@
       } else {
         $this.val([]).change();
       }
+    });
+  }
+
+  function date_format_preview() {
+    $('.wpced-date-format-preview').html('...');
+    wpced_timer = null;
+
+    $.post(ajaxurl, {
+      action: 'wpced_date_format_preview',
+      date_format: $('.wpced-date-format-custom').val(),
+    }, function(response) {
+      $('.wpced-date-format-preview').html(response);
     });
   }
 })(jQuery);

@@ -34,14 +34,15 @@ $rules      = Wpced_Backend()->get_rules();
     </div>
     <div class="wpclever_settings_page_content">
 		<?php if ( $active_tab === 'settings' ) {
-			$date_format   = Wpced_Backend()->get_setting( 'date_format', 'M j, Y' );
-			$pos_archive   = Wpced_Backend()->get_setting( 'position_archive', apply_filters( 'wpced_default_archive_position', 'above_add_to_cart' ) );
-			$pos_single    = Wpced_Backend()->get_setting( 'position_single', apply_filters( 'wpced_default_single_position', '31' ) );
-			$skipped_dates = Wpced_Backend()->get_setting( 'skipped_dates', [] );
-			$cart_item     = Wpced_Backend()->get_setting( 'cart_item', 'no' );
-			$cart_overall  = Wpced_Backend()->get_setting( 'cart_overall', 'yes' );
-			$order_item    = Wpced_Backend()->get_setting( 'order_item', 'no' );
-			$reload_dates  = Wpced_Backend()->get_setting( 'reload_dates', 'no' );
+			$date_format        = Wpced_Backend()->get_setting( 'date_format', 'M j, Y' );
+			$date_format_custom = Wpced_Backend()->get_setting( 'date_format_custom', 'M j, Y' );
+			$pos_archive        = Wpced_Backend()->get_setting( 'position_archive', apply_filters( 'wpced_default_archive_position', 'above_add_to_cart' ) );
+			$pos_single         = Wpced_Backend()->get_setting( 'position_single', apply_filters( 'wpced_default_single_position', '31' ) );
+			$skipped_dates      = Wpced_Backend()->get_setting( 'skipped_dates', [] );
+			$cart_item          = Wpced_Backend()->get_setting( 'cart_item', 'no' );
+			$cart_overall       = Wpced_Backend()->get_setting( 'cart_overall', 'yes' );
+			$order_item         = Wpced_Backend()->get_setting( 'order_item', 'no' );
+			$reload_dates       = Wpced_Backend()->get_setting( 'reload_dates', 'no' );
 			?>
             <form method="post" action="options.php">
                 <table class="form-table">
@@ -136,16 +137,24 @@ $rules      = Wpced_Backend()->get_rules();
 								'jS M',
 								'M jS'
 							];
-							echo '<select name="wpced_settings[date_format]">';
+							echo '<select name="wpced_settings[date_format]" class="wpced-date-format">';
 
 							foreach ( $date_formats as $df ) {
 								echo '<option value="' . esc_attr( $df ) . '" ' . selected( $date_format, $df, false ) . '>' . current_time( $df ) . '</option>';
 							}
 
 							echo '<option value="days" ' . selected( $date_format, 'days', false ) . '>' . esc_html__( 'Days count', 'wpc-estimated-delivery-date' ) . '</option>';
+							echo '<option value="custom" ' . selected( $date_format, 'custom', false ) . '>' . esc_html__( 'Custom', 'wpc-estimated-delivery-date' ) . '</option>';
 
 							echo '</select>';
 							?>
+                            <label>
+                                <input type="text" class="text wpced-date-format-custom" name="wpced_settings[date_format_custom]" value="<?php echo esc_attr( $date_format_custom ); ?>"/>
+                            </label>
+                            <span class="wpced-date-format-preview"><?php echo sprintf( esc_html__( 'Preview: %s', 'wpc-estimated-delivery-date' ), current_time( $date_format_custom ) ); ?></span>
+                            <p class="description">
+                                <a href="https://wordpress.org/documentation/article/customize-date-and-time-format/" target="_blank"><?php esc_html_e( 'Documentation on date and time formatting.', 'wpc-estimated-delivery-date' ); ?></a>
+                            </p>
                         </td>
                     </tr>
                     <tr>

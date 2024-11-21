@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the WPC Estimated Delivery Date for WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPC Estimated Delivery Date for WooCommerce 2.4.6\n"
+"Project-Id-Version: WPC Estimated Delivery Date for WooCommerce 2.4.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpc-estimated-delivery-date\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-10-17T04:32:59+00:00\n"
+"POT-Creation-Date: 2024-11-21T08:28:07+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: wpc-estimated-delivery-date\n"
@@ -34,128 +34,133 @@ msgstr ""
 msgid "https://wpclever.net"
 msgstr ""
 
-#: includes/class-backend.php:77
-#: includes/class-backend.php:85
+#: includes/class-backend.php:81
+#: includes/class-backend.php:89
 msgid "Under title"
 msgstr ""
 
-#: includes/class-backend.php:78
+#: includes/class-backend.php:82
 msgid "Under rating"
 msgstr ""
 
-#: includes/class-backend.php:79
+#: includes/class-backend.php:83
 msgid "Under price"
 msgstr ""
 
-#: includes/class-backend.php:80
+#: includes/class-backend.php:84
 msgid "Above add to cart"
 msgstr ""
 
-#: includes/class-backend.php:81
-#: includes/class-backend.php:88
+#: includes/class-backend.php:85
+#: includes/class-backend.php:92
 msgid "Under add to cart"
 msgstr ""
 
-#: includes/class-backend.php:82
-#: includes/class-backend.php:91
+#: includes/class-backend.php:86
+#: includes/class-backend.php:95
 msgid "None (hide it)"
 msgstr ""
 
-#: includes/class-backend.php:86
+#: includes/class-backend.php:90
 msgid "Under price & rating"
 msgstr ""
 
-#: includes/class-backend.php:87
+#: includes/class-backend.php:91
 msgid "Under excerpt"
 msgstr ""
 
-#: includes/class-backend.php:89
+#: includes/class-backend.php:93
 msgid "Under meta"
 msgstr ""
 
-#: includes/class-backend.php:90
+#: includes/class-backend.php:94
 msgid "Under sharing"
 msgstr ""
 
-#: includes/class-backend.php:123
-#: includes/class-backend.php:176
+#: includes/class-backend.php:127
+#: includes/class-backend.php:180
 msgid "Estimated Delivery Date"
 msgstr ""
 
-#: includes/class-backend.php:146
+#: includes/class-backend.php:150
 msgid "Product wasn't returned."
 msgstr ""
 
-#: includes/class-backend.php:161
+#: includes/class-backend.php:165
 #: includes/templates/settings.php:8
 msgid "WPC Estimated Delivery Date"
 msgstr ""
 
-#: includes/class-backend.php:178
+#: includes/class-backend.php:182
 msgid "Global"
 msgstr ""
 
-#: includes/class-backend.php:180
+#: includes/class-backend.php:184
 msgid "Parent"
 msgstr ""
 
-#: includes/class-backend.php:182
+#: includes/class-backend.php:186
 msgid "Disable"
 msgstr ""
 
-#: includes/class-backend.php:183
+#: includes/class-backend.php:187
 msgid "Override"
 msgstr ""
 
-#: includes/class-backend.php:214
-#: includes/templates/settings.php:242
+#: includes/class-backend.php:218
+#: includes/templates/settings.php:251
 msgid "+ Add rule"
 msgstr ""
 
-#: includes/class-backend.php:292
+#: includes/class-backend.php:296
 #: includes/templates/settings.php:26
 msgid "Settings"
 msgstr ""
 
-#: includes/class-backend.php:293
+#: includes/class-backend.php:297
 #: includes/templates/settings.php:29
 msgid "Premium Version"
 msgstr ""
 
-#: includes/class-backend.php:309
+#: includes/class-backend.php:313
 msgid "Community support"
+msgstr ""
+
+#: includes/class-backend.php:400
+#: includes/templates/settings.php:154
+msgid "Preview: %s"
 msgstr ""
 
 #. translators: date
 #: includes/class-frontend.php:314
 #: includes/class-frontend.php:318
-#: includes/templates/settings.php:167
+#: includes/templates/settings.php:176
 msgid "Latest estimated delivery date: %s"
 msgstr ""
 
 #. translators: date
 #: includes/class-frontend.php:321
 #: includes/class-frontend.php:325
-#: includes/templates/settings.php:162
+#: includes/templates/settings.php:171
 msgid "Earliest estimated delivery date: %s"
 msgstr ""
 
 #. translators: date
 #: includes/class-frontend.php:328
 #: includes/class-frontend.php:332
-#: includes/templates/settings.php:157
+#: includes/templates/settings.php:166
 msgid "Estimated delivery dates: %s"
 msgstr ""
 
 #: includes/class-frontend.php:404
-#: includes/templates/settings.php:171
+#: includes/templates/settings.php:180
 msgid "Estimated delivery date"
 msgstr ""
 
 #. translators: date
 #: includes/class-frontend.php:444
 #: includes/class-frontend.php:448
-#: includes/templates/settings.php:175
+#: includes/templates/settings.php:184
 msgid "Overall estimated dispatch date: %s"
 msgstr ""
 
@@ -317,126 +322,134 @@ msgstr ""
 msgid "Essential Kit"
 msgstr ""
 
-#: includes/templates/settings.php:49
+#: includes/templates/settings.php:50
 msgid "Position on archive"
 msgstr ""
 
-#: includes/templates/settings.php:59
+#: includes/templates/settings.php:60
 msgid "Position on single"
 msgstr ""
 
-#: includes/templates/settings.php:69
+#: includes/templates/settings.php:70
 msgid "Shortcode"
 msgstr ""
 
 #. translators: shortcode
-#: includes/templates/settings.php:71
+#: includes/templates/settings.php:72
 msgid "You can use shortcode %s to show the estimated delivery date for current product."
 msgstr ""
 
-#: includes/templates/settings.php:75
+#: includes/templates/settings.php:76
 msgid "Show on cart items"
 msgstr ""
 
-#: includes/templates/settings.php:78
-#: includes/templates/settings.php:88
-#: includes/templates/settings.php:98
-#: includes/templates/settings.php:108
+#: includes/templates/settings.php:79
+#: includes/templates/settings.php:89
+#: includes/templates/settings.php:99
+#: includes/templates/settings.php:109
 msgid "Yes"
 msgstr ""
 
-#: includes/templates/settings.php:79
+#: includes/templates/settings.php:80
 msgid "Yes, as an item's data"
 msgstr ""
 
-#: includes/templates/settings.php:80
-#: includes/templates/settings.php:90
-#: includes/templates/settings.php:99
-#: includes/templates/settings.php:109
+#: includes/templates/settings.php:81
+#: includes/templates/settings.php:91
+#: includes/templates/settings.php:100
+#: includes/templates/settings.php:110
 msgid "No"
 msgstr ""
 
-#: includes/templates/settings.php:85
+#: includes/templates/settings.php:86
 msgid "Show cart overall"
 msgstr ""
 
-#: includes/templates/settings.php:89
+#: includes/templates/settings.php:90
 msgid "Yes, as a plain text"
 msgstr ""
 
-#: includes/templates/settings.php:95
+#: includes/templates/settings.php:96
 msgid "Show on order items"
 msgstr ""
 
-#: includes/templates/settings.php:101
+#: includes/templates/settings.php:102
 msgid "Show the date on order items (order confirmation or emails)."
 msgstr ""
 
-#: includes/templates/settings.php:105
+#: includes/templates/settings.php:106
 msgid "Reload dates"
 msgstr ""
 
-#: includes/templates/settings.php:111
+#: includes/templates/settings.php:112
 msgid "Dates will be reloaded when opening the page? If you use the cache for your site, please turn on this option."
 msgstr ""
 
-#: includes/templates/settings.php:115
+#: includes/templates/settings.php:116
 msgid "Date format"
 msgstr ""
 
-#: includes/templates/settings.php:145
+#: includes/templates/settings.php:146
 msgid "Days count"
 msgstr ""
 
-#: includes/templates/settings.php:152
+#: includes/templates/settings.php:147
+msgid "Custom"
+msgstr ""
+
+#: includes/templates/settings.php:156
+msgid "Documentation on date and time formatting."
+msgstr ""
+
+#: includes/templates/settings.php:161
 msgid "Message"
 msgstr ""
 
-#: includes/templates/settings.php:154
+#: includes/templates/settings.php:163
 msgid "Have both minimum and maximum days"
 msgstr ""
 
-#: includes/templates/settings.php:159
+#: includes/templates/settings.php:168
 msgid "Have minimum days only"
 msgstr ""
 
-#: includes/templates/settings.php:164
+#: includes/templates/settings.php:173
 msgid "Have maximum days only"
 msgstr ""
 
-#: includes/templates/settings.php:169
+#: includes/templates/settings.php:178
 msgid "Cart item's data label"
 msgstr ""
 
-#: includes/templates/settings.php:173
+#: includes/templates/settings.php:182
 msgid "Cart overall"
 msgstr ""
 
 #. translators: date
-#: includes/templates/settings.php:177
+#: includes/templates/settings.php:186
 msgid "Use %s to show the date or date-range. Leave blank to use the default text and its equivalent translation in multiple languages."
 msgstr ""
 
-#: includes/templates/settings.php:181
+#: includes/templates/settings.php:190
 msgid "Extra time line"
 msgstr ""
 
-#: includes/templates/settings.php:186
+#: includes/templates/settings.php:195
 msgid "Maximum time to consider an extra day of shipping."
 msgstr ""
 
-#: includes/templates/settings.php:190
+#: includes/templates/settings.php:199
 msgid "Skipped dates"
 msgstr ""
 
-#: includes/templates/settings.php:192
+#: includes/templates/settings.php:201
 msgid "Select dates to skip in estimated (most shipping don't work on weekends, so you can select Saturday, Sunday and all the saturday and sundays will not be counted in calculating estimated shipping date)."
 msgstr ""
 
-#: includes/templates/settings.php:203
+#: includes/templates/settings.php:212
 msgid "+ Add date"
 msgstr ""
 
-#: includes/templates/settings.php:209
+#: includes/templates/settings.php:218
 msgid "Rules"
 msgstr ""

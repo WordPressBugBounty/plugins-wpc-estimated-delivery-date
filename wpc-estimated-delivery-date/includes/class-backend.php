@@ -70,9 +70,13 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 			add_action( 'wp_ajax_wpced_add_rule', [ $this, 'ajax_add_rule' ] );
 			add_action( 'wp_ajax_wpced_add_date', [ $this, 'ajax_add_date' ] );
 			add_action( 'wp_ajax_wpced_search_term', [ $this, 'ajax_search_term' ] );
+			add_action( 'wp_ajax_wpced_date_format_preview', [ $this, 'ajax_date_format_preview' ] );
 		}
 
 		function init() {
+			// load text-domain
+			load_plugin_textdomain( 'wpc-estimated-delivery-date', false, basename( WPCED_DIR ) . '/languages/' );
+
 			self::$archive_pos = apply_filters( 'wpced_archive_positions', [
 				'under_title'       => esc_html__( 'Under title', 'wpc-estimated-delivery-date' ),
 				'under_rating'      => esc_html__( 'Under rating', 'wpc-estimated-delivery-date' ),
@@ -390,6 +394,11 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 			}
 
 			wp_send_json( $return );
+		}
+
+		function ajax_date_format_preview() {
+			echo sprintf( esc_html__( 'Preview: %s', 'wpc-estimated-delivery-date' ), current_time( sanitize_text_field( $_POST['date_format'] ?? '' ) ) );
+			wp_die();
 		}
 
 		public static function get_base_rule() {
