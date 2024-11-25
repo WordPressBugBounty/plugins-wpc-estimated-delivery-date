@@ -334,7 +334,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				}
 
 				$wrapper_id    = is_a( $product, 'WC_Product_Variation' ) ? $product->get_parent_id() : $product_id;
-				$wrapper_class = apply_filters( 'wpced_wrapper_class', 'wpced wpced-' . $wrapper_id . ' wpced-' . $context . ' wpced-' . ( isset( $rule['key'] ) ? $rule['key'] : 'default' ), $product, $type, $context );
+				$wrapper_class = apply_filters( 'wpced_wrapper_class', 'wpced wpced-' . $wrapper_id . ' wpced-' . $context . ' wpced-' . ( $rule['key'] ?? 'default' ), $product, $type, $context );
 
 				if ( ! empty( $delivery_date ) ) {
 					$product_date = '<div class="' . esc_attr( $wrapper_class ) . '" data-id="' . esc_attr( $wrapper_id ) . '"><div class="wpced-inner">' . sprintf( $delivery_text, $delivery_date ) . '</div></div>';

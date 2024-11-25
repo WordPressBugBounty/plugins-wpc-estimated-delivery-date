@@ -11,6 +11,7 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 		protected static $archive_pos = [];
 		protected static $single_pos = [];
 		protected static $base_rule = [
+			'name'          => '',
 			'apply'         => 'all',
 			'apply_compare' => 'equal',
 			'apply_number'  => '0',

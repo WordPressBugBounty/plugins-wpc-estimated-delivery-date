@@ -151,7 +151,7 @@ $rules      = Wpced_Backend()->get_rules();
                             <label>
                                 <input type="text" class="text wpced-date-format-custom" name="wpced_settings[date_format_custom]" value="<?php echo esc_attr( $date_format_custom ); ?>"/>
                             </label>
-                            <span class="wpced-date-format-preview"><?php echo sprintf( esc_html__( 'Preview: %s', 'wpc-estimated-delivery-date' ), current_time( $date_format_custom ) ); ?></span>
+                            <span class="wpced-date-format-preview"><?php echo sprintf( /* translators: preview date */ esc_html__( 'Preview: %s', 'wpc-estimated-delivery-date' ), current_time( $date_format_custom ) ); ?></span>
                             <p class="description">
                                 <a href="https://wordpress.org/documentation/article/customize-date-and-time-format/" target="_blank"><?php esc_html_e( 'Documentation on date and time formatting.', 'wpc-estimated-delivery-date' ); ?></a>
                             </p>

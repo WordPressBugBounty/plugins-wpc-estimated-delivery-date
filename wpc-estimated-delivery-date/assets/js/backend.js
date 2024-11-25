@@ -14,6 +14,21 @@
     init_date_format();
   });
 
+  $(document).
+      on('keyup change keypress', '.wpced-rule-name-input', function() {
+        let $this = $(this), value = $this.val();
+
+        if (value !== '') {
+          $this.closest('.wpced-rule').
+              find('.wpced-item-name-key').
+              text(value);
+        } else {
+          $this.closest('.wpced-rule').
+              find('.wpced-item-name-key').
+              text($this.data('key'));
+        }
+      });
+
   $(document).on('change', '.wpced-date-format', function() {
     init_date_format();
   });

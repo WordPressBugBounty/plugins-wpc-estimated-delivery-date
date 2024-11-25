@@ -120,7 +120,7 @@
 }
 
 .wpced-items-wrapper .wpced-items .wpced-item .wpced-item-header .wpced-item-name .wpced-item-name-apply:before {
-    content: "- ";
+    content: " - ";
 }
 
 .wpced-items-wrapper .wpced-items .wpced-item .wpced-item-header:after {
