@@ -112,7 +112,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			wp_send_json( $dates );
 		}
 
-		public static function get_rule( $product ) {
+		public static function get_rule( $product, $shipping_method = null ) {
 			$ignore = ! $product->exists() || ! $product->is_purchasable() || ! $product->is_in_stock() || $product->is_type( 'external' ) || $product->is_virtual();
 
 			if ( apply_filters( 'wpced_ignore', $ignore, $product ) ) {
@@ -121,7 +121,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 
 			$get_rule    = [];
 			$user_zone   = Wpced_Helper()->get_shipping_zone();
-			$user_method = Wpced_Helper()->get_selected_method();
+			$user_method = $shipping_method ?: Wpced_Helper()->get_selected_method();
 			$product_id  = $product->get_id();
 			$enable      = get_post_meta( $product_id, 'wpced_enable', true ) ?: 'global';
 			$rules       = $default_rule = [];
@@ -411,6 +411,20 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 		}
 
 		function show_cart_overall_date() {
+			$overall_date = self::get_overall_date();
+
+			if ( ! empty( $overall_date ) ) {
+				if ( Wpced_Backend()->get_setting( 'cart_overall', 'yes' ) === 'yes_text' ) {
+					echo '<tr><td colspan="100" class="wpced-cart">' . esc_html( $overall_date ) . '</td></tr>';
+				} else {
+					echo '<tr><td colspan="100" class="wpced-cart"><span class="wpced"><span class="wpced-inner">' . esc_html( $overall_date ) . '</span></span></td></tr>';
+				}
+			}
+
+			return null;
+		}
+
+		function get_overall_date( $shipping_method = null ) {
 			if ( ! isset( WC()->cart ) ) {
 				return null;
 			}
@@ -421,7 +435,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				$overall = [];
 
 				foreach ( $items as $item ) {
-					$rule      = self::get_rule( $item['data'] );
+					$rule      = self::get_rule( $item['data'], $shipping_method );
 					$item_time = '';
 
 					if ( ! empty( $rule['min'] ) ) {
@@ -448,11 +462,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 							esc_html__( 'Overall estimated dispatch date: %s', 'wpc-estimated-delivery-date' );
 					}
 
-					if ( Wpced_Backend()->get_setting( 'cart_overall', 'yes' ) === 'yes_text' ) {
-						echo '<tr><td colspan="100" class="wpced-cart">' . sprintf( $delivery_text, $delivery_date ) . '</td></tr>';
-					} else {
-						echo '<tr><td colspan="100" class="wpced-cart"><span class="wpced"><span class="wpced-inner">' . sprintf( $delivery_text, $delivery_date ) . '</span></span></td></tr>';
-					}
+					return apply_filters( 'wpced_get_overall_date', sprintf( $delivery_text, $delivery_date ), $shipping_method );
 				}
 			}
 

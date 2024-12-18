@@ -93,8 +93,10 @@ if ( ! class_exists( 'Wpced_Helper' ) ) {
 
 		public static function get_default_zone( $zone_id = 0 ) {
 			$shipping_zone = WC_Shipping_Zones::get_zone( $zone_id );
+
 			if ( is_object( $shipping_zone ) ) {
 				$methods = self::get_zone_methods( $shipping_zone->get_id() );
+
 				if ( ! empty( $methods ) ) {
 					return $shipping_zone;
 				}
@@ -118,11 +120,7 @@ if ( ! class_exists( 'Wpced_Helper' ) ) {
 				if ( $get_name ) {
 					return $method[0];
 				} else {
-					if ( isset( $method[1] ) ) {
-						return $method[1];
-					} else {
-						return null;
-					}
+					return $method[1] ?? null;
 				}
 			}
 
