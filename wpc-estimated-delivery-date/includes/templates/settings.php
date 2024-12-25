@@ -34,15 +34,16 @@ $rules      = Wpced_Backend()->get_rules();
     </div>
     <div class="wpclever_settings_page_content">
 		<?php if ( $active_tab === 'settings' ) {
-			$date_format        = Wpced_Backend()->get_setting( 'date_format', 'M j, Y' );
-			$date_format_custom = Wpced_Backend()->get_setting( 'date_format_custom', 'M j, Y' );
-			$pos_archive        = Wpced_Backend()->get_setting( 'position_archive', apply_filters( 'wpced_default_archive_position', 'above_add_to_cart' ) );
-			$pos_single         = Wpced_Backend()->get_setting( 'position_single', apply_filters( 'wpced_default_single_position', '31' ) );
-			$skipped_dates      = Wpced_Backend()->get_setting( 'skipped_dates', [] );
-			$cart_item          = Wpced_Backend()->get_setting( 'cart_item', 'no' );
-			$cart_overall       = Wpced_Backend()->get_setting( 'cart_overall', 'yes' );
-			$order_item         = Wpced_Backend()->get_setting( 'order_item', 'no' );
-			$reload_dates       = Wpced_Backend()->get_setting( 'reload_dates', 'no' );
+			$date_format         = Wpced_Backend()->get_setting( 'date_format', 'M j, Y' );
+			$date_format_custom  = Wpced_Backend()->get_setting( 'date_format_custom', 'M j, Y' );
+			$pos_archive         = Wpced_Backend()->get_setting( 'position_archive', apply_filters( 'wpced_default_archive_position', 'above_add_to_cart' ) );
+			$pos_single          = Wpced_Backend()->get_setting( 'position_single', apply_filters( 'wpced_default_single_position', '31' ) );
+			$skipped_dates       = Wpced_Backend()->get_setting( 'skipped_dates', [] );
+			$cart_item           = Wpced_Backend()->get_setting( 'cart_item', 'no' );
+			$cart_overall        = Wpced_Backend()->get_setting( 'cart_overall', 'yes' );
+			$cart_overall_format = Wpced_Backend()->get_setting( 'cart_overall_format', 'latest' );
+			$order_item          = Wpced_Backend()->get_setting( 'order_item', 'no' );
+			$reload_dates        = Wpced_Backend()->get_setting( 'reload_dates', 'no' );
 			?>
             <form method="post" action="options.php">
                 <table class="form-table">
@@ -89,6 +90,16 @@ $rules      = Wpced_Backend()->get_rules();
                                     <option value="yes" <?php selected( $cart_overall, 'yes' ); ?>><?php esc_html_e( 'Yes', 'wpc-estimated-delivery-date' ); ?></option>
                                     <option value="yes_text" <?php selected( $cart_overall, 'yes_text' ); ?>><?php esc_html_e( 'Yes, as a plain text', 'wpc-estimated-delivery-date' ); ?></option>
                                     <option value="no" <?php selected( $cart_overall, 'no' ); ?>><?php esc_html_e( 'No', 'wpc-estimated-delivery-date' ); ?></option>
+                                </select> </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><?php esc_html_e( 'Overall date format', 'wpc-estimated-delivery-date' ); ?></th>
+                        <td>
+                            <label> <select name="wpced_settings[cart_overall_format]">
+                                    <option value="latest" <?php selected( $cart_overall_format, 'latest' ); ?>><?php esc_html_e( 'Latest date (default)', 'wpc-estimated-delivery-date' ); ?></option>
+                                    <option value="earliest" <?php selected( $cart_overall_format, 'earliest' ); ?>><?php esc_html_e( 'Earliest date', 'wpc-estimated-delivery-date' ); ?></option>
+                                    <option value="earliest_latest" <?php selected( $cart_overall_format, 'earliest_latest' ); ?>><?php esc_html_e( 'Earliest - Latest date', 'wpc-estimated-delivery-date' ); ?></option>
                                 </select> </label>
                         </td>
                     </tr>
