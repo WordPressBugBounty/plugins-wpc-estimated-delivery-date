@@ -119,16 +119,18 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				return [];
 			}
 
-			$get_rule    = [];
-			$user_zone   = Wpced_Helper()->get_shipping_zone();
-			$user_method = $shipping_method ?: Wpced_Helper()->get_selected_method();
-			$product_id  = $product->get_id();
-			$enable      = get_post_meta( $product_id, 'wpced_enable', true ) ?: 'global';
-			$rules       = $default_rule = [];
+			$get_rule     = [];
+			$user_zone    = Wpced_Helper()->get_shipping_zone();
+			$user_method  = $shipping_method ?: Wpced_Helper()->get_selected_method();
+			$variation_id = 0;
+			$product_id   = $product->get_id();
+			$enable       = get_post_meta( $product_id, 'wpced_enable', true ) ?: 'global';
+			$rules        = $default_rule = [];
 
 			if ( $product->is_type( 'variation' ) ) {
-				$product_id = $product->get_parent_id();
-				$enable     = get_post_meta( $product->get_id(), 'wpced_enable', true ) ?: 'parent';
+				$variation_id = $product_id;
+				$product_id   = $product->get_parent_id();
+				$enable       = apply_filters( 'wpced_enable_variation', get_post_meta( $product->get_id(), 'wpced_enable', true ) ?: 'parent', $product );
 
 				if ( $enable === 'parent' ) {
 					$enable = get_post_meta( $product_id, 'wpced_enable', true ) ?: 'global';
@@ -144,8 +146,8 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			}
 
 			if ( $enable === 'override' ) {
-				if ( $product->is_type( 'variation' ) ) {
-					$rules = get_post_meta( $product->get_id(), 'wpced_rules', true ) ?: [];
+				if ( $variation_id ) {
+					$rules = get_post_meta( $variation_id, 'wpced_rules', true ) ?: [];
 				} else {
 					$rules = get_post_meta( $product_id, 'wpced_rules', true ) ?: [];
 				}
@@ -169,14 +171,25 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 					$method        = ! empty( $rule['method'] ) ? $rule['method'] : 'all';
 
 					if ( ! in_array( $apply, [
-							'all',
-							'stock',
-							'instock',
-							'outofstock',
-							'backorder'
-						] ) && ! has_term( $apply_val, $apply, $product_id ) ) {
-						// doesn't apply for current product
-						continue;
+						'all',
+						'stock',
+						'instock',
+						'outofstock',
+						'backorder'
+					] ) ) {
+						if ( ( substr( $apply, 0, 3 ) === 'pa_' ) && $variation_id ) {
+							// check variation attribute
+							$attrs = $product->get_attributes();
+
+							if ( empty( $attrs[ $apply ] ) || ! in_array( $attrs[ $apply ], $apply_val ) ) {
+								continue;
+							}
+						}
+
+						if ( ! has_term( $apply_val, $apply, $product_id ) ) {
+							// doesn't apply for current product
+							continue;
+						}
 					}
 
 					if ( $apply === 'stock' ) {
@@ -376,12 +389,8 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 		}
 
 		function available_variation( $available, $variable, $variation ) {
-			$enable                    = get_post_meta( $variation->get_id(), 'wpced_enable', true ) ?: 'parent';
-			$available['wpced_enable'] = $enable;
-
-			if ( $enable === 'override' ) {
-				$available['wpced_date'] = htmlentities( self::get_product_date( $variation ) );
-			}
+			$available['wpced_enable'] = apply_filters( 'wpced_enable_variation', get_post_meta( $variation->get_id(), 'wpced_enable', true ) ?: 'parent', $variation );
+			$available['wpced_date']   = htmlentities( self::get_product_date( $variation ) );
 
 			return $available;
 		}

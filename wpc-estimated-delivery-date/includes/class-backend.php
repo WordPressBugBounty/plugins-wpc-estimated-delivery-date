@@ -67,6 +67,15 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 			// WPC Variation Bulk Editor
 			add_action( 'wpcvb_bulk_update_variation', [ $this, 'bulk_update_variation' ], 99, 2 );
 
+			// Export
+			add_filter( 'woocommerce_product_export_meta_value', [ $this, 'export_process' ], 10, 3 );
+
+			// Import
+			add_filter( 'woocommerce_product_import_pre_insert_product_object', [
+				$this,
+				'import_process'
+			], 10, 2 );
+
 			// AJAX
 			add_action( 'wp_ajax_wpced_add_rule', [ $this, 'ajax_add_rule' ] );
 			add_action( 'wp_ajax_wpced_add_date', [ $this, 'ajax_add_date' ] );
@@ -267,6 +276,31 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 			if ( ! empty( $fields['wpced_enable_v'] ) && ( $fields['wpced_enable_v'] === 'override' ) && ! empty( $fields['wpced_rules_v'] ) ) {
 				update_post_meta( $variation_id, 'wpced_rules', Wpced_Helper()->sanitize_array( $fields['wpced_rules_v'] ) );
 			}
+		}
+
+		function export_process( $value, $meta, $product ) {
+			if ( $meta->key === 'wpced_rules' ) {
+				$ids = get_post_meta( $product->get_id(), 'wpced_rules', true );
+
+				if ( ! empty( $ids ) && is_array( $ids ) ) {
+					return json_encode( $ids );
+				}
+			}
+
+			return $value;
+		}
+
+		function import_process( $object, $data ) {
+			if ( isset( $data['meta_data'] ) ) {
+				foreach ( $data['meta_data'] as $meta ) {
+					if ( $meta['key'] === 'wpced_rules' ) {
+						$object->update_meta_data( 'wpced_rules', json_decode( $meta['value'], true ) );
+						break;
+					}
+				}
+			}
+
+			return $object;
 		}
 
 		function register_settings() {

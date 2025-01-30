@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPC Estimated Delivery Date for WooCommerce 2.5.1\n"
+"Project-Id-Version: WPC Estimated Delivery Date for WooCommerce 2.5.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpc-estimated-delivery-date\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-01-13T15:50:55+00:00\n"
+"POT-Creation-Date: 2025-01-30T17:39:57+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: wpc-estimated-delivery-date\n"
@@ -34,133 +34,133 @@ msgstr ""
 msgid "https://wpclever.net"
 msgstr ""
 
-#: includes/class-backend.php:82
-#: includes/class-backend.php:90
+#: includes/class-backend.php:91
+#: includes/class-backend.php:99
 msgid "Under title"
 msgstr ""
 
-#: includes/class-backend.php:83
+#: includes/class-backend.php:92
 msgid "Under rating"
 msgstr ""
 
-#: includes/class-backend.php:84
+#: includes/class-backend.php:93
 msgid "Under price"
 msgstr ""
 
-#: includes/class-backend.php:85
+#: includes/class-backend.php:94
 msgid "Above add to cart"
 msgstr ""
 
-#: includes/class-backend.php:86
-#: includes/class-backend.php:93
+#: includes/class-backend.php:95
+#: includes/class-backend.php:102
 msgid "Under add to cart"
 msgstr ""
 
-#: includes/class-backend.php:87
 #: includes/class-backend.php:96
+#: includes/class-backend.php:105
 msgid "None (hide it)"
 msgstr ""
 
-#: includes/class-backend.php:91
+#: includes/class-backend.php:100
 msgid "Under price & rating"
 msgstr ""
 
-#: includes/class-backend.php:92
+#: includes/class-backend.php:101
 msgid "Under excerpt"
 msgstr ""
 
-#: includes/class-backend.php:94
+#: includes/class-backend.php:103
 msgid "Under meta"
 msgstr ""
 
-#: includes/class-backend.php:95
+#: includes/class-backend.php:104
 msgid "Under sharing"
 msgstr ""
 
-#: includes/class-backend.php:128
-#: includes/class-backend.php:181
+#: includes/class-backend.php:137
+#: includes/class-backend.php:190
 msgid "Estimated Delivery Date"
 msgstr ""
 
-#: includes/class-backend.php:151
+#: includes/class-backend.php:160
 msgid "Product wasn't returned."
 msgstr ""
 
-#: includes/class-backend.php:166
+#: includes/class-backend.php:175
 #: includes/templates/settings.php:8
 msgid "WPC Estimated Delivery Date"
 msgstr ""
 
-#: includes/class-backend.php:183
+#: includes/class-backend.php:192
 msgid "Global"
 msgstr ""
 
-#: includes/class-backend.php:185
+#: includes/class-backend.php:194
 msgid "Parent"
 msgstr ""
 
-#: includes/class-backend.php:187
+#: includes/class-backend.php:196
 msgid "Disable"
 msgstr ""
 
-#: includes/class-backend.php:188
+#: includes/class-backend.php:197
 msgid "Override"
 msgstr ""
 
-#: includes/class-backend.php:219
+#: includes/class-backend.php:228
 #: includes/templates/settings.php:262
 msgid "+ Add rule"
 msgstr ""
 
-#: includes/class-backend.php:297
+#: includes/class-backend.php:331
 #: includes/templates/settings.php:26
 msgid "Settings"
 msgstr ""
 
-#: includes/class-backend.php:298
+#: includes/class-backend.php:332
 #: includes/templates/settings.php:29
 msgid "Premium Version"
 msgstr ""
 
-#: includes/class-backend.php:314
+#: includes/class-backend.php:348
 msgid "Community support"
 msgstr ""
 
 #. translators: preview date
-#: includes/class-backend.php:401
+#: includes/class-backend.php:435
 #: includes/templates/settings.php:165
 msgid "Preview: %s"
 msgstr ""
 
 #. translators: date
-#: includes/class-frontend.php:314
-#: includes/class-frontend.php:318
+#: includes/class-frontend.php:327
+#: includes/class-frontend.php:331
 #: includes/templates/settings.php:187
 msgid "Latest estimated delivery date: %s"
 msgstr ""
 
 #. translators: date
-#: includes/class-frontend.php:321
-#: includes/class-frontend.php:325
+#: includes/class-frontend.php:334
+#: includes/class-frontend.php:338
 #: includes/templates/settings.php:182
 msgid "Earliest estimated delivery date: %s"
 msgstr ""
 
 #. translators: date
-#: includes/class-frontend.php:328
-#: includes/class-frontend.php:332
+#: includes/class-frontend.php:341
+#: includes/class-frontend.php:345
 #: includes/templates/settings.php:177
 msgid "Estimated delivery dates: %s"
 msgstr ""
 
-#: includes/class-frontend.php:404
+#: includes/class-frontend.php:413
 #: includes/templates/settings.php:191
 msgid "Estimated delivery date"
 msgstr ""
 
 #. translators: date
-#: includes/class-frontend.php:483
-#: includes/class-frontend.php:487
+#: includes/class-frontend.php:492
+#: includes/class-frontend.php:496
 #: includes/templates/settings.php:195
 msgid "Overall estimated dispatch date: %s"
 msgstr ""

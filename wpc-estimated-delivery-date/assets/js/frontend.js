@@ -42,15 +42,13 @@
 
     if (t.wpced_enable === 'disable') {
       $('.wpced-' + pid).html('');
+    } else if (t.wpced_enable === 'override' && t.wpced_date !== undefined) {
+      $('.wpced-' + pid).replaceWith(wpced_decode_entities(t.wpced_date));
     } else {
-      if (t.wpced_date !== undefined) {
-        $('.wpced-' + pid).replaceWith(wpced_decode_entities(t.wpced_date));
-      } else {
-        var variable_date = $('.wpced-variable-' + pid).data('wpced');
+      var variable_date = $('.wpced-variable-' + pid).data('wpced');
 
-        if (variable_date !== undefined) {
-          $('.wpced-' + pid).replaceWith(wpced_decode_entities(variable_date));
-        }
+      if (variable_date !== undefined) {
+        $('.wpced-' + pid).replaceWith(wpced_decode_entities(variable_date));
       }
     }
 
