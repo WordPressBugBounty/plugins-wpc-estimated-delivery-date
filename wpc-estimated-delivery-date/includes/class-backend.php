@@ -188,7 +188,8 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
                 <div class="wpced-select-wrapper">
                     <label>
                         <span><?php esc_html_e( 'Estimated Delivery Date', 'wpc-estimated-delivery-date' ); ?></span>
-                        <select name="<?php echo esc_attr( $is_variation ? 'wpced_enable_v[' . $product_id . ']' : 'wpced_enable' ); ?>" class="wpced-select-enable">
+                        <select name="<?php echo esc_attr( $is_variation ? 'wpced_enable_v[' . $product_id . ']' : 'wpced_enable' ); ?>"
+                                class="wpced-select-enable">
                             <option value="global" <?php selected( $enable, 'global' ); ?>><?php esc_html_e( 'Global', 'wpc-estimated-delivery-date' ); ?></option>
 							<?php if ( $is_variation ) { ?>
                                 <option value="parent" <?php selected( $enable, 'parent' ); ?>><?php esc_html_e( 'Parent', 'wpc-estimated-delivery-date' ); ?></option>
@@ -197,7 +198,8 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
                             <option value="override" <?php selected( $enable, 'override' ); ?>><?php esc_html_e( 'Override', 'wpc-estimated-delivery-date' ); ?></option>
                         </select> </label>
                 </div>
-                <div class="wpced-single-product" style="display: <?php echo esc_attr( $enable === 'override' ? 'block' : 'none' ); ?>;">
+                <div class="wpced-single-product"
+                     style="display: <?php echo esc_attr( $enable === 'override' ? 'block' : 'none' ); ?>;">
                     <div class="wpced-items-wrapper">
                         <div class="wpced-items">
 							<?php
@@ -225,7 +227,10 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
                         </div>
                     </div>
                     <div class="wpced-items-new">
-                        <input type="button" class="button wpced-item-new" data-product_id="<?php echo esc_attr( $product_id ); ?>" data-is_variation="<?php echo esc_attr( $is_variation ? 'true' : 'false' ); ?>" value="<?php esc_attr_e( '+ Add rule', 'wpc-estimated-delivery-date' ); ?>">
+                        <input type="button" class="button wpced-item-new"
+                               data-product_id="<?php echo esc_attr( $product_id ); ?>"
+                               data-is_variation="<?php echo esc_attr( $is_variation ? 'true' : 'false' ); ?>"
+                               value="<?php esc_attr_e( '+ Add rule', 'wpc-estimated-delivery-date' ); ?>">
                     </div>
                 </div>
             </div>

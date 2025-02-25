@@ -522,7 +522,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				$j ++;
 			}
 
-			if ( ! empty( $extra_time_line ) && ! $current_date_skipped ) {
+			if ( ! empty( $extra_time_line ) && apply_filters( 'wpced_apply_extra_time_for_skipped_date', ! $current_date_skipped ) ) {
 				// don't calculate extra time if current date is skipped
 				if ( strtotime( $current_date . ' ' . $current_time ) > strtotime( $current_date . ' ' . $extra_time_line ) ) {
 					$days += 1;
