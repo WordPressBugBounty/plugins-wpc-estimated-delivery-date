@@ -390,7 +390,10 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 
 		function available_variation( $available, $variable, $variation ) {
 			$available['wpced_enable'] = apply_filters( 'wpced_enable_variation', get_post_meta( $variation->get_id(), 'wpced_enable', true ) ?: 'parent', $variation );
-			$available['wpced_date']   = htmlentities( self::get_product_date( $variation ) );
+
+			if ( $available['wpced_enable'] === 'override' ) {
+				$available['wpced_date'] = htmlentities( self::get_product_date( $variation ) );
+			}
 
 			return $available;
 		}
