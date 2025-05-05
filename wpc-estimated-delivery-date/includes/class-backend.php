@@ -81,6 +81,11 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 			add_action( 'wp_ajax_wpced_add_date', [ $this, 'ajax_add_date' ] );
 			add_action( 'wp_ajax_wpced_search_term', [ $this, 'ajax_search_term' ] );
 			add_action( 'wp_ajax_wpced_date_format_preview', [ $this, 'ajax_date_format_preview' ] );
+
+			// Backend Order
+			add_action( 'woocommerce_order_item_add_action_buttons', [ $this, 'add_action_buttons' ] );
+			add_action( 'wp_ajax_wpced_get_order_dates', [ $this, 'ajax_get_order_dates' ] );
+			add_action( 'wp_ajax_wpced_save_order_dates', [ $this, 'ajax_save_order_dates' ] );
 		}
 
 		function init() {
@@ -333,8 +338,8 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 			}
 
 			if ( $plugin === $file ) {
-				$settings             = '<a href="' . esc_url( admin_url( 'admin.php?page=wpclever-wpced&tab=settings' ) ) . '">' . esc_html__( 'Settings', 'wpc-estimated-delivery-date' ) . '</a>';
-				$links['wpc-premium'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpclever-wpced&tab=premium' ) ) . '" style="color: #c9356e">' . esc_html__( 'Premium Version', 'wpc-estimated-delivery-date' ) . '</a>';
+				$settings = '<a href="' . esc_url( admin_url( 'admin.php?page=wpclever-wpced&tab=settings' ) ) . '">' . esc_html__( 'Settings', 'wpc-estimated-delivery-date' ) . '</a>';
+				$links['wpc-premium']       = '<a href="' . esc_url( admin_url( 'admin.php?page=wpclever-wpced&tab=premium' ) ) . '" style="color: #c9356e">' . esc_html__( 'Premium Version', 'wpc-estimated-delivery-date' ) . '</a>';
 				array_unshift( $links, $settings );
 			}
 
@@ -409,8 +414,12 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 				'jquery',
 				'jquery-ui-sortable',
 				'wc-enhanced-select',
+				'jquery-ui-dialog',
 				'selectWoo'
 			], WPCED_VERSION, true );
+			wp_localize_script( 'wpced-backend', 'wpced_vars', [
+				'nonce' => wp_create_nonce( 'wpced-security' )
+			] );
 		}
 
 		function ajax_search_term() {
@@ -439,6 +448,58 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 		function ajax_date_format_preview() {
 			echo sprintf( esc_html__( 'Preview: %s', 'wpc-estimated-delivery-date' ), current_time( sanitize_text_field( $_POST['date_format'] ?? '' ) ) );
 			wp_die();
+		}
+
+		function ajax_get_order_dates() {
+			if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'wpced-security' ) || ! current_user_can( 'manage_woocommerce' ) ) {
+				die( esc_html__( 'Permissions check failed!', 'wpc-estimated-delivery-date' ) );
+			}
+
+			$order_id = absint( $_POST['order_id'] ?? 0 );
+
+			if ( $order_id && ( $order = wc_get_order( $order_id ) ) ) {
+				echo '<ul class="wpced-order-items" data-id="' . esc_attr( $order_id ) . '">';
+
+				$order_items = $order->get_items( 'line_item' );
+
+				foreach ( $order_items as $order_item ) {
+					echo '<li class="wpced-order-item" data-id="' . esc_attr( $order_item->get_id() ) . '">';
+					echo '<div class="wpced-order-item-name">' . $order_item->get_name() . '</div>';
+					echo '<div class="wpced-order-item-date"><input type="text" data-id="' . esc_attr( $order_item->get_id() ) . '" class="text large-text wpced-order-item-date-val" value="' . esc_attr( wp_strip_all_tags( $order_item->get_meta( '_wpced_date' ) ) ) . '"/></div>';
+					echo '</li>';
+				}
+
+				echo '</ul>';
+				echo '<div class="wpced-order-items-save"><button class="button button-primary wpced-order-items-save-btn">' . esc_html__( 'Save', 'wpc-estimated-delivery-date' ) . '</button></div>';
+			}
+
+			wp_die();
+		}
+
+		function ajax_save_order_dates() {
+			if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'wpced-security' ) || ! current_user_can( 'manage_woocommerce' ) ) {
+				die( esc_html__( 'Permissions check failed!', 'wpc-estimated-delivery-date' ) );
+			}
+
+			$order_id    = absint( $_POST['order_id'] ?? 0 );
+			$order_dates = Wpced_Helper()->sanitize_array( $_POST['order_dates'] ?? [] );
+
+			if ( ! empty( $order_dates ) ) {
+				foreach ( $order_dates as $order_date ) {
+					$order_date      = array_merge( [ 'id' => 0, 'date' => '' ], $order_date );
+					$order_item_date = apply_filters( 'wpced_update_order_item_date', '<div class="wpced"><div class="wpced-inner">' . wp_strip_all_tags( $order_date['date'] ) . '</div></div>' );
+					wc_update_order_item_meta( $order_date['id'], '_wpced_date', $order_item_date );
+				}
+			}
+
+			echo $order_id;
+
+			wp_die();
+		}
+
+		function add_action_buttons() {
+			echo '<button type="button" class="button wpced-update-dates">' . esc_html__( 'Update delivery dates', 'wpc-estimated-delivery-date' ) . '</button>';
+			echo '<div class="wpced-update-dates-dialog" id="wpced_update_dates_dialog" style="display: none" title="' . esc_attr__( 'Update delivery dates', 'wpc-estimated-delivery-date' ) . '"></div>';
 		}
 
 		public static function get_base_rule() {

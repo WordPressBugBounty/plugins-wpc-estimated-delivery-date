@@ -384,6 +384,62 @@
     left: 15px;
 }
 
+.wpced-update-dates-dialog .wpced-order-items {
+    margin-top: 0;
+}
+
+.wpced-update-dates-dialog .wpced-order-items .wpced-order-item {
+    padding: 10px 0;
+    margin: 0;
+    border-bottom: 1px dashed #dddddd;
+}
+
+.wpced-update-dates-dialog .wpced-order-items .wpced-order-item:nth-child(2n+1) {
+    background-color: #fafafa;
+}
+
+.wpced-update-dates-dialog .wpced-order-items-save {
+    text-align: center;
+}
+
+.wpced-update-dates-dialog.loading {
+    pointer-events: none;
+}
+
+.wpced-update-dates-dialog.loading:before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.05);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9;
+}
+
+.wpced-update-dates-dialog.loading:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    margin-left: -15px;
+    border-width: 4px;
+    border-style: solid;
+    border-radius: 100%;
+    border-top-color: rgba(0, 0, 0, 0.5);
+    border-left-color: rgba(0, 0, 0, 0.1);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+    border-right-color: rgba(0, 0, 0, 0.1);
+    animation: wpced-spinner 1s linear infinite;
+    -webkit-animation: wpced-spinner 1s linear infinite;
+}
+
 /* WPC Dialog */
 .ui-widget-overlay {
     position: fixed;

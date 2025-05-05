@@ -33,7 +33,8 @@ $rules      = Wpced_Backend()->get_rules();
                class="<?php echo esc_attr( $active_tab === 'premium' ? 'nav-tab nav-tab-active' : 'nav-tab' ); ?>"
                style="color: #c9356e">
 				<?php esc_html_e( 'Premium Version', 'wpc-estimated-delivery-date' ); ?>
-            </a> <a href="<?php echo esc_url( admin_url( 'admin.php?page=wpclever-kit' ) ); ?>" class="nav-tab">
+            </a>
+            <a href="<?php echo esc_url( admin_url( 'admin.php?page=wpclever-kit' ) ); ?>" class="nav-tab">
 				<?php esc_html_e( 'Essential Kit', 'wpc-estimated-delivery-date' ); ?>
             </a>
         </h2>
@@ -219,6 +220,16 @@ $rules      = Wpced_Backend()->get_rules();
 								       esc_attr_e( 'Overall estimated dispatch date: %s', 'wpc-estimated-delivery-date' ); ?>"/>
                             </label> <br/><br/> <span class="description"><?php /* translators: date */
 								esc_html_e( 'Use %s to show the date or date-range. Leave blank to use the default text and its equivalent translation in multiple languages.', 'wpc-estimated-delivery-date' ); ?></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?php esc_html_e( 'Current time', 'wpc-estimated-delivery-date' ); ?></th>
+                        <td>
+                            <code><?php echo esc_html( current_time( 'l' ) ); ?></code>
+                            <code><?php echo esc_html( current_time( 'm/d/Y' ) ); ?></code>
+                            <code><?php echo esc_html( current_time( 'h:i a' ) ); ?></code>
+                            <a href="<?php echo esc_url( admin_url( 'options-general.php' ) ); ?>"
+                               target="_blank"><?php esc_html_e( 'Date/time settings', 'wpc-estimated-delivery-date' ); ?></a>
                         </td>
                     </tr>
                     <tr>

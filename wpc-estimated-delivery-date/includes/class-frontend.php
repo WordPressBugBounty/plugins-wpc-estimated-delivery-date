@@ -81,6 +81,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			// Order details (order confirmation or emails)
 			add_action( 'woocommerce_checkout_create_order_line_item', [ $this, 'create_order_line_item' ], 10, 3 );
 			add_action( 'woocommerce_order_item_meta_start', [ $this, 'order_item_meta_start' ], 10, 2 );
+			add_filter( 'woocommerce_email_styles', [ $this, 'email_styles' ], 10, 2 );
 
 			// Admin order
 			add_filter( 'woocommerce_hidden_order_itemmeta', [ $this, 'hidden_order_itemmeta' ] );
@@ -292,7 +293,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			$is_min          = $is_max = false;
 			$rule            = self::get_rule( $product );
 
-			if ( ! empty( $rule['min'] ) ) {
+			if ( isset( $rule['min'] ) && $rule['min'] !== '' ) {
 				$min_time        = self::get_date( $rule['min'], $rule['scheduled'] );
 				$delivery_date   .= self::format_date( $min_time );
 				$delivery_date_u = $min_time;
@@ -302,10 +303,10 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				}
 			}
 
-			if ( ! empty( $rule['max'] ) ) {
+			if ( isset( $rule['max'] ) && $rule['max'] !== '' ) {
 				$max_time = self::get_date( $rule['max'], $rule['scheduled'] );
 
-				if ( ! empty( $rule['min'] ) ) {
+				if ( $rule['min'] !== '' ) {
 					$delivery_date   .= apply_filters( 'wpced_dates_separator', ' - ' );
 					$delivery_date_u .= apply_filters( 'wpced_dates_separator', ' - ' );
 				} else {
@@ -452,11 +453,11 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 					$rule     = self::get_rule( $item['data'], $shipping_method );
 					$item_min = $item_max = '';
 
-					if ( ! empty( $rule['min'] ) ) {
+					if ( $rule['min'] !== '' ) {
 						$item_min = $item_max = self::get_date( $rule['min'], $rule['scheduled'] );
 					}
 
-					if ( ! empty( $rule['max'] ) ) {
+					if ( $rule['max'] !== '' ) {
 						$item_max = self::get_date( $rule['max'], $rule['scheduled'] );
 
 						if ( empty( $item_min ) ) {
@@ -512,15 +513,26 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			$j                    = 1;
 			$available            = [];
 			$days                 = absint( $days );
+			$current_unix         = current_time( 'U' );
 			$current_time         = current_time( 'h:i a' );
 			$current_date         = current_time( 'm/d/Y' );
+			$current_weekday      = current_time( 'w' );
 			$extra_time_line      = Wpced_Backend()->get_setting( 'extra_time_line' );
 			$date_format          = self::get_date_format();
 			$current_date_skipped = false;
 
-			while ( self::check_skipped( strtotime( $current_date ) ) && ( $j <= 100 ) ) {
+			if ( ! empty( $scheduled ) && ( strtotime( $scheduled ) > strtotime( $current_date ) ) ) {
+				$current_unix         = strtotime( $scheduled );
+				$current_date         = date_i18n( 'm/d/Y', $current_unix );
+				$current_weekday      = date_i18n( 'w', $current_unix );
+				$current_date_skipped = true;
+			}
+
+			while ( self::check_skipped( $current_date, $current_weekday ) && ( $j <= 100 ) ) {
 				// skipped start date
-				$current_date         = wp_date( 'm/d/Y', strtotime( $current_date . ' + 1 day' ) );
+				$current_unix         += 86400;
+				$current_date         = date_i18n( 'm/d/Y', $current_unix );
+				$current_weekday      = date_i18n( 'w', $current_unix );
 				$current_date_skipped = true;
 				$j ++;
 			}
@@ -532,26 +544,44 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				}
 			}
 
-			while ( ( count( $available ) < $days ) && ( $i <= 100 ) ) {
-				$time = strtotime( $current_date ) + 24 * 60 * 60 * $i;
+			if ( $days === 0 ) {
+				$get_date = $current_unix;
+			} else {
+				while ( ( count( $available ) < $days ) && ( $i <= 100 ) ) {
+					if ( ! $current_date_skipped ) {
+						$current_unix    += 86400;
+						$current_date    = date_i18n( 'm/d/Y', $current_unix );
+						$current_weekday = date_i18n( 'w', $current_unix );
+					}
 
-				if ( ! self::check_skipped( $time ) ) {
-					$available[] = $time;
+					if ( ! self::check_skipped( $current_date, $current_weekday ) ) {
+						$available[] = $current_unix;
+					}
+
+					if ( $current_date_skipped ) {
+						$current_unix    += 86400;
+						$current_date    = date_i18n( 'm/d/Y', $current_unix );
+						$current_weekday = date_i18n( 'w', $current_unix );
+					}
+
+					$i ++;
 				}
 
-				$i ++;
+				$get_date = end( $available );
 			}
 
-			$get_date = end( $available );
-
 			if ( $date_format === 'days' ) {
-				$get_date = absint( round( ( $get_date - current_time( 'U' ) ) / ( 24 * 60 * 60 ) ) );
+				$get_date = absint( round( ( $get_date - current_time( 'U' ) ) / 86400 ) );
 			}
 
 			return apply_filters( 'wpced_get_date', $get_date, $days, $scheduled );
 		}
 
-		function format_date( $time ) {
+		function format_date( $date ) {
+			if ( ! is_numeric( $date ) ) {
+				return $date;
+			}
+
 			$date_format = self::get_date_format();
 
 			if ( empty( $date_format ) ) {
@@ -559,10 +589,10 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			}
 
 			if ( $date_format === 'days' ) {
-				return absint( $time );
+				return absint( $date );
 			}
 
-			return wp_date( $date_format, $time );
+			return date_i18n( $date_format, $date );
 		}
 
 		function get_date_format() {
@@ -578,13 +608,23 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			return apply_filters( 'wpced_get_date_format', $date_format );
 		}
 
-		function check_skipped( $time ) {
+		function check_skipped( $date, $weekday = null ) {
 			$skipped_dates = Wpced_Backend()->get_setting( 'skipped_dates', [] );
 
-			if ( ! empty( $skipped_dates ) && is_array( $skipped_dates ) ) {
-				foreach ( $skipped_dates as $skipped_date ) {
+			if ( empty( $skipped_dates ) || ! is_array( $skipped_dates ) ) {
+				return false;
+			}
+
+			if ( is_numeric( $date ) ) {
+				// backward compatibility
+				$weekday = date_i18n( 'w', $date );
+				$date    = date_i18n( 'm/d/Y', $date );
+			}
+
+			foreach ( $skipped_dates as $skipped_date ) {
+				if ( $skipped_date['type'] !== 'cus' ) {
 					// weekly on every
-					if ( $skipped_date['type'] == wp_date( 'w', $time ) ) {
+					if ( $skipped_date['type'] == $weekday ) {
 						return true;
 					}
 				}
@@ -619,6 +659,20 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			if ( ( Wpced_Backend()->get_setting( 'order_item', 'no' ) === 'yes' ) && ( $date = $order_item->get_meta( '_wpced_date' ) ) && ! empty( $date ) ) {
 				echo apply_filters( 'wpced_order_item_date', $date, $order_item_id, $order_item );
 			}
+		}
+
+		function email_styles( $css, $email ) {
+			// hide delivery date for these emails
+			if ( in_array( $email->id, apply_filters( 'wpced_hide_order_item_date_emails', [
+				'failed_order',
+				'cancelled_order',
+				'customer_failed_order',
+				'customer_refunded_order'
+			] ) ) ) {
+				$css .= ' .wpced{display: none !important;} ';
+			}
+
+			return $css;
 		}
 	}
 

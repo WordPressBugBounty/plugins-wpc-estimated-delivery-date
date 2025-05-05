@@ -153,6 +153,62 @@
         e.preventDefault();
     });
 
+    $(document).on('click touch', '.wpced-update-dates', function (e) {
+        var order_id = $('#post_ID').val();
+
+        var data = {
+            action: 'wpced_get_order_dates',
+            nonce: wpced_vars.nonce,
+            order_id: order_id,
+        };
+
+        $('#wpced_update_dates_dialog').addClass('loading');
+        $('#wpced_update_dates_dialog').dialog({
+            minWidth: 460,
+            modal: true,
+            dialogClass: 'wpc-dialog',
+            open: function () {
+                $('.ui-widget-overlay').bind('click', function () {
+                    $('#wpced_update_dates_dialog').dialog('close');
+                });
+            },
+        });
+
+        $.post(ajaxurl, data, function (response) {
+            $('#wpced_update_dates_dialog').html(response);
+            $('#wpced_update_dates_dialog').removeClass('loading');
+        });
+
+        e.preventDefault();
+    });
+
+    $(document).on('click touch', '.wpced-order-items-save-btn', function (e) {
+        var order_id = $('.wpced-order-items').data('id');
+        var order_dates = [];
+
+        $('#wpced_update_dates_dialog').addClass('loading');
+
+        $('.wpced-order-item-date-val').each(function () {
+            var $this = $(this), id = $this.data('id'), date = $this.val();
+
+            order_dates.push({id: id, date: date});
+        });
+
+        var data = {
+            action: 'wpced_save_order_dates',
+            nonce: wpced_vars.nonce,
+            order_id: order_id,
+            order_dates: order_dates,
+        };
+
+        $.post(ajaxurl, data, function (response) {
+            $('#wpced_update_dates_dialog').dialog('close');
+            $('#woocommerce-order-items').trigger('wc_order_items_reload');
+        });
+
+        e.preventDefault();
+    });
+
     function init_sortable() {
         $('.wpced-rules').sortable({
             handle: '.wpced-item-move',
