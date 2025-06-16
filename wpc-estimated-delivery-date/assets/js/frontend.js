@@ -20,18 +20,17 @@
                     action: 'wpced_reload_dates', ids: ids, nonce: wpced_vars.nonce,
                 };
 
-                $.post(wpced_vars.wc_ajax_url.toString().replace('%%endpoint%%', 'wpced_reload_dates'), data,
-                    function (response) {
-                        if (!$.isEmptyObject(response)) {
-                            $.each(response, function (key, value) {
-                                $('.' + key).each(function () {
-                                    if (!$(this).closest('.order_item').length) {
-                                        $(this).replaceWith(value);
-                                    }
-                                });
+                $.post(wpced_vars.wc_ajax_url.toString().replace('%%endpoint%%', 'wpced_reload_dates'), data, function (response) {
+                    if (!$.isEmptyObject(response)) {
+                        $.each(response, function (key, value) {
+                            $('.' + key).each(function () {
+                                if (!$(this).closest('.order_item').length) {
+                                    $(this).replaceWith(value);
+                                }
                             });
-                        }
-                    });
+                        });
+                    }
+                });
             }
         }
     });
@@ -41,13 +40,17 @@
 
         if (t.wpced_enable === 'disable') {
             $('.wpced-' + pid).html('');
-        } else if (t.wpced_enable === 'override' && t.wpced_date !== undefined) {
+        } else if (t.wpced_enable === 'override' && t.wpced_date !== undefined && t.wpced_date !== '') {
             $('.wpced-' + pid).replaceWith(wpced_decode_entities(t.wpced_date));
         } else {
-            var variable_date = $('.wpced-variable-' + pid).data('wpced');
+            if (t.wpced_date !== '') {
+                $('.wpced-' + pid).replaceWith(wpced_decode_entities(t.wpced_date));
+            } else {
+                var variable_date = $('.wpced-variable-' + pid).data('wpced');
 
-            if (variable_date !== undefined) {
-                $('.wpced-' + pid).replaceWith(wpced_decode_entities(variable_date));
+                if (variable_date !== undefined) {
+                    $('.wpced-' + pid).replaceWith(wpced_decode_entities(variable_date));
+                }
             }
         }
 

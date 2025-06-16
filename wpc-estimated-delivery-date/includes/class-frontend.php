@@ -391,10 +391,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 
 		function available_variation( $available, $variable, $variation ) {
 			$available['wpced_enable'] = apply_filters( 'wpced_enable_variation', get_post_meta( $variation->get_id(), 'wpced_enable', true ) ?: 'parent', $variation );
-
-			if ( $available['wpced_enable'] === 'override' ) {
-				$available['wpced_date'] = htmlentities( self::get_product_date( $variation ) );
-			}
+			$available['wpced_date']   = htmlentities( self::get_product_date( $variation ) );
 
 			return $available;
 		}
@@ -537,6 +534,10 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				$j ++;
 			}
 
+			if ( $current_date_skipped && apply_filters( 'wpced_apply_extra_date_for_skipped_date', false ) ) {
+				$days += 1;
+			}
+
 			if ( ! empty( $extra_time_line ) && apply_filters( 'wpced_apply_extra_time_for_skipped_date', ! $current_date_skipped ) ) {
 				// don't calculate extra time if current date is skipped
 				if ( strtotime( $current_date . ' ' . $current_time ) > strtotime( $current_date . ' ' . $extra_time_line ) ) {
@@ -633,10 +634,18 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			return false;
 		}
 
-		function shortcode() {
-			global $product;
+		function shortcode( $attrs ) {
+			$attrs = shortcode_atts( [
+				'product_id' => null,
+			], $attrs );
 
-			return self::get_product_date( $product );
+			if ( empty( $attrs['product_id'] ) ) {
+				global $product;
+			} else {
+				$product = wc_get_product( $attrs['product_id'] );
+			}
+
+			return apply_filters( 'wpced_shortcode', is_a( $product, 'WC_Product' ) ? self::get_product_date( $product ) : '', $attrs );
 		}
 
 		function create_order_line_item( $order_item, $cart_item_key, $values ) {
