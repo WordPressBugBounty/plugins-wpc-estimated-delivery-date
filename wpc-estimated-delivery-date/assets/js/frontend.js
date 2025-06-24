@@ -54,7 +54,7 @@
             }
         }
 
-        $(document.body).trigger('wpced_found_variation');
+        $(document.body).trigger('wpced_found_variation', [t]);
     });
 
     $(document).on('reset_data', function (e) {
