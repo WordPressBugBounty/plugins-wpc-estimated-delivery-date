@@ -36,25 +36,27 @@
     });
 
     $(document).on('found_variation', function (e, t) {
-        var pid = $(e['target']).closest('.variations_form').data('product_id');
+        if (t.wpced_enable !== undefined) {
+            var pid = $(e['target']).closest('.variations_form').data('product_id');
 
-        if (t.wpced_enable === 'disable') {
-            $('.wpced-' + pid).html('');
-        } else if (t.wpced_enable === 'override' && t.wpced_date !== undefined && t.wpced_date !== '') {
-            $('.wpced-' + pid).replaceWith(wpced_decode_entities(t.wpced_date));
-        } else {
-            if (t.wpced_date !== '') {
+            if (t.wpced_enable === 'disable') {
+                $('.wpced-' + pid).html('');
+            } else if (t.wpced_enable === 'override' && t.wpced_date !== undefined && t.wpced_date !== '') {
                 $('.wpced-' + pid).replaceWith(wpced_decode_entities(t.wpced_date));
             } else {
-                var variable_date = $('.wpced-variable-' + pid).data('wpced');
+                if (t.wpced_date !== '') {
+                    $('.wpced-' + pid).replaceWith(wpced_decode_entities(t.wpced_date));
+                } else {
+                    var variable_date = $('.wpced-variable-' + pid).data('wpced');
 
-                if (variable_date !== undefined) {
-                    $('.wpced-' + pid).replaceWith(wpced_decode_entities(variable_date));
+                    if (variable_date !== undefined) {
+                        $('.wpced-' + pid).replaceWith(wpced_decode_entities(variable_date));
+                    }
                 }
             }
-        }
 
-        $(document.body).trigger('wpced_found_variation', [t]);
+            $(document.body).trigger('wpced_found_variation', [t]);
+        }
     });
 
     $(document).on('reset_data', function (e) {
