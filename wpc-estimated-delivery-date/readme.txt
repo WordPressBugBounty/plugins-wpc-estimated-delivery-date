@@ -3,8 +3,8 @@ Contributors: wpclever
 Donate link: https://wpclever.net
 Tags: woocommerce, wpc, estimated, delivery-date, delivery-time
 Tested up to: 6.8
-Version: 2.5.8
-Stable tag: 2.5.8
+Version: 2.5.9
+Stable tag: 2.5.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ WPC Estimated Delivery Date allows you to establish and personalize delivery tim
 
 This plugin allows customers to plan ahead, choose the best time to receive their parcel and make sure there is someone to pick up the goods in time. It’s also a subtle way to urge the buyers to place their order to receive their package as soon as possible so the order can arrive quickly.
 
-**WPC Estimated Delivery Date** notify buyers about the earliest and latest dates for the package to arrive. Users can exclude the holidays, weekends or vacation breaks from the estimated time so customers can have a precise estimation.
+**WPC Estimated Delivery Date** notifies buyers about the earliest and latest dates for the package to arrive. Users can exclude the holidays, weekends or vacation breaks from the estimated time so customers can have a precise estimation.
 
 The estimated delivery date can be configured at multiple levels, storewide or individually for each product. Users can also display a general estimation for all items on the cart page so buyers will acknowledge when they are expected to get the whole order. This is especially necessary when combining items of different shipping methods, zones, classes, etc.
 
@@ -46,9 +46,9 @@ Wanna save your precious time working on variations? Try our brand-new free plug
 
 = Complex Estimated Delivery Dates =
 
-The estimated delivery time can either be a date range, just the earliest date or just the latest date. The corresponding message will appear based on the input of minimum and maximum delivery time counted in days.
+The estimated delivery time can either be a date range, just the earliest date or just the latest date. The corresponding message will appear based on the input of minimum and maximum delivery time counted in the past days.
 
-Users can display the delivery message for each item or hide them on the cart page and show the general estimated date instead. There is a general estimated delivery date for all items on the cart page and it’s customizable as well.
+Users can display the delivery message for each item or hide them on the cart page and show the general estimated date instead. There is a general estimated delivery date for all items on the cart page, and it’s customizable as well.
 
 It’s possible to change the wording of these texts by filling in the corresponding boxes in the plugin setting under WPClever >> Estimated Delivery Date. So the delivery messages can be localized to the target languages.
 
@@ -58,7 +58,7 @@ To display the delivery date on custom positions other than on the given ones, u
 
 Global rules for calculating the estimated delivery dates can be configured in the plugin setting for all products (storewide), selected products, products with specific tags, categories, types, brands, collections, attributes, visibility, shipping classes, etc.
 
-The delivery dates will be calculated based on the global rules for different shipping methods and zones. When customers change the shipping methods and their address on the cart page, the estimated delivery date will be re-calculated and updated accordingly. If there are no rules specified for a particular shipping method or shipping zone, the default rules will be utilized.
+The delivery dates will be calculated based on the global rules for different shipping methods and zones. When customers change the shipping methods and their address on the cart page, the estimated delivery date will be re-calculated and updated accordingly. If there are no rules specified for a particular shipping method or shipping zone, the default rules will be used.
 
 Individual delivery dates can be specified in the Estimated Delivery Date tab of single product pages. Users can simply choose to disable the global rules or configure new rules applied for that product specifically. Individual rules are prioritized over the global ones.
 
@@ -83,10 +83,14 @@ Please try other plugins from us:
 
 1. Please make sure that you installed WooCommerce
 2. Go to plugins in your dashboard and select "Add New"
-3. Search for "WPC Estimated Delivery Date", Install & Activate it
+3. Search for "WPC Estimated Delivery Date," Install & Activate it
 4. Go to WP-admin > WPClever > Estimated Delivery Date to add your rules
 
 == Changelog ==
+
+= 2.5.9 =
+* Fixed: Minor JS/CSS issues in backend
+* Updated: Compatible with WP 6.8 & Woo 10.2
 
 = 2.5.8 =
 * Updated: Optimized the code
@@ -99,7 +103,7 @@ Please try other plugins from us:
 * Fixed: Wrong date for variations
 
 = 2.5.5 =
-* Fixed: Hide the delivery date on the cancelled/refunded emails
+* Fixed: Hide the delivery date on the canceled/refunded emails
 * Updated: Compatible with WP 6.8 & Woo 9.8
 
 = 2.5.4 =

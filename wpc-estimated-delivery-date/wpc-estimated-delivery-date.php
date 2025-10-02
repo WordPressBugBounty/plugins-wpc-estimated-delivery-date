@@ -3,7 +3,7 @@
 Plugin Name: WPC Estimated Delivery Date for WooCommerce
 Plugin URI: https://wpclever.net/
 Description: WPC Estimated Delivery Date allows you to establish and personalize delivery times for each product available in your store on several levels.
-Version: 2.5.8
+Version: 2.5.9
 Author: WPClever
 Author URI: https://wpclever.net
 Text Domain: wpc-estimated-delivery-date
@@ -12,12 +12,12 @@ Requires Plugins: woocommerce
 Requires at least: 4.0
 Tested up to: 6.8
 WC requires at least: 3.0
-WC tested up to: 10.1
+WC tested up to: 10.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
-! defined( 'WPCED_VERSION' ) && define( 'WPCED_VERSION', '2.5.8' );
+! defined( 'WPCED_VERSION' ) && define( 'WPCED_VERSION', '2.5.9' );
 ! defined( 'WPCED_LITE' ) && define( 'WPCED_LITE', __FILE__ );
 ! defined( 'WPCED_FILE' ) && define( 'WPCED_FILE', __FILE__ );
 ! defined( 'WPCED_DIR' ) && define( 'WPCED_DIR', plugin_dir_path( __FILE__ ) );
@@ -33,35 +33,35 @@ include 'includes/kit/wpc-kit.php';
 include 'includes/hpos.php';
 
 if ( ! function_exists( 'wpced_init' ) ) {
-	add_action( 'plugins_loaded', 'wpced_init', 11 );
+    add_action( 'plugins_loaded', 'wpced_init', 11 );
 
-	function wpced_init() {
-		if ( ! function_exists( 'WC' ) || ! version_compare( WC()->version, '3.0', '>=' ) ) {
-			add_action( 'admin_notices', 'wpced_notice_wc' );
+    function wpced_init() {
+        if ( ! function_exists( 'WC' ) || ! version_compare( WC()->version, '3.0', '>=' ) ) {
+            add_action( 'admin_notices', 'wpced_notice_wc' );
 
-			return null;
-		}
+            return null;
+        }
 
-		if ( ! class_exists( 'WPCleverWpced' ) && class_exists( 'WC_Product' ) ) {
-			class WPCleverWpced {
-				public function __construct() {
-					require_once trailingslashit( WPCED_DIR ) . 'includes/class-helper.php';
-					require_once trailingslashit( WPCED_DIR ) . 'includes/class-backend.php';
-					require_once trailingslashit( WPCED_DIR ) . 'includes/class-frontend.php';
-				}
-			}
+        if ( ! class_exists( 'WPCleverWpced' ) && class_exists( 'WC_Product' ) ) {
+            class WPCleverWpced {
+                public function __construct() {
+                    require_once trailingslashit( WPCED_DIR ) . 'includes/class-helper.php';
+                    require_once trailingslashit( WPCED_DIR ) . 'includes/class-backend.php';
+                    require_once trailingslashit( WPCED_DIR ) . 'includes/class-frontend.php';
+                }
+            }
 
-			new WPCleverWpced();
-		}
-	}
+            new WPCleverWpced();
+        }
+    }
 }
 
 if ( ! function_exists( 'wpced_notice_wc' ) ) {
-	function wpced_notice_wc() {
-		?>
+    function wpced_notice_wc() {
+        ?>
         <div class="error">
             <p><strong>WPC Estimated Delivery Date</strong> requires WooCommerce version 3.0 or greater.</p>
         </div>
-		<?php
-	}
+        <?php
+    }
 }
