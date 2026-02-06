@@ -144,7 +144,7 @@ if ( ! class_exists( 'Wpced_Helper' ) ) {
 				if ( is_array( $v ) ) {
 					$arr[ $k ] = self::sanitize_array( $v );
 				} else {
-					$arr[ $k ] = sanitize_text_field( $v );
+					$arr[ $k ] = sanitize_post_field( 'post_content', $v, 0, 'db' );
 				}
 			}
 

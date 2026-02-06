@@ -2,9 +2,9 @@
 Contributors: wpclever
 Donate link: https://wpclever.net
 Tags: woocommerce, wpc, estimated, delivery-date, delivery-time
-Tested up to: 6.8
-Version: 2.5.9
-Stable tag: 2.5.9
+Tested up to: 6.9
+Version: 2.6.2
+Stable tag: 2.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,7 +54,7 @@ It’s possible to change the wording of these texts by filling in the correspon
 
 To display the delivery date on custom positions other than on the given ones, using the shortcode [wpced] is ideal. Extra CSS codes might be needed to adapt the display to your theme or template.
 
-= Global vs Individual Estimated Delivery Dates =
+= Global vs. Individual Estimated Delivery Dates =
 
 Global rules for calculating the estimated delivery dates can be configured in the plugin setting for all products (storewide), selected products, products with specific tags, categories, types, brands, collections, attributes, visibility, shipping classes, etc.
 
@@ -87,6 +87,17 @@ Please try other plugins from us:
 4. Go to WP-admin > WPClever > Estimated Delivery Date to add your rules
 
 == Changelog ==
+
+= 2.6.2 =
+* Updated: Optimized the code
+
+= 2.6.1 =
+* Added: Import/export rules and settings
+* Updated: Compatible with WP 6.8 & Woo 10.3
+
+= 2.6.0 =
+* Updated: Optimized the code
+* Fixed: Correct the estimated date for variations
 
 = 2.5.9 =
 * Fixed: Minor JS/CSS issues in backend

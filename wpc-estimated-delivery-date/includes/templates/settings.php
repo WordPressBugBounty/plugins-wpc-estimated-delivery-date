@@ -12,7 +12,7 @@ $rules      = Wpced_Backend()->get_rules();
             <div class="wpclever_settings_page_title"><?php echo esc_html__( 'WPC Estimated Delivery Date', 'wpc-estimated-delivery-date' ) . ' ' . esc_html( WPCED_VERSION ) . ' ' . ( defined( 'WPCED_PREMIUM' ) ? '<span class="premium" style="display: none">' . esc_html__( 'Premium', 'wpc-estimated-delivery-date' ) . '</span>' : '' ); ?></div>
             <div class="wpclever_settings_page_desc about-text">
                 <p>
-					<?php printf( /* translators: stars */ esc_html__( 'Thank you for using our plugin! If you are satisfied, please reward it a full five-star %s rating.', 'wpc-estimated-delivery-date' ), '<span style="color:#ffb900">&#9733;&#9733;&#9733;&#9733;&#9733;</span>' ); ?>
+                    <?php printf( /* translators: stars */ esc_html__( 'Thank you for using our plugin! If you are satisfied, please reward it a full five-star %s rating.', 'wpc-estimated-delivery-date' ), '<span style="color:#ffb900">&#9733;&#9733;&#9733;&#9733;&#9733;</span>' ); ?>
                     <br/>
                     <a href="<?php echo esc_url( WPCED_REVIEWS ); ?>"
                        target="_blank"><?php esc_html_e( 'Reviews', 'wpc-estimated-delivery-date' ); ?></a> |
@@ -25,49 +25,49 @@ $rules      = Wpced_Backend()->get_rules();
         </div>
     </div>
     <h2></h2>
-	<?php if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] ) { ?>
+    <?php if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] ) { ?>
         <div class="notice notice-success is-dismissible">
             <p><?php esc_html_e( 'Settings updated.', 'wpc-estimated-delivery-date' ); ?></p>
         </div>
-	<?php } ?>
+    <?php } ?>
     <div class="wpclever_settings_page_nav">
         <h2 class="nav-tab-wrapper">
             <a href="<?php echo esc_url( admin_url( 'admin.php?page=wpclever-wpced&tab=settings' ) ); ?>"
                class="<?php echo esc_attr( $active_tab === 'settings' ? 'nav-tab nav-tab-active' : 'nav-tab' ); ?>">
-				<?php esc_html_e( 'Settings', 'wpc-estimated-delivery-date' ); ?>
+                <?php esc_html_e( 'Settings', 'wpc-estimated-delivery-date' ); ?>
             </a>
             <a href="<?php echo esc_url( admin_url( 'admin.php?page=wpclever-wpced&tab=premium' ) ); ?>"
                class="<?php echo esc_attr( $active_tab === 'premium' ? 'nav-tab nav-tab-active' : 'nav-tab' ); ?>"
                style="color: #c9356e">
-				<?php esc_html_e( 'Premium Version', 'wpc-estimated-delivery-date' ); ?>
+                <?php esc_html_e( 'Premium Version', 'wpc-estimated-delivery-date' ); ?>
             </a>
             <a href="<?php echo esc_url( admin_url( 'admin.php?page=wpclever-kit' ) ); ?>" class="nav-tab">
-				<?php esc_html_e( 'Essential Kit', 'wpc-estimated-delivery-date' ); ?>
+                <?php esc_html_e( 'Essential Kit', 'wpc-estimated-delivery-date' ); ?>
             </a>
         </h2>
     </div>
     <div class="wpclever_settings_page_content">
-		<?php if ( $active_tab === 'settings' ) {
-			$date_format         = Wpced_Backend()->get_setting( 'date_format', 'M j, Y' );
-			$date_format_custom  = Wpced_Backend()->get_setting( 'date_format_custom', 'M j, Y' );
-			$pos_archive         = Wpced_Backend()->get_setting( 'position_archive', apply_filters( 'wpced_default_archive_position', 'above_add_to_cart' ) );
-			$pos_single          = Wpced_Backend()->get_setting( 'position_single', apply_filters( 'wpced_default_single_position', '31' ) );
-			$skipped_dates       = Wpced_Backend()->get_setting( 'skipped_dates', [] );
-			$cart_item           = Wpced_Backend()->get_setting( 'cart_item', 'no' );
-			$cart_overall        = Wpced_Backend()->get_setting( 'cart_overall', 'yes' );
-			$cart_overall_format = Wpced_Backend()->get_setting( 'cart_overall_format', 'latest' );
-			$order_item          = Wpced_Backend()->get_setting( 'order_item', 'no' );
-			$reload_dates        = Wpced_Backend()->get_setting( 'reload_dates', 'no' );
-			?>
+        <?php if ( $active_tab === 'settings' ) {
+            $date_format         = Wpced_Backend()->get_setting( 'date_format', 'M j, Y' );
+            $date_format_custom  = Wpced_Backend()->get_setting( 'date_format_custom', 'M j, Y' );
+            $pos_archive         = Wpced_Backend()->get_setting( 'position_archive', apply_filters( 'wpced_default_archive_position', 'above_add_to_cart' ) );
+            $pos_single          = Wpced_Backend()->get_setting( 'position_single', apply_filters( 'wpced_default_single_position', '31' ) );
+            $skipped_dates       = Wpced_Backend()->get_setting( 'skipped_dates', [] );
+            $cart_item           = Wpced_Backend()->get_setting( 'cart_item', 'no' );
+            $cart_overall        = Wpced_Backend()->get_setting( 'cart_overall', 'yes' );
+            $cart_overall_format = Wpced_Backend()->get_setting( 'cart_overall_format', 'latest' );
+            $order_item          = Wpced_Backend()->get_setting( 'order_item', 'no' );
+            $reload_dates        = Wpced_Backend()->get_setting( 'reload_dates', 'no' );
+            ?>
             <form method="post" action="options.php">
                 <table class="form-table">
                     <tr>
                         <th scope="row"><?php esc_html_e( 'Position on archive', 'wpc-estimated-delivery-date' ); ?></th>
                         <td>
                             <label> <select name="wpced_settings[position_archive]">
-									<?php foreach ( Wpced_Backend()->get_archive_positions() as $key => $pos ) {
-										echo '<option value="' . esc_attr( $key ) . '" ' . selected( $pos_archive, $key, false ) . '>' . esc_html( $pos ) . '</option>';
-									} ?>
+                                    <?php foreach ( Wpced_Backend()->get_archive_positions() as $key => $pos ) {
+                                        echo '<option value="' . esc_attr( $key ) . '" ' . selected( $pos_archive, $key, false ) . '>' . esc_html( $pos ) . '</option>';
+                                    } ?>
                                 </select> </label>
                         </td>
                     </tr>
@@ -75,16 +75,16 @@ $rules      = Wpced_Backend()->get_rules();
                         <th scope="row"><?php esc_html_e( 'Position on single', 'wpc-estimated-delivery-date' ); ?></th>
                         <td>
                             <label> <select name="wpced_settings[position_single]">
-									<?php foreach ( Wpced_Backend()->get_single_positions() as $key => $pos ) {
-										echo '<option value="' . esc_attr( $key ) . '" ' . selected( $pos_single, $key, false ) . '>' . esc_html( $pos ) . '</option>';
-									} ?>
+                                    <?php foreach ( Wpced_Backend()->get_single_positions() as $key => $pos ) {
+                                        echo '<option value="' . esc_attr( $key ) . '" ' . selected( $pos_single, $key, false ) . '>' . esc_html( $pos ) . '</option>';
+                                    } ?>
                                 </select> </label>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><?php esc_html_e( 'Shortcode', 'wpc-estimated-delivery-date' ); ?></th>
                         <td>
-							<?php echo sprintf( /* translators: shortcode */ esc_html__( 'You can use shortcode %s to show the estimated delivery date for current product.', 'wpc-estimated-delivery-date' ), '<code>[wpced]</code>' ); ?>
+                            <?php echo sprintf( /* translators: shortcode */ esc_html__( 'You can use shortcode %s to show the estimated delivery date for current product.', 'wpc-estimated-delivery-date' ), '<code>[wpced]</code>' ); ?>
                         </td>
                     </tr>
                     <tr>
@@ -140,39 +140,39 @@ $rules      = Wpced_Backend()->get_rules();
                     <tr>
                         <th><?php esc_html_e( 'Date format', 'wpc-estimated-delivery-date' ); ?></th>
                         <td>
-							<?php
-							$date_formats = [
-								'Y/m/d',
-								'd/m/Y',
-								'm/d/y',
-								'm/d/Y',
-								'Y-m-d',
-								'd-m-Y',
-								'm-d-y',
-								'Y.m.d',
-								'd.m.Y',
-								'm.d.y',
-								'F j, Y',
-								'M j, Y',
-								'jS \of F',
-								'jS F',
-								'j. F',
-								'l j. F',
-								'F jS',
-								'jS M',
-								'M jS'
-							];
-							echo '<select name="wpced_settings[date_format]" class="wpced-date-format">';
+                            <?php
+                            $date_formats = [
+                                    'Y/m/d',
+                                    'd/m/Y',
+                                    'm/d/y',
+                                    'm/d/Y',
+                                    'Y-m-d',
+                                    'd-m-Y',
+                                    'm-d-y',
+                                    'Y.m.d',
+                                    'd.m.Y',
+                                    'm.d.y',
+                                    'F j, Y',
+                                    'M j, Y',
+                                    'jS \of F',
+                                    'jS F',
+                                    'j. F',
+                                    'l j. F',
+                                    'F jS',
+                                    'jS M',
+                                    'M jS'
+                            ];
+                            echo '<select name="wpced_settings[date_format]" class="wpced-date-format">';
 
-							foreach ( $date_formats as $df ) {
-								echo '<option value="' . esc_attr( $df ) . '" ' . selected( $date_format, $df, false ) . '>' . current_time( $df ) . '</option>';
-							}
+                            foreach ( $date_formats as $df ) {
+                                echo '<option value="' . esc_attr( $df ) . '" ' . selected( $date_format, $df, false ) . '>' . current_time( $df ) . '</option>';
+                            }
 
-							echo '<option value="days" ' . selected( $date_format, 'days', false ) . '>' . esc_html__( 'Days count', 'wpc-estimated-delivery-date' ) . '</option>';
-							echo '<option value="custom" ' . selected( $date_format, 'custom', false ) . '>' . esc_html__( 'Custom', 'wpc-estimated-delivery-date' ) . '</option>';
+                            echo '<option value="days" ' . selected( $date_format, 'days', false ) . '>' . esc_html__( 'Days count', 'wpc-estimated-delivery-date' ) . '</option>';
+                            echo '<option value="custom" ' . selected( $date_format, 'custom', false ) . '>' . esc_html__( 'Custom', 'wpc-estimated-delivery-date' ) . '</option>';
 
-							echo '</select>';
-							?>
+                            echo '</select>';
+                            ?>
                             <label>
                                 <input type="text" class="text wpced-date-format-custom"
                                        name="wpced_settings[date_format_custom]"
@@ -194,7 +194,7 @@ $rules      = Wpced_Backend()->get_rules();
                                        style="width: 100%; margin: 0"
                                        value="<?php echo esc_attr( Wpced_Backend()->get_setting( 'text' ) ); ?>"
                                        placeholder="<?php /* translators: date */
-								       esc_attr_e( 'Estimated delivery dates: %s', 'wpc-estimated-delivery-date' ); ?>"/>
+                                       esc_attr_e( 'Estimated delivery dates: %s', 'wpc-estimated-delivery-date' ); ?>"/>
                             </label> <br/><br/>
                             <label><?php esc_html_e( 'Have minimum days only', 'wpc-estimated-delivery-date' ); ?></label>
                             <label>
@@ -202,7 +202,7 @@ $rules      = Wpced_Backend()->get_rules();
                                        style="width: 100%; margin: 0"
                                        value="<?php echo esc_attr( Wpced_Backend()->get_setting( 'text_min' ) ); ?>"
                                        placeholder="<?php /* translators: date */
-								       esc_attr_e( 'Earliest estimated delivery date: %s', 'wpc-estimated-delivery-date' ); ?>"/>
+                                       esc_attr_e( 'Earliest estimated delivery date: %s', 'wpc-estimated-delivery-date' ); ?>"/>
                             </label> <br/><br/>
                             <label><?php esc_html_e( 'Have maximum days only', 'wpc-estimated-delivery-date' ); ?></label>
                             <label>
@@ -210,7 +210,7 @@ $rules      = Wpced_Backend()->get_rules();
                                        style="width: 100%; margin: 0"
                                        value="<?php echo esc_attr( Wpced_Backend()->get_setting( 'text_max' ) ); ?>"
                                        placeholder="<?php /* translators: date */
-								       esc_attr_e( 'Latest estimated delivery date: %s', 'wpc-estimated-delivery-date' ); ?>"/>
+                                       esc_attr_e( 'Latest estimated delivery date: %s', 'wpc-estimated-delivery-date' ); ?>"/>
                             </label> <br/><br/>
                             <label><?php esc_html_e( 'Cart item\'s data label', 'wpc-estimated-delivery-date' ); ?></label>
                             <label>
@@ -224,9 +224,9 @@ $rules      = Wpced_Backend()->get_rules();
                                        style="width: 100%; margin: 0"
                                        value="<?php echo esc_attr( Wpced_Backend()->get_setting( 'text_cart_overall' ) ); ?>"
                                        placeholder="<?php /* translators: date */
-								       esc_attr_e( 'Overall estimated dispatch date: %s', 'wpc-estimated-delivery-date' ); ?>"/>
+                                       esc_attr_e( 'Overall estimated dispatch date: %s', 'wpc-estimated-delivery-date' ); ?>"/>
                             </label> <br/><br/> <span class="description"><?php /* translators: date */
-								esc_html_e( 'Use %s to show the date or date-range. Leave blank to use the default text and its equivalent translation in multiple languages.', 'wpc-estimated-delivery-date' ); ?></span>
+                                esc_html_e( 'Use %s to show the date or date-range. Leave blank to use the default text and its equivalent translation in multiple languages.', 'wpc-estimated-delivery-date' ); ?></span>
                         </td>
                     </tr>
                     <tr>
@@ -255,13 +255,13 @@ $rules      = Wpced_Backend()->get_rules();
                         <td>
                             <span class="description"><?php esc_html_e( 'Select dates to skip in estimated (most shipping don\'t work on weekends, so you can select Saturday, Sunday and all the saturday and sundays will not be counted in calculating estimated shipping date).', 'wpc-estimated-delivery-date' ); ?></span>
                             <div class="wpced-skipped-dates">
-								<?php
-								if ( ! empty( $skipped_dates ) && is_array( $skipped_dates ) ) {
-									foreach ( $skipped_dates as $date_key => $date ) {
-										include WPCED_DIR . 'includes/templates/date.php';
-									}
-								}
-								?>
+                                <?php
+                                if ( ! empty( $skipped_dates ) && is_array( $skipped_dates ) ) {
+                                    foreach ( $skipped_dates as $date_key => $date ) {
+                                        include WPCED_DIR . 'includes/templates/date.php';
+                                    }
+                                }
+                                ?>
                             </div>
                             <div class="wpced-add-date">
                                 <input type="button" class="button wpced-add-date-btn"
@@ -271,36 +271,38 @@ $rules      = Wpced_Backend()->get_rules();
                     </tr>
                     <tr>
                         <th>
-							<?php esc_html_e( 'Rules', 'wpc-estimated-delivery-date' ); ?>
+                            <?php esc_html_e( 'Rules', 'wpc-estimated-delivery-date' ); ?>
+                            <a style="display: none;" class="wpclever_export" data-key="wpced_rules" data-name="rules"
+                               href="#"><?php esc_html_e( 'import / export', 'wpc-estimated-delivery-date' ); ?></a>
                         </th>
                         <td>
                             <div class='wpced-settings'>
                                 <div class="wpced-items-wrapper">
                                     <div class="wpced-items">
-										<?php
-										// variables for rule.php
-										$product_id   = 0;
-										$is_variation = false;
+                                        <?php
+                                        // variables for rule.php
+                                        $product_id   = 0;
+                                        $is_variation = false;
 
-										if ( ! isset( $rules['default'] ) ) {
-											$key  = 'default';
-											$rule = [];
-										} else {
-											$key  = 'default';
-											$rule = $rules['default'];
-										}
+                                        if ( ! isset( $rules['default'] ) ) {
+                                            $key  = 'default';
+                                            $rule = [];
+                                        } else {
+                                            $key  = 'default';
+                                            $rule = $rules['default'];
+                                        }
 
-										include WPCED_DIR . 'includes/templates/rule.php';
-										?>
+                                        include WPCED_DIR . 'includes/templates/rule.php';
+                                        ?>
                                     </div>
                                     <div class="wpced-items wpced-rules">
-										<?php
-										unset( $rules['default'] );
+                                        <?php
+                                        unset( $rules['default'] );
 
-										foreach ( $rules as $key => $rule ) {
-											include WPCED_DIR . 'includes/templates/rule.php';
-										}
-										?>
+                                        foreach ( $rules as $key => $rule ) {
+                                            include WPCED_DIR . 'includes/templates/rule.php';
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                                 <div class="wpced-items-new">
@@ -314,12 +316,15 @@ $rules      = Wpced_Backend()->get_rules();
                     </tr>
                     <tr class="submit">
                         <th colspan="2">
-							<?php settings_fields( 'wpced_settings' ); ?><?php submit_button(); ?>
+                            <?php settings_fields( 'wpced_settings' ); ?><?php submit_button(); ?>
+                            <a style="display: none;" class="wpclever_export" data-key="wpced_settings"
+                               data-name="settings"
+                               href="#"><?php esc_html_e( 'import / export', 'wpc-estimated-delivery-date' ); ?></a>
                         </th>
                     </tr>
                 </table>
             </form>
-		<?php } elseif ( $active_tab == 'premium' ) { ?>
+        <?php } elseif ( $active_tab == 'premium' ) { ?>
             <div class="wpclever_settings_page_content_text">
                 <p>Get the Premium Version just $29!
                     <a href="https://wpclever.net/downloads/wpc-estimated-delivery-date?utm_source=pro&utm_medium=wpced&utm_campaign=wporg"
@@ -332,7 +337,7 @@ $rules      = Wpced_Backend()->get_rules();
                     <li>- Get the lifetime update & premium support.</li>
                 </ul>
             </div>
-		<?php } ?>
+        <?php } ?>
     </div><!-- /.wpclever_settings_page_content -->
     <div class="wpclever_settings_page_suggestion">
         <div class="wpclever_settings_page_suggestion_label">

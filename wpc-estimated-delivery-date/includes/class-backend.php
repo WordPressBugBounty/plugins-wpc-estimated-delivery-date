@@ -315,8 +315,14 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 
         function register_settings() {
             // settings
-            register_setting( 'wpced_settings', 'wpced_settings' );
-            register_setting( 'wpced_settings', 'wpced_rules' );
+            register_setting( 'wpced_settings', 'wpced_settings', [
+                    'type'              => 'array',
+                    'sanitize_callback' => [ 'Wpced_Helper', 'sanitize_array' ],
+            ] );
+            register_setting( 'wpced_settings', 'wpced_rules', [
+                    'type'              => 'array',
+                    'sanitize_callback' => [ 'Wpced_Helper', 'sanitize_array' ],
+            ] );
         }
 
         public function admin_menu() {

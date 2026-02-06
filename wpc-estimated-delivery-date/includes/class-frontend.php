@@ -114,19 +114,20 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 		}
 
 		public static function get_rule( $product, $shipping_method = null ) {
-			$ignore = ! $product->exists() || ! $product->is_purchasable() || ! $product->is_in_stock() || $product->is_type( 'external' ) || $product->is_virtual();
+			$ignore = ! is_a( $product, 'WC_Product' ) || ! $product->exists() || ! $product->is_purchasable() || ! $product->is_in_stock() || $product->is_type( 'external' ) || $product->is_virtual();
 
 			if ( apply_filters( 'wpced_ignore', $ignore, $product ) ) {
 				return [];
 			}
 
-			$get_rule     = [];
-			$user_zone    = Wpced_Helper()->get_shipping_zone();
-			$user_method  = $shipping_method ?: Wpced_Helper()->get_selected_method();
-			$variation_id = 0;
-			$product_id   = $product->get_id();
-			$enable       = get_post_meta( $product_id, 'wpced_enable', true ) ?: 'global';
-			$rules        = $default_rule = [];
+			$get_rule      = [];
+			$user_zone     = Wpced_Helper()->get_shipping_zone();
+			$user_method   = $shipping_method ?: Wpced_Helper()->get_selected_method();
+			$variation_id  = 0;
+			$parent_enable = 0;
+			$product_id    = $product->get_id();
+			$enable        = get_post_meta( $product_id, 'wpced_enable', true ) ?: 'global';
+			$rules         = $default_rule = [];
 
 			if ( $product->is_type( 'variation' ) ) {
 				$variation_id = $product_id;
@@ -134,7 +135,8 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				$enable       = apply_filters( 'wpced_enable_variation', get_post_meta( $product->get_id(), 'wpced_enable', true ) ?: 'parent', $product );
 
 				if ( $enable === 'parent' ) {
-					$enable = get_post_meta( $product_id, 'wpced_enable', true ) ?: 'global';
+					$parent_enable = 1;
+					$enable        = get_post_meta( $product_id, 'wpced_enable', true ) ?: 'global';
 				}
 			}
 
@@ -147,7 +149,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			}
 
 			if ( $enable === 'override' ) {
-				if ( $variation_id ) {
+				if ( $variation_id && ! $parent_enable ) {
 					$rules = get_post_meta( $variation_id, 'wpced_rules', true ) ?: [];
 				} else {
 					$rules = get_post_meta( $product_id, 'wpced_rules', true ) ?: [];
