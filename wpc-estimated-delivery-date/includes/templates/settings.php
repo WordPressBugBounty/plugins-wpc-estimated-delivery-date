@@ -316,7 +316,16 @@ $rules      = Wpced_Backend()->get_rules();
                     </tr>
                     <tr class="submit">
                         <th colspan="2">
-                            <?php settings_fields( 'wpced_settings' ); ?><?php submit_button(); ?>
+                            <div class="wpclever_submit">
+                                <?php
+                                settings_fields( 'wpced_settings' );
+                                submit_button( '', 'primary', 'submit', false );
+
+                                if ( function_exists( 'wpc_last_saved' ) ) {
+                                    wpc_last_saved( Wpced_Backend()->get_settings() );
+                                }
+                                ?>
+                            </div>
                             <a style="display: none;" class="wpclever_export" data-key="wpced_settings"
                                data-name="settings"
                                href="#"><?php esc_html_e( 'import / export', 'wpc-estimated-delivery-date' ); ?></a>

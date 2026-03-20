@@ -43,6 +43,7 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 
             // Settings
             add_action( 'admin_init', [ $this, 'register_settings' ] );
+            add_filter( 'pre_update_option', [ $this, 'last_saved' ], 10, 2 );
             add_action( 'admin_menu', [ $this, 'admin_menu' ] );
 
             // Links
@@ -323,6 +324,15 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
                     'type'              => 'array',
                     'sanitize_callback' => [ 'Wpced_Helper', 'sanitize_array' ],
             ] );
+        }
+
+        function last_saved( $value, $option ) {
+            if ( $option == 'wpced_settings' ) {
+                $value['_last_saved']    = current_time( 'timestamp' );
+                $value['_last_saved_by'] = get_current_user_id();
+            }
+
+            return $value;
         }
 
         public function admin_menu() {
