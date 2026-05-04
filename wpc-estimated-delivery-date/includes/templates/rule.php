@@ -64,7 +64,7 @@ $rule = array_merge( Wpced_Backend()->get_base_rule(), $rule );
                         <option value="backorder" <?php selected( $rule['apply'], 'backorder' ); ?>><?php esc_html_e( 'On backorder', 'wpc-estimated-delivery-date' ); ?></option>
                         <option value="stock" <?php selected( $rule['apply'], 'stock' ); ?>><?php esc_html_e( 'Stock quantity', 'wpc-estimated-delivery-date' ); ?></option>
 						<?php
-						$taxonomies = get_object_taxonomies( 'product', 'objects' ); //$taxonomies = get_taxonomies( [ 'object_type' => [ 'product' ] ], 'objects' );
+						$taxonomies = get_object_taxonomies( 'product', 'objects' ); 
 
 						foreach ( $taxonomies as $taxonomy ) {
 							echo '<option value="' . esc_attr( $taxonomy->name ) . '" ' . selected( $rule['apply'], $taxonomy->name, false ) . '>' . esc_html( $taxonomy->label ) . '</option>';
