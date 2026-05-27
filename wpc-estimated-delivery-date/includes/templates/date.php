@@ -25,7 +25,9 @@ $date = array_merge( [ 'type' => '0', 'val' => '' ], $date );
             <option value="5" <?php selected( $date['type'], '5' ); ?>><?php esc_html_e( 'Weekly on every Friday', 'wpc-estimated-delivery-date' ); ?></option>
             <option value="6" <?php selected( $date['type'], '6' ); ?>><?php esc_html_e( 'Weekly on every Saturday', 'wpc-estimated-delivery-date' ); ?></option>
             <option value="cus" <?php selected( $date['type'], 'cus' ); ?>
-                    disabled><?php esc_html_e( 'Custom (Premium)', 'wpc-estimated-delivery-date' ); ?></option>
+                    disabled><?php esc_html_e( 'Specific date (Premium)', 'wpc-estimated-delivery-date' ); ?></option>
+            <option value="range" <?php selected( $date['type'], 'range' ); ?>
+                    disabled><?php esc_html_e( 'Date range (Premium)', 'wpc-estimated-delivery-date' ); ?></option>
         </select> </label> <label>
         <input type="text" class="wpced-date-val"
                name="wpced_settings[skipped_dates][<?php echo esc_attr( $date_key ); ?>][val]"

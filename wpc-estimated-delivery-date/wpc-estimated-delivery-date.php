@@ -3,21 +3,21 @@
 Plugin Name: WPC Estimated Delivery Date for WooCommerce
 Plugin URI: https://wpclever.net/
 Description: WPC Estimated Delivery Date allows you to establish and personalize delivery times for each product available in your store on several levels.
-Version: 2.6.5
+Version: 2.6.6
 Author: WPClever
 Author URI: https://wpclever.net
 Text Domain: wpc-estimated-delivery-date
 Domain Path: /languages/
 Requires Plugins: woocommerce
 Requires at least: 4.0
-Tested up to: 6.9
+Tested up to: 7.0
 WC requires at least: 3.0
-WC tested up to: 10.7
+WC tested up to: 10.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
-! defined( 'WPCED_VERSION' ) && define( 'WPCED_VERSION', '2.6.5' );
+! defined( 'WPCED_VERSION' ) && define( 'WPCED_VERSION', '2.6.6' );
 ! defined( 'WPCED_LITE' ) && define( 'WPCED_LITE', __FILE__ );
 ! defined( 'WPCED_FILE' ) && define( 'WPCED_FILE', __FILE__ );
 ! defined( 'WPCED_DIR' ) && define( 'WPCED_DIR', plugin_dir_path( __FILE__ ) );
@@ -26,12 +26,14 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 ! defined( 'WPCED_REVIEWS' ) && define( 'WPCED_REVIEWS', 'https://wordpress.org/support/plugin/wpc-estimated-delivery-date/reviews/' );
 ! defined( 'WPCED_CHANGELOG' ) && define( 'WPCED_CHANGELOG', 'https://wordpress.org/plugins/wpc-estimated-delivery-date/#developers' );
 ! defined( 'WPCED_DISCUSSION' ) && define( 'WPCED_DISCUSSION', 'https://wordpress.org/support/plugin/wpc-estimated-delivery-date' );
-! defined( 'WPC_URI' ) && define( 'WPC_URI', WPCED_URI );
 
-include 'includes/log/wpc-log.php';
-include 'includes/dashboard/wpc-dashboard.php';
-include 'includes/kit/wpc-kit.php';
-include 'includes/hpos.php';
+// WPC Core
+require_once __DIR__ . '/includes/wpc-core/wpc-core.php';
+wpc_core_register( [
+	'file'    => __FILE__,
+	'version' => WPCED_VERSION,
+	'prefix'  => 'wpced',
+] );
 
 if ( ! function_exists( 'wpced_init' ) ) {
     add_action( 'plugins_loaded', 'wpced_init', 11 );
