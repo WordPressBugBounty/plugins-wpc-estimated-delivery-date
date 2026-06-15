@@ -90,8 +90,6 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
         }
 
         function init() {
-            // load text-domain
-            load_plugin_textdomain( 'wpc-estimated-delivery-date', false, basename( WPCED_DIR ) . '/languages/' );
 
             self::$archive_pos = apply_filters( 'wpced_archive_positions', [
                     'under_title'       => esc_html__( 'Under title', 'wpc-estimated-delivery-date' ),
