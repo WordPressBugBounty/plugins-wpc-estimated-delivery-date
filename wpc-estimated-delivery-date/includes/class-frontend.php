@@ -100,7 +100,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 
 		function ajax_reload_dates() {
 			$dates = [];
-			$ids   = isset( $_POST['ids'] ) ? Wpced_Helper()->sanitize_array( $_POST['ids'] ) : [];
+			$ids   = isset( $_POST['ids'] ) ? Wpced_Helper()->sanitize_array( wp_unslash( $_POST['ids'] ) ) : []; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			if ( ! empty( $ids ) ) {
 				$ids = array_unique( $ids );
@@ -553,20 +553,13 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				$get_date = $current_unix;
 			} else {
 				while ( ( count( $available ) < $days ) && ( $i <= 100 ) ) {
-					if ( ! $current_date_skipped ) {
-						$current_unix    += 86400;
-						$current_date    = date_i18n( 'm/d/Y', $current_unix );
-						$current_weekday = date_i18n( 'w', $current_unix );
-					}
+					// Always advance to the next day before checking — min/max days are counted AFTER dispatch date
+					$current_unix    += 86400;
+					$current_date    = date_i18n( 'm/d/Y', $current_unix );
+					$current_weekday = date_i18n( 'w', $current_unix );
 
 					if ( ! self::check_skipped( $current_date, $current_weekday ) ) {
 						$available[] = $current_unix;
-					}
-
-					if ( $current_date_skipped ) {
-						$current_unix    += 86400;
-						$current_date    = date_i18n( 'm/d/Y', $current_unix );
-						$current_weekday = date_i18n( 'w', $current_unix );
 					}
 
 					$i ++;

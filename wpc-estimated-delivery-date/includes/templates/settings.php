@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) || exit;
 
-$active_tab = sanitize_key( $_GET['tab'] ?? 'settings' );
+$active_tab = sanitize_key( wp_unslash( $_GET['tab'] ?? 'settings' ) );
 $rules      = Wpced_Backend()->get_rules();
 ?>
 <div class="wpclever_settings_page wrap">
@@ -25,7 +25,7 @@ $rules      = Wpced_Backend()->get_rules();
         </div>
     </div>
     <h2></h2>
-    <?php if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] ) { ?>
+    <?php if ( isset( $_GET['settings-updated'] ) && sanitize_text_field( wp_unslash( $_GET['settings-updated'] ?? '' ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
         <div class="notice notice-success is-dismissible">
             <p><?php esc_html_e( 'Settings updated.', 'wpc-estimated-delivery-date' ); ?></p>
         </div>

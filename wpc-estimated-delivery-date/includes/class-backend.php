@@ -243,11 +243,11 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 
         public function process_product_meta( $post_id ) {
             if ( isset( $_POST['wpced_enable'] ) ) {
-                update_post_meta( $post_id, 'wpced_enable', sanitize_text_field( $_POST['wpced_enable'] ) );
+                update_post_meta( $post_id, 'wpced_enable', sanitize_text_field( wp_unslash( $_POST['wpced_enable'] ?? '' ) ) );
             }
 
             if ( isset( $_POST['wpced_rules'] ) ) {
-                update_post_meta( $post_id, 'wpced_rules', Wpced_Helper()->sanitize_array( $_POST['wpced_rules'] ) );
+                update_post_meta( $post_id, 'wpced_rules', Wpced_Helper()->sanitize_array( wp_unslash( $_POST['wpced_rules'] ?? '' ) ) );
             } else {
                 delete_post_meta( $post_id, 'wpced_rules' );
             }
@@ -255,13 +255,13 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 
         function save_variation_settings( $post_id ) {
             if ( isset( $_POST['wpced_enable_v'][ $post_id ] ) ) {
-                update_post_meta( $post_id, 'wpced_enable', sanitize_text_field( $_POST['wpced_enable_v'][ $post_id ] ) );
+                update_post_meta( $post_id, 'wpced_enable', sanitize_text_field( wp_unslash( $_POST['wpced_enable_v'] ?? '' )[ $post_id ] ) );
             } else {
                 delete_post_meta( $post_id, 'wpced_enable' );
             }
 
             if ( isset( $_POST['wpced_rules_v'][ $post_id ] ) ) {
-                update_post_meta( $post_id, 'wpced_rules', Wpced_Helper()->sanitize_array( $_POST['wpced_rules_v'][ $post_id ] ) );
+                update_post_meta( $post_id, 'wpced_rules', Wpced_Helper()->sanitize_array( wp_unslash( $_POST['wpced_rules_v'] ?? '' )[ $post_id ] ) );
             } else {
                 delete_post_meta( $post_id, 'wpced_rules' );
             }
@@ -380,10 +380,10 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 
         public function ajax_add_rule() {
             $key          = Wpced_Helper()->generate_key();
-            $product_id   = absint( sanitize_text_field( $_POST['product_id'] ?? 0 ) );
-            $is_variation = wc_string_to_bool( sanitize_text_field( $_POST['is_variation'] ?? 'no' ) );
+            $product_id   = absint( sanitize_text_field( wp_unslash( $_POST['product_id'] ?? 0 ) ) );
+            $is_variation = wc_string_to_bool( sanitize_text_field( wp_unslash( $_POST['is_variation'] ?? 'no' ) ) );
             $rule_name    = $is_variation ? 'wpced_rules_v' : 'wpced_rules';
-            $rule_data    = $_POST['rule_data'] ?? '';
+            $rule_data    = wp_unslash( $_POST['rule_data'] ?? '' ) ; // phpcs:ignore WordPress.Security.NonceVerification.Missing
             $rule_arr     = [];
 
             if ( ! empty( $rule_data ) ) {
@@ -417,10 +417,10 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 
         public function enqueue_scripts() {
             // hint
-            wp_enqueue_style( 'hint', WPCED_URI . 'assets/css/hint.css' );
+            wp_enqueue_style( 'hint', WPCED_URI . 'assets/css/hint.css', [], WPCED_VERSION );
 
             // wpcdpk
-            wp_enqueue_style( 'wpcdpk', WPCED_URI . 'assets/libs/wpcdpk/css/datepicker.css' );
+            wp_enqueue_style( 'wpcdpk', WPCED_URI . 'assets/libs/wpcdpk/css/datepicker.css', [], WPCED_VERSION );
             wp_enqueue_script( 'wpcdpk', WPCED_URI . 'assets/libs/wpcdpk/js/datepicker.js', [ 'jquery' ], WPCED_VERSION, true );
 
             wp_enqueue_style( 'wpced-backend', WPCED_URI . 'assets/css/backend.css', [ 'woocommerce_admin_styles' ], WPCED_VERSION );
@@ -440,12 +440,12 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
             $return = [];
 
             $args = [
-                    'taxonomy'   => sanitize_text_field( $_REQUEST['taxonomy'] ),
+                    'taxonomy'   => sanitize_text_field( wp_unslash( $_REQUEST['taxonomy'] ?? '' ) ),
                     'orderby'    => 'id',
                     'order'      => 'ASC',
                     'hide_empty' => false,
                     'fields'     => 'all',
-                    'name__like' => sanitize_text_field( $_REQUEST['q'] ),
+                    'name__like' => sanitize_text_field( wp_unslash( $_REQUEST['q'] ?? '' ) ),
             ];
 
             $terms = get_terms( $args );
@@ -460,7 +460,7 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
         }
 
         function ajax_date_format_preview() {
-            echo sprintf( esc_html__( 'Preview: %s', 'wpc-estimated-delivery-date' ), current_time( sanitize_text_field( $_POST['date_format'] ?? '' ) ) );
+            echo sprintf( esc_html__( 'Preview: %s', 'wpc-estimated-delivery-date' ), current_time( sanitize_text_field( wp_unslash( $_POST['date_format'] ?? '' ) ) ) );
             wp_die();
         }
 
@@ -469,7 +469,7 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
                 die( esc_html__( 'Permissions check failed!', 'wpc-estimated-delivery-date' ) );
             }
 
-            $order_id = absint( $_POST['order_id'] ?? 0 );
+            $order_id = absint( wp_unslash( $_POST['order_id'] ?? 0 ) );
 
             if ( $order_id && ( $order = wc_get_order( $order_id ) ) ) {
                 echo '<ul class="wpced-order-items" data-id="' . esc_attr( $order_id ) . '">';
@@ -495,8 +495,8 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
                 die( esc_html__( 'Permissions check failed!', 'wpc-estimated-delivery-date' ) );
             }
 
-            $order_id    = absint( $_POST['order_id'] ?? 0 );
-            $order_dates = Wpced_Helper()->sanitize_array( $_POST['order_dates'] ?? [] );
+            $order_id    = absint( wp_unslash( $_POST['order_id'] ?? 0 ) );
+            $order_dates = Wpced_Helper()->sanitize_array( wp_unslash( $_POST['order_dates'] ?? [] ) );
 
             if ( ! empty( $order_dates ) ) {
                 foreach ( $order_dates as $order_date ) {

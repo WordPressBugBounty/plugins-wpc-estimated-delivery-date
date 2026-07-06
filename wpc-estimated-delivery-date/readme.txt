@@ -3,8 +3,8 @@ Contributors: wpclever
 Donate link: https://wpclever.net
 Tags: woocommerce, wpc, estimated, delivery-date, delivery-time
 Tested up to: 7.0
-Version: 2.6.7
-Stable tag: 2.6.7
+Version: 2.6.8
+Stable tag: 2.6.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -87,6 +87,10 @@ Please try other plugins from us:
 4. Go to WP-admin > WPClever > Estimated Delivery Date to add your rules
 
 == Changelog ==
+
+= 2.6.8 =
+* Fixed: Optimized the code
+* Updated: Compatible with WP 7.0 & Woo 10.9
 
 = 2.6.7 =
 * Fixed: Minor JS/CSS issues in backend
