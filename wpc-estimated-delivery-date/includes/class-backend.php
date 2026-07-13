@@ -242,26 +242,26 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
         }
 
         public function process_product_meta( $post_id ) {
-            if ( isset( $_POST['wpced_enable'] ) ) {
+            if ( isset( $_POST['wpced_enable'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified by WooCommerce via woocommerce_process_product_meta hook before this callback is invoked
                 update_post_meta( $post_id, 'wpced_enable', sanitize_text_field( wp_unslash( $_POST['wpced_enable'] ?? '' ) ) );
             }
 
-            if ( isset( $_POST['wpced_rules'] ) ) {
-                update_post_meta( $post_id, 'wpced_rules', Wpced_Helper()->sanitize_array( wp_unslash( $_POST['wpced_rules'] ?? '' ) ) );
+            if ( isset( $_POST['wpced_rules'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified by WooCommerce via woocommerce_process_product_meta hook before this callback is invoked
+                update_post_meta( $post_id, 'wpced_rules', Wpced_Helper()->sanitize_array( wp_unslash( $_POST['wpced_rules'] ?? '' ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized via Wpced_Helper()->sanitize_array() which recursively applies sanitize_post_field()
             } else {
                 delete_post_meta( $post_id, 'wpced_rules' );
             }
         }
 
         function save_variation_settings( $post_id ) {
-            if ( isset( $_POST['wpced_enable_v'][ $post_id ] ) ) {
+            if ( isset( $_POST['wpced_enable_v'][ $post_id ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified by WooCommerce via woocommerce_save_product_variation hook before this callback is invoked
                 update_post_meta( $post_id, 'wpced_enable', sanitize_text_field( wp_unslash( $_POST['wpced_enable_v'] ?? '' )[ $post_id ] ) );
             } else {
                 delete_post_meta( $post_id, 'wpced_enable' );
             }
 
-            if ( isset( $_POST['wpced_rules_v'][ $post_id ] ) ) {
-                update_post_meta( $post_id, 'wpced_rules', Wpced_Helper()->sanitize_array( wp_unslash( $_POST['wpced_rules_v'] ?? '' )[ $post_id ] ) );
+            if ( isset( $_POST['wpced_rules_v'][ $post_id ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified by WooCommerce via woocommerce_save_product_variation hook before this callback is invoked
+                update_post_meta( $post_id, 'wpced_rules', Wpced_Helper()->sanitize_array( wp_unslash( $_POST['wpced_rules_v'] ?? '' )[ $post_id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized via Wpced_Helper()->sanitize_array() which recursively applies sanitize_post_field()
             } else {
                 delete_post_meta( $post_id, 'wpced_rules' );
             }
@@ -380,15 +380,16 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 
         public function ajax_add_rule() {
             $key          = Wpced_Helper()->generate_key();
-            $product_id   = absint( sanitize_text_field( wp_unslash( $_POST['product_id'] ?? 0 ) ) );
-            $is_variation = wc_string_to_bool( sanitize_text_field( wp_unslash( $_POST['is_variation'] ?? 'no' ) ) );
+            $product_id   = absint( sanitize_text_field( wp_unslash( $_POST['product_id'] ?? 0 ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- read-only AJAX handler that only renders UI template, does not write to DB
+            $is_variation = wc_string_to_bool( sanitize_text_field( wp_unslash( $_POST['is_variation'] ?? 'no' ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- read-only AJAX handler that only renders UI template, does not write to DB
             $rule_name    = $is_variation ? 'wpced_rules_v' : 'wpced_rules';
-            $rule_data    = wp_unslash( $_POST['rule_data'] ?? '' ) ; // phpcs:ignore WordPress.Security.NonceVerification.Missing
-            $rule_arr     = [];
+            $rule_data = wp_unslash( $_POST['rule_data'] ?? '' ); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- read-only AJAX handler; URL-encoded string decoded via parse_str() then sanitized via Wpced_Helper()->sanitize_array()
+            $rule_arr  = [];
 
             if ( ! empty( $rule_data ) ) {
                 $form_rule = [];
                 parse_str( $rule_data, $form_rule );
+                $form_rule = Wpced_Helper()->sanitize_array( $form_rule );
 
                 if ( isset( $form_rule[ $rule_name ] ) && is_array( $form_rule[ $rule_name ] ) ) {
                     $rule_arr = reset( $form_rule[ $rule_name ] );
@@ -460,12 +461,13 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
         }
 
         function ajax_date_format_preview() {
-            echo sprintf( esc_html__( 'Preview: %s', 'wpc-estimated-delivery-date' ), current_time( sanitize_text_field( wp_unslash( $_POST['date_format'] ?? '' ) ) ) );
+            /* translators: %s: date preview */
+            echo sprintf( esc_html__( 'Preview: %s', 'wpc-estimated-delivery-date' ), esc_html( current_time( sanitize_text_field( wp_unslash( $_POST['date_format'] ?? '' ) ) ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- read-only AJAX handler that only previews date format, does not write to DB
             wp_die();
         }
 
         function ajax_get_order_dates() {
-            if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'wpced-security' ) || ! current_user_can( 'manage_woocommerce' ) ) {
+            if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpced-security' ) || ! current_user_can( 'manage_woocommerce' ) ) {
                 die( esc_html__( 'Permissions check failed!', 'wpc-estimated-delivery-date' ) );
             }
 
@@ -478,7 +480,7 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
 
                 foreach ( $order_items as $order_item ) {
                     echo '<li class="wpced-order-item" data-id="' . esc_attr( $order_item->get_id() ) . '">';
-                    echo '<div class="wpced-order-item-name">' . $order_item->get_name() . '</div>';
+                    echo '<div class="wpced-order-item-name">' . esc_html( $order_item->get_name() ) . '</div>';
                     echo '<div class="wpced-order-item-date"><input type="text" data-id="' . esc_attr( $order_item->get_id() ) . '" class="text large-text wpced-order-item-date-val" value="' . esc_attr( wp_strip_all_tags( $order_item->get_meta( '_wpced_date' ) ) ) . '"/></div>';
                     echo '</li>';
                 }
@@ -491,12 +493,12 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
         }
 
         function ajax_save_order_dates() {
-            if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'wpced-security' ) || ! current_user_can( 'manage_woocommerce' ) ) {
+            if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'wpced-security' ) || ! current_user_can( 'manage_woocommerce' ) ) {
                 die( esc_html__( 'Permissions check failed!', 'wpc-estimated-delivery-date' ) );
             }
 
             $order_id    = absint( wp_unslash( $_POST['order_id'] ?? 0 ) );
-            $order_dates = Wpced_Helper()->sanitize_array( wp_unslash( $_POST['order_dates'] ?? [] ) );
+            $order_dates = Wpced_Helper()->sanitize_array( wp_unslash( $_POST['order_dates'] ?? [] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized via Wpced_Helper()->sanitize_array() which recursively applies sanitize_post_field()
 
             if ( ! empty( $order_dates ) ) {
                 foreach ( $order_dates as $order_date ) {
@@ -506,7 +508,7 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
                 }
             }
 
-            echo $order_id;
+            echo absint( $order_id );
 
             wp_die();
         }

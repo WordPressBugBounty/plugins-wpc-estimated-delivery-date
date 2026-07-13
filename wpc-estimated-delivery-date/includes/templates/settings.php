@@ -165,7 +165,7 @@ $rules      = Wpced_Backend()->get_rules();
                             echo '<select name="wpced_settings[date_format]" class="wpced-date-format">';
 
                             foreach ( $date_formats as $df ) {
-                                echo '<option value="' . esc_attr( $df ) . '" ' . selected( $date_format, $df, false ) . '>' . current_time( $df ) . '</option>';
+                                echo '<option value="' . esc_attr( $df ) . '" ' . selected( $date_format, $df, false ) . '>' . esc_html( current_time( $df ) ) . '</option>';
                             }
 
                             echo '<option value="days" ' . selected( $date_format, 'days', false ) . '>' . esc_html__( 'Days count', 'wpc-estimated-delivery-date' ) . '</option>';
@@ -178,7 +178,7 @@ $rules      = Wpced_Backend()->get_rules();
                                        name="wpced_settings[date_format_custom]"
                                        value="<?php echo esc_attr( $date_format_custom ); ?>"/>
                             </label>
-                            <span class="wpced-date-format-preview"><?php echo sprintf( /* translators: preview date */ esc_html__( 'Preview: %s', 'wpc-estimated-delivery-date' ), current_time( $date_format_custom ) ); ?></span>
+                            <span class="wpced-date-format-preview"><?php echo sprintf( /* translators: %s: date preview */ esc_html__( 'Preview: %s', 'wpc-estimated-delivery-date' ), esc_html( current_time( $date_format_custom ) ) ); ?></span>
                             <p class="description">
                                 <a href="https://wordpress.org/documentation/article/customize-date-and-time-format/"
                                    target="_blank"><?php esc_html_e( 'Documentation on date and time formatting.', 'wpc-estimated-delivery-date' ); ?></a>
@@ -193,7 +193,7 @@ $rules      = Wpced_Backend()->get_rules();
                                 <input type="text" name="wpced_settings[text]" class="large-text"
                                        style="width: 100%; margin: 0"
                                        value="<?php echo esc_attr( Wpced_Backend()->get_setting( 'text' ) ); ?>"
-                                       placeholder="<?php /* translators: date */
+                                       placeholder="<?php /* translators: %s: delivery date */
                                        esc_attr_e( 'Estimated delivery dates: %s', 'wpc-estimated-delivery-date' ); ?>"/>
                             </label> <br/><br/>
                             <label><?php esc_html_e( 'Have minimum days only', 'wpc-estimated-delivery-date' ); ?></label>
@@ -201,7 +201,7 @@ $rules      = Wpced_Backend()->get_rules();
                                 <input type="text" name="wpced_settings[text_min]" class="large-text"
                                        style="width: 100%; margin: 0"
                                        value="<?php echo esc_attr( Wpced_Backend()->get_setting( 'text_min' ) ); ?>"
-                                       placeholder="<?php /* translators: date */
+                                       placeholder="<?php /* translators: %s: delivery date */
                                        esc_attr_e( 'Earliest estimated delivery date: %s', 'wpc-estimated-delivery-date' ); ?>"/>
                             </label> <br/><br/>
                             <label><?php esc_html_e( 'Have maximum days only', 'wpc-estimated-delivery-date' ); ?></label>
@@ -209,7 +209,7 @@ $rules      = Wpced_Backend()->get_rules();
                                 <input type="text" name="wpced_settings[text_max]" class="large-text"
                                        style="width: 100%; margin: 0"
                                        value="<?php echo esc_attr( Wpced_Backend()->get_setting( 'text_max' ) ); ?>"
-                                       placeholder="<?php /* translators: date */
+                                       placeholder="<?php /* translators: %s: delivery date */
                                        esc_attr_e( 'Latest estimated delivery date: %s', 'wpc-estimated-delivery-date' ); ?>"/>
                             </label> <br/><br/>
                             <label><?php esc_html_e( 'Cart item\'s data label', 'wpc-estimated-delivery-date' ); ?></label>
@@ -223,7 +223,7 @@ $rules      = Wpced_Backend()->get_rules();
                                 <input type="text" name="wpced_settings[text_cart_overall]" class="large-text"
                                        style="width: 100%; margin: 0"
                                        value="<?php echo esc_attr( Wpced_Backend()->get_setting( 'text_cart_overall' ) ); ?>"
-                                       placeholder="<?php /* translators: date */
+                                       placeholder="<?php /* translators: %s: delivery date */
                                        esc_attr_e( 'Overall estimated dispatch date: %s', 'wpc-estimated-delivery-date' ); ?>"/>
                             </label> <br/><br/> <span class="description"><?php /* translators: date */
                                 esc_html_e( 'Use %s to show the date or date-range. Leave blank to use the default text and its equivalent translation in multiple languages.', 'wpc-estimated-delivery-date' ); ?></span>
@@ -341,6 +341,7 @@ $rules      = Wpced_Backend()->get_rules();
                 </p>
                 <p><strong>Extra features for Premium Version:</strong></p>
                 <ul style="margin-bottom: 0">
+                    <li>- Use the combined source.</li>
                     <li>- Add custom skipped dates.</li>
                     <li>- Add scheduled delivery date for each rule.</li>
                     <li>- Get the lifetime update & premium support.</li>

@@ -100,7 +100,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 
 		function ajax_reload_dates() {
 			$dates = [];
-			$ids   = isset( $_POST['ids'] ) ? Wpced_Helper()->sanitize_array( wp_unslash( $_POST['ids'] ) ) : []; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$ids   = isset( $_POST['ids'] ) ? array_map( 'absint', wp_unslash( $_POST['ids'] ) ) : []; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			if ( ! empty( $ids ) ) {
 				$ids = array_unique( $ids );
@@ -273,7 +273,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				return;
 			}
 
-			echo self::get_product_date( $product );
+			echo wp_kses_post( self::get_product_date( $product ) );
 		}
 
 		function get_product_date( $product, $type = 'full', $context = 'product' ) {
@@ -327,25 +327,31 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				$product_date = $delivery_date;
 			} else {
 				if ( $is_max ) {
-					$delivery_text = Wpced_Backend()->get_setting( 'text_max', /* translators: date */ esc_html__( 'Latest estimated delivery date: %s', 'wpc-estimated-delivery-date' ) );
+					/* translators: %s: delivery date */
+					$default_text  = esc_html__( 'Latest estimated delivery date: %s', 'wpc-estimated-delivery-date' );
+					$delivery_text = Wpced_Backend()->get_setting( 'text_max', $default_text );
 
 					if ( empty( $delivery_text ) ) {
-						$delivery_text = /* translators: date */
-							esc_html__( 'Latest estimated delivery date: %s', 'wpc-estimated-delivery-date' );
+						/* translators: %s: delivery date */
+						$delivery_text = esc_html__( 'Latest estimated delivery date: %s', 'wpc-estimated-delivery-date' );
 					}
 				} elseif ( $is_min ) {
-					$delivery_text = Wpced_Backend()->get_setting( 'text_min', /* translators: date */ esc_html__( 'Earliest estimated delivery date: %s', 'wpc-estimated-delivery-date' ) );
+					/* translators: %s: delivery date */
+					$default_text  = esc_html__( 'Earliest estimated delivery date: %s', 'wpc-estimated-delivery-date' );
+					$delivery_text = Wpced_Backend()->get_setting( 'text_min', $default_text );
 
 					if ( empty( $delivery_text ) ) {
-						$delivery_text = /* translators: date */
-							esc_html__( 'Earliest estimated delivery date: %s', 'wpc-estimated-delivery-date' );
+						/* translators: %s: delivery date */
+						$delivery_text = esc_html__( 'Earliest estimated delivery date: %s', 'wpc-estimated-delivery-date' );
 					}
 				} else {
-					$delivery_text = Wpced_Backend()->get_setting( 'text', /* translators: date */ esc_html__( 'Estimated delivery dates: %s', 'wpc-estimated-delivery-date' ) );
+					/* translators: %s: delivery date */
+					$default_text  = esc_html__( 'Estimated delivery dates: %s', 'wpc-estimated-delivery-date' );
+					$delivery_text = Wpced_Backend()->get_setting( 'text', $default_text );
 
 					if ( empty( $delivery_text ) ) {
-						$delivery_text = /* translators: date */
-							esc_html__( 'Estimated delivery dates: %s', 'wpc-estimated-delivery-date' );
+						/* translators: %s: delivery date */
+						$delivery_text = esc_html__( 'Estimated delivery dates: %s', 'wpc-estimated-delivery-date' );
 					}
 				}
 
@@ -494,11 +500,13 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 							break;
 					}
 
-					$delivery_text = Wpced_Backend()->get_setting( 'text_cart_overall', /* translators: date */ esc_html__( 'Overall estimated dispatch date: %s', 'wpc-estimated-delivery-date' ) );
+					/* translators: %s: delivery date */
+					$default_text  = esc_html__( 'Overall estimated dispatch date: %s', 'wpc-estimated-delivery-date' );
+					$delivery_text = Wpced_Backend()->get_setting( 'text_cart_overall', $default_text );
 
 					if ( empty( $delivery_text ) ) {
-						$delivery_text = /* translators: date */
-							esc_html__( 'Overall estimated dispatch date: %s', 'wpc-estimated-delivery-date' );
+						/* translators: %s: delivery date */
+						$delivery_text = esc_html__( 'Overall estimated dispatch date: %s', 'wpc-estimated-delivery-date' );
 					}
 
 					return apply_filters( 'wpced_get_overall_date', sprintf( $delivery_text, $delivery_date ), $shipping_method );
@@ -657,13 +665,13 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 
 		function before_order_itemmeta( $order_item_id, $order_item ) {
 			if ( ( $date = $order_item->get_meta( '_wpced_date' ) ) && ! empty( $date ) ) {
-				echo $date;
+				echo wp_kses_post( $date );
 			}
 		}
 
 		function order_item_meta_start( $order_item_id, $order_item ) {
 			if ( ( Wpced_Backend()->get_setting( 'order_item', 'no' ) === 'yes' ) && ( $date = $order_item->get_meta( '_wpced_date' ) ) && ! empty( $date ) ) {
-				echo apply_filters( 'wpced_order_item_date', $date, $order_item_id, $order_item );
+				echo wp_kses_post( apply_filters( 'wpced_order_item_date', $date, $order_item_id, $order_item ) );
 			}
 		}
 

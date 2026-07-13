@@ -63,6 +63,7 @@ $rule = array_merge( Wpced_Backend()->get_base_rule(), $rule );
                         <option value="outofstock" <?php selected( $rule['apply'], 'outofstock' ); ?>><?php esc_html_e( 'Out of stock', 'wpc-estimated-delivery-date' ); ?></option>
                         <option value="backorder" <?php selected( $rule['apply'], 'backorder' ); ?>><?php esc_html_e( 'On backorder', 'wpc-estimated-delivery-date' ); ?></option>
                         <option value="stock" <?php selected( $rule['apply'], 'stock' ); ?>><?php esc_html_e( 'Stock quantity', 'wpc-estimated-delivery-date' ); ?></option>
+                        <option value="combined" disabled="disabled"><?php esc_html_e( 'Combined (Premium)', 'wpc-estimated-delivery-date' ); ?></option>
 						<?php
 						$taxonomies = get_object_taxonomies( 'product', 'objects' ); 
 
