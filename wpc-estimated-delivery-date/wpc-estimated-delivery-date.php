@@ -3,23 +3,23 @@
 Plugin Name: WPC Estimated Delivery Date for WooCommerce
 Plugin URI: https://wpclever.net/
 Description: WPC Estimated Delivery Date allows you to establish and personalize delivery times for each product available in your store on several levels.
-Version: 3.0.0
+Version: 3.0.1
 Author: WPClever
 Author URI: https://wpclever.net
 Text Domain: wpc-estimated-delivery-date
 Domain Path: /languages/
 Requires Plugins: woocommerce
 Requires at least: 5.9
-Tested up to: 7.0
+Tested up to: 7.1
 WC requires at least: 3.0
-WC tested up to: 10.9
+WC tested up to: 11.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 defined( 'ABSPATH' ) || exit;   
 
-! defined( 'WPCED_VERSION' ) && define( 'WPCED_VERSION', '3.0.0' );
+! defined( 'WPCED_VERSION' ) && define( 'WPCED_VERSION', '3.0.1' );
 ! defined( 'WPCED_LITE' ) && define( 'WPCED_LITE', __FILE__ );
 ! defined( 'WPCED_FILE' ) && define( 'WPCED_FILE', __FILE__ );
 ! defined( 'WPCED_DIR' ) && define( 'WPCED_DIR', plugin_dir_path( __FILE__ ) );
