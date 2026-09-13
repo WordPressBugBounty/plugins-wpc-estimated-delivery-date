@@ -24,14 +24,41 @@ $rule = array_merge( Wpced_Backend()->get_base_rule(), $rule );
 ?>
 <div class="<?php echo esc_attr( $default ? 'active wpced-item wpced-rule wpced-item-' . $key : 'wpced-item wpced-rule wpced-item-' . $key ); ?>">
     <div class="wpced-item-header">
-        <span class="wpced-item-move ui-sortable-handle"><?php esc_html_e( 'move', 'wpc-estimated-delivery-date' ); ?></span>
+        <span class="wpced-item-move ui-sortable-handle hint--top" aria-label="<?php esc_attr_e( 'Drag to reorder', 'wpc-estimated-delivery-date' ); ?>"><span class="dashicons dashicons-menu"></span></span>
         <span class="wpced-item-name"><span
-                    class="wpced-item-name-key"><?php echo esc_html( ! empty( $rule['name'] ) ? $rule['name'] : $key ); ?></span><span
-                    class="wpced-item-name-apply"><?php echo esc_html( $rule['apply'] === 'all' ? 'all' : $rule['apply'] . ': ' . implode( ',', (array) $rule['apply_val'] ) ); ?></span></span>
+                    class="wpced-item-name-key"><?php echo esc_html( ! empty( $rule['name'] ) ? $rule['name'] : '#' . $key ); ?></span><span
+                    class="wpced-item-name-apply"><?php echo esc_html( $rule['apply'] === 'all' ? 'all' : ( $rule['apply'] === 'combined' ? 'combined' : $rule['apply'] . ': ' . implode( ',', (array) $rule['apply_val'] ) ) ); ?></span></span>
 		<?php if ( ! $default ) { ?>
-            <span class="wpced-item-duplicate" data-product_id="<?php echo esc_attr( $product_id ); ?>"
-                  data-is_variation="<?php echo esc_attr( $is_variation ? 'true' : 'false' ); ?>"><?php esc_html_e( 'duplicate', 'wpc-estimated-delivery-date' ); ?></span>
-            <span class="wpced-item-remove"><?php esc_html_e( 'remove', 'wpc-estimated-delivery-date' ); ?></span>
+            <span class="wpced-item-summary wpced_summary_btn hint--top"
+                  data-product_id="<?php echo esc_attr( $product_id ); ?>"
+                  data-is_variation="<?php echo esc_attr( $is_variation ? 'true' : 'false' ); ?>"
+                  aria-label="<?php esc_attr_e( 'Summary', 'wpc-estimated-delivery-date' ); ?>">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+            </span>
+            <span class="wpced-item-duplicate wpced_duplicate_btn hint--top" data-product_id="<?php echo esc_attr( $product_id ); ?>"
+                  data-is_variation="<?php echo esc_attr( $is_variation ? 'true' : 'false' ); ?>"
+                  aria-label="<?php esc_attr_e( 'Duplicate', 'wpc-estimated-delivery-date' ); ?>">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </span>
+            <span class="wpced-item-remove wpced_remove_btn hint--top"
+                  aria-label="<?php esc_attr_e( 'Remove', 'wpc-estimated-delivery-date' ); ?>">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </span>
 		<?php } ?>
     </div>
     <div class="wpced-item-content">
@@ -63,9 +90,9 @@ $rule = array_merge( Wpced_Backend()->get_base_rule(), $rule );
                         <option value="outofstock" <?php selected( $rule['apply'], 'outofstock' ); ?>><?php esc_html_e( 'Out of stock', 'wpc-estimated-delivery-date' ); ?></option>
                         <option value="backorder" <?php selected( $rule['apply'], 'backorder' ); ?>><?php esc_html_e( 'On backorder', 'wpc-estimated-delivery-date' ); ?></option>
                         <option value="stock" <?php selected( $rule['apply'], 'stock' ); ?>><?php esc_html_e( 'Stock quantity', 'wpc-estimated-delivery-date' ); ?></option>
-                        <option value="combined" disabled="disabled"><?php esc_html_e( 'Combined (Premium)', 'wpc-estimated-delivery-date' ); ?></option>
+                        <option value="combined" <?php selected( $rule['apply'], 'combined' ); ?>><?php esc_html_e( 'Combined', 'wpc-estimated-delivery-date' ); ?></option>
 						<?php
-						$taxonomies = get_object_taxonomies( 'product', 'objects' ); 
+						$taxonomies = get_object_taxonomies( 'product', 'objects' );
 
 						foreach ( $taxonomies as $taxonomy ) {
 							echo '<option value="' . esc_attr( $taxonomy->name ) . '" ' . selected( $rule['apply'], $taxonomy->name, false ) . '>' . esc_html( $taxonomy->label ) . '</option>';
@@ -98,6 +125,26 @@ $rule = array_merge( Wpced_Backend()->get_base_rule(), $rule );
 								}
 							} ?>
                         </select> </label>
+                </div>
+                <div class="wpced_apply_combined<?php echo esc_attr( $rule['apply'] !== 'combined' ? ' wpced-hidden' : '' ); ?>">
+                    <div class="wpced_apply_conditions">
+                        <p class="description"><?php esc_html_e( '* Configure to find products that match all listed conditions.', 'wpc-estimated-delivery-date' ); ?></p>
+                        <?php
+                        $combined_conditions = ! empty( $rule['apply_conditions'] ) ? (array) $rule['apply_conditions'] : [];
+
+                        if ( ! empty( $combined_conditions ) ) {
+                            foreach ( $combined_conditions as $condition_key => $condition_item ) {
+                                echo Wpced_Backend()::render_apply_condition( $key, $name, $condition_key, $condition_item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML is fully escaped internally by render_apply_condition() using esc_attr() and esc_html() on all dynamic values
+                            }
+                        }
+                        ?>
+                    </div>
+                    <div class="wpced_add_apply_condition">
+                        <a class="wpced_new_apply_condition button"
+                           data-rule_key="<?php echo esc_attr( $key ); ?>"
+                           data-name="<?php echo esc_attr( $name ); ?>"
+                           href="#"><?php esc_html_e( '+ Add condition', 'wpc-estimated-delivery-date' ); ?></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -175,7 +222,7 @@ $rule = array_merge( Wpced_Backend()->get_base_rule(), $rule );
                 <label>
                     <input type="text" value="<?php echo esc_attr( $rule['scheduled'] ); ?>"
                            name="<?php echo esc_attr( 'wpced_rules' . $name . '[' . $key . '][scheduled]' ); ?>"
-                           placeholder="Premium" readonly/>
+                           class="wpced_scheduled" readonly/>
                 </label>
                 <p class="description"><?php esc_html_e( 'You can schedule a date when the delivery will be conducted in the future and the estimated delivery dates will be calculated based on this.', 'wpc-estimated-delivery-date' ); ?></p>
             </div>

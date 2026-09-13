@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPC Estimated Delivery Date for WooCommerce 3.0.1\n"
+"Project-Id-Version: WPC Estimated Delivery Date for WooCommerce 4.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpc-estimated-delivery-date\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-25T09:10:21+00:00\n"
+"POT-Creation-Date: 2026-09-13T06:43:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wpc-estimated-delivery-date\n"
@@ -39,152 +39,441 @@ msgstr ""
 msgid "https://wpclever.net"
 msgstr ""
 
-#: includes/class-backend.php:95
-#: includes/class-backend.php:103
+#: includes/class-backend.php:99
+#: includes/class-backend.php:107
 msgid "Under title"
 msgstr ""
 
-#: includes/class-backend.php:96
+#: includes/class-backend.php:100
 msgid "Under rating"
 msgstr ""
 
-#: includes/class-backend.php:97
+#: includes/class-backend.php:101
 msgid "Under price"
 msgstr ""
 
-#: includes/class-backend.php:98
+#: includes/class-backend.php:102
 msgid "Above add to cart"
 msgstr ""
 
-#: includes/class-backend.php:99
-#: includes/class-backend.php:106
+#: includes/class-backend.php:103
+#: includes/class-backend.php:110
 msgid "Under add to cart"
 msgstr ""
 
-#: includes/class-backend.php:100
-#: includes/class-backend.php:109
+#: includes/class-backend.php:104
+#: includes/class-backend.php:113
 msgid "None (hide it)"
 msgstr ""
 
-#: includes/class-backend.php:104
+#: includes/class-backend.php:108
 msgid "Under price & rating"
 msgstr ""
 
-#: includes/class-backend.php:105
+#: includes/class-backend.php:109
 msgid "Under excerpt"
 msgstr ""
 
-#: includes/class-backend.php:107
+#: includes/class-backend.php:111
 msgid "Under meta"
 msgstr ""
 
-#: includes/class-backend.php:108
+#: includes/class-backend.php:112
 msgid "Under sharing"
 msgstr ""
 
-#: includes/class-backend.php:141
-#: includes/class-backend.php:194
+#: includes/class-backend.php:145
+#: includes/class-backend.php:198
 msgid "Estimated Delivery Date"
 msgstr ""
 
-#: includes/class-backend.php:164
+#: includes/class-backend.php:168
 msgid "Product wasn't returned."
 msgstr ""
 
-#: includes/class-backend.php:179
-#: includes/templates/settings.php:12
+#: includes/class-backend.php:183
+#: includes/templates/settings.php:21
 msgid "WPC Estimated Delivery Date"
 msgstr ""
 
-#: includes/class-backend.php:197
+#: includes/class-backend.php:201
 msgid "Global"
 msgstr ""
 
-#: includes/class-backend.php:199
+#: includes/class-backend.php:203
 msgid "Parent"
 msgstr ""
 
-#: includes/class-backend.php:201
+#: includes/class-backend.php:205
 msgid "Disable"
 msgstr ""
 
-#: includes/class-backend.php:202
+#: includes/class-backend.php:206
 msgid "Override"
 msgstr ""
 
-#: includes/class-backend.php:237
-#: includes/templates/settings.php:312
+#: includes/class-backend.php:241
 msgid "+ Add rule"
 msgstr ""
 
-#: includes/class-backend.php:355
-#: includes/templates/settings.php:37
+#: includes/class-backend.php:359
+#: includes/templates/settings.php:48
 msgid "Settings"
 msgstr ""
 
-#: includes/class-backend.php:356
-#: includes/templates/settings.php:42
-msgid "Premium Version"
-msgstr ""
-
-#: includes/class-backend.php:372
+#: includes/class-backend.php:376
 msgid "Community support"
 msgstr ""
 
 #. translators: %s: date preview
-#: includes/class-backend.php:465
-#: includes/templates/settings.php:181
+#: includes/class-backend.php:481
+#: includes/templates/settings.php:261
 #, php-format
 msgid "Preview: %s"
 msgstr ""
 
-#: includes/class-backend.php:471
-#: includes/class-backend.php:497
+#: includes/class-backend.php:487
+#: includes/class-backend.php:513
 msgid "Permissions check failed!"
 msgstr ""
 
-#: includes/class-backend.php:489
+#: includes/class-backend.php:505
 msgid "Save"
 msgstr ""
 
-#: includes/class-backend.php:517
-#: includes/class-backend.php:518
+#: includes/class-backend.php:533
+#: includes/class-backend.php:534
 msgid "Update delivery dates"
 msgstr ""
 
-#. translators: %s: delivery date
-#: includes/class-frontend.php:331
-#: includes/class-frontend.php:336
-#: includes/templates/settings.php:213
+#: includes/class-backend.php:569
+#: includes/templates/rule.php:89
+msgid "In stock"
+msgstr ""
+
+#: includes/class-backend.php:570
+#: includes/templates/rule.php:90
+msgid "Out of stock"
+msgstr ""
+
+#: includes/class-backend.php:571
+#: includes/templates/rule.php:91
+msgid "On backorder"
+msgstr ""
+
+#: includes/class-backend.php:572
+#: includes/templates/rule.php:92
+msgid "Stock quantity"
+msgstr ""
+
+#: includes/class-backend.php:580
+#: includes/templates/rule.php:105
+msgid "Equal to"
+msgstr ""
+
+#: includes/class-backend.php:581
+#: includes/templates/rule.php:106
+msgid "Not equal to"
+msgstr ""
+
+#: includes/class-backend.php:582
+#: includes/templates/rule.php:107
+msgid "Greater than"
+msgstr ""
+
+#: includes/class-backend.php:583
+#: includes/templates/rule.php:108
+msgid "Greater or equal to"
+msgstr ""
+
+#: includes/class-backend.php:584
+#: includes/templates/rule.php:109
+msgid "Less than"
+msgstr ""
+
+#: includes/class-backend.php:585
+#: includes/templates/rule.php:110
+msgid "Less or equal to"
+msgstr ""
+
+#: includes/class-backend.php:680
+msgid "Delivery Simulator"
+msgstr ""
+
+#: includes/class-backend.php:683
+msgid "Select a product and simulation parameters (date & time, shipping zone, shipping method) to test and evaluate which delivery rule is matched and the calculated delivery dates."
+msgstr ""
+
+#: includes/class-backend.php:692
+msgid "Target Product & Context"
+msgstr ""
+
+#: includes/class-backend.php:695
+msgid "Product"
+msgstr ""
+
+#: includes/class-backend.php:697
+msgid "Search for a product or variation..."
+msgstr ""
+
+#: includes/class-backend.php:702
+msgid "Shipping Zone"
+msgstr ""
+
+#: includes/class-backend.php:704
+msgid "All zones (Any)"
+msgstr ""
+
+#: includes/class-backend.php:715
+msgid "Shipping Method"
+msgstr ""
+
+#: includes/class-backend.php:717
+msgid "All methods (Any)"
+msgstr ""
+
+#: includes/class-backend.php:732
+msgid "Simulated Date & Time"
+msgstr ""
+
+#: includes/class-backend.php:735
+msgid "Date & Time"
+msgstr ""
+
+#: includes/class-backend.php:740
+msgid "Set to current server time"
+msgstr ""
+
+#: includes/class-backend.php:741
+msgid "Now"
+msgstr ""
+
+#: includes/class-backend.php:746
+msgid "Server Current Time"
+msgstr ""
+
+#: includes/class-backend.php:750
+msgid "Week No."
+msgstr ""
+
+#: includes/class-backend.php:755
+msgid "Configured Cut-off Time"
+msgstr ""
+
+#: includes/class-backend.php:758
+msgid "(Orders placed after this daily time advance dispatch to next working day)"
+msgstr ""
+
+#: includes/class-backend.php:768
+msgid "Run Simulation"
+msgstr ""
+
+#: includes/class-backend.php:771
+msgid "Reset"
+msgstr ""
+
+#: includes/class-backend.php:785
+msgid "Unauthorized permission."
+msgstr ""
+
+#: includes/class-backend.php:794
+msgid "Please select a valid product."
+msgstr ""
+
+#: includes/class-backend.php:799
+msgid "Product not found."
+msgstr ""
+
+#: includes/class-backend.php:865
+msgid "Estimated delivery date calculation is disabled for this product."
+msgstr ""
+
+#. translators: 1: required zone, 2: selected zone
+#: includes/class-backend.php:909
 #, php-format
-msgid "Latest estimated delivery date: %s"
+msgid "Zone mismatch: requires zone %1$s, simulated with %2$s"
+msgstr ""
+
+#. translators: 1: required method, 2: selected method
+#: includes/class-backend.php:920
+#, php-format
+msgid "Method mismatch: requires method %1$s, simulated with %2$s"
+msgstr ""
+
+#: includes/class-backend.php:930
+msgid "Product is not in stock (rule requires In stock)"
+msgstr ""
+
+#: includes/class-backend.php:933
+msgid "Product is in stock (rule requires Out of stock)"
+msgstr ""
+
+#: includes/class-backend.php:936
+msgid "Product is not on backorder (rule requires On backorder)"
+msgstr ""
+
+#: includes/class-backend.php:940
+msgid "Product does not manage stock quantity"
+msgstr ""
+
+#. translators: 1: actual stock, 2: compare operator, 3: expected value
+#: includes/class-backend.php:967
+#, php-format
+msgid "Stock quantity %1$s failed comparison: %2$s %3$s"
+msgstr ""
+
+#: includes/class-backend.php:984
+#, php-format
+msgid "Combined condition #%d: Product is not in stock"
+msgstr ""
+
+#: includes/class-backend.php:989
+#, php-format
+msgid "Combined condition #%d: Product is in stock"
+msgstr ""
+
+#: includes/class-backend.php:994
+#, php-format
+msgid "Combined condition #%d: Product is not on backorder"
+msgstr ""
+
+#: includes/class-backend.php:1000
+#, php-format
+msgid "Combined condition #%d: Product does not manage stock"
+msgstr ""
+
+#: includes/class-backend.php:1012
+#, php-format
+msgid "Combined condition #%d: Stock quantity comparison failed"
+msgstr ""
+
+#: includes/class-backend.php:1021
+#, php-format
+msgid "Combined condition #%d: Attribute %s did not match"
+msgstr ""
+
+#: includes/class-backend.php:1026
+#, php-format
+msgid "Combined condition #%d: Taxonomy %s did not match"
+msgstr ""
+
+#: includes/class-backend.php:1036
+#, php-format
+msgid "Attribute %s value does not match"
+msgstr ""
+
+#: includes/class-backend.php:1040
+#, php-format
+msgid "Product does not match taxonomy %s terms"
+msgstr ""
+
+#: includes/class-backend.php:1046
+msgid "Not Matched"
+msgstr ""
+
+#: includes/class-backend.php:1053
+msgid "Applied"
+msgstr ""
+
+#: includes/class-backend.php:1054
+msgid "Highest priority rule matching all conditions."
+msgstr ""
+
+#: includes/class-backend.php:1057
+msgid "Overridden"
+msgstr ""
+
+#. translators: %s: winning rule key
+#: includes/class-backend.php:1060
+#, php-format
+msgid "Conditions matched, but higher-priority rule #%s was already applied."
+msgstr ""
+
+#: includes/class-backend.php:1087
+msgid "Default Rule"
+msgstr ""
+
+#: includes/class-backend.php:1089
+msgid "Applied (Default)"
+msgstr ""
+
+#: includes/class-backend.php:1090
+msgid "No custom rules matched; fallback to default rule."
+msgstr ""
+
+#: includes/class-backend.php:1091
+msgid "All products (Storewide default)"
+msgstr ""
+
+#. translators: 1: current time, 2: cutoff time
+#: includes/class-backend.php:1173
+#, php-format
+msgid "Simulated time (%1$s) is after cut-off time (%2$s). Dispatch date advanced by 1 day."
 msgstr ""
 
 #. translators: %s: delivery date
+#: includes/class-backend.php:1247
 #: includes/class-frontend.php:340
 #: includes/class-frontend.php:345
-#: includes/templates/settings.php:205
+#: includes/templates/settings.php:285
 #, php-format
 msgid "Earliest estimated delivery date: %s"
 msgstr ""
 
 #. translators: %s: delivery date
+#: includes/class-backend.php:1250
+#: includes/class-frontend.php:331
+#: includes/class-frontend.php:336
+#: includes/templates/settings.php:291
+#, php-format
+msgid "Latest estimated delivery date: %s"
+msgstr ""
+
+#. translators: %s: delivery date
+#: includes/class-backend.php:1253
 #: includes/class-frontend.php:349
 #: includes/class-frontend.php:354
-#: includes/templates/settings.php:197
+#: includes/templates/settings.php:279
 #, php-format
 msgid "Estimated delivery dates: %s"
 msgstr ""
 
+#: includes/class-backend.php:1281
+#: includes/templates/rule.php:88
+msgid "All products"
+msgstr ""
+
+#: includes/class-backend.php:1283
+msgid "In stock products"
+msgstr ""
+
+#: includes/class-backend.php:1285
+msgid "Out of stock products"
+msgstr ""
+
+#: includes/class-backend.php:1287
+msgid "On backorder products"
+msgstr ""
+
+#: includes/class-backend.php:1291
+#, php-format
+msgid "Stock quantity %s %s"
+msgstr ""
+
+#: includes/class-backend.php:1294
+#, php-format
+msgid "Combined (%d conditions)"
+msgstr ""
+
 #: includes/class-frontend.php:424
-#: includes/templates/settings.php:220
+#: includes/templates/settings.php:296
 msgid "Estimated delivery date"
 msgstr ""
 
 #. translators: %s: delivery date
 #: includes/class-frontend.php:504
 #: includes/class-frontend.php:509
-#: includes/templates/settings.php:227
+#: includes/templates/settings.php:302
 #, php-format
 msgid "Overall estimated dispatch date: %s"
 msgstr ""
@@ -226,303 +515,372 @@ msgid "Date range (Premium)"
 msgstr ""
 
 #: includes/templates/rule.php:27
-msgid "move"
+msgid "Drag to reorder"
 msgstr ""
 
-#: includes/templates/rule.php:33
-msgid "duplicate"
+#: includes/templates/rule.php:35
+msgid "Summary"
 msgstr ""
 
-#: includes/templates/rule.php:34
-msgid "remove"
-msgstr ""
-
-#: includes/templates/rule.php:41
-msgid "Name"
-msgstr ""
-
-#: includes/templates/rule.php:49
-msgid "For management use only."
+#: includes/templates/rule.php:47
+msgid "Duplicate"
 msgstr ""
 
 #: includes/templates/rule.php:55
-msgid "Apply for"
+msgid "Remove"
 msgstr ""
 
-#: includes/templates/rule.php:61
-msgid "All products"
+#: includes/templates/rule.php:68
+msgid "Name"
 msgstr ""
 
-#: includes/templates/rule.php:62
-msgid "In stock"
-msgstr ""
-
-#: includes/templates/rule.php:63
-msgid "Out of stock"
-msgstr ""
-
-#: includes/templates/rule.php:64
-msgid "On backorder"
-msgstr ""
-
-#: includes/templates/rule.php:65
-msgid "Stock quantity"
-msgstr ""
-
-#: includes/templates/rule.php:66
-msgid "Combined (Premium)"
-msgstr ""
-
-#: includes/templates/rule.php:78
-msgid "Equal to"
-msgstr ""
-
-#: includes/templates/rule.php:79
-msgid "Not equal to"
-msgstr ""
-
-#: includes/templates/rule.php:80
-msgid "Greater than"
-msgstr ""
-
-#: includes/templates/rule.php:81
-msgid "Greater or equal to"
+#: includes/templates/rule.php:76
+msgid "For management use only."
 msgstr ""
 
 #: includes/templates/rule.php:82
-msgid "Less than"
+msgid "Apply for"
 msgstr ""
 
-#: includes/templates/rule.php:83
-msgid "Less or equal to"
+#: includes/templates/rule.php:93
+msgid "Combined"
 msgstr ""
 
-#: includes/templates/rule.php:106
+#: includes/templates/rule.php:131
+msgid "* Configure to find products that match all listed conditions."
+msgstr ""
+
+#: includes/templates/rule.php:146
+msgid "+ Add condition"
+msgstr ""
+
+#: includes/templates/rule.php:153
 msgid "Shipping zone"
 msgstr ""
 
-#: includes/templates/rule.php:115
+#: includes/templates/rule.php:162
 msgid "All zones"
 msgstr ""
 
-#: includes/templates/rule.php:128
+#: includes/templates/rule.php:175
 msgid "Shipping method"
 msgstr ""
 
-#: includes/templates/rule.php:137
+#: includes/templates/rule.php:184
 msgid "All methods"
 msgstr ""
 
-#: includes/templates/rule.php:150
+#: includes/templates/rule.php:197
 msgid "Minimum"
 msgstr ""
 
-#: includes/templates/rule.php:156
-#: includes/templates/rule.php:167
+#: includes/templates/rule.php:203
+#: includes/templates/rule.php:214
 msgid "days"
 msgstr ""
 
-#: includes/templates/rule.php:161
+#: includes/templates/rule.php:208
 msgid "Maximum"
 msgstr ""
 
-#: includes/templates/rule.php:172
+#: includes/templates/rule.php:219
 msgid "Scheduled delivery date"
 msgstr ""
 
-#: includes/templates/rule.php:180
+#: includes/templates/rule.php:227
 msgid "You can schedule a date when the delivery will be conducted in the future and the estimated delivery dates will be calculated based on this."
 msgstr ""
 
-#: includes/templates/settings.php:12
+#: includes/templates/settings.php:23
 msgid "Premium"
 msgstr ""
 
-#. translators: stars
-#: includes/templates/settings.php:15
-#, php-format
-msgid "Thank you for using our plugin! If you are satisfied, please reward it a full five-star %s rating."
+#: includes/templates/settings.php:27
+msgid "Establish and personalize delivery dates and times for products in your store."
 msgstr ""
 
-#: includes/templates/settings.php:18
-msgid "Reviews"
-msgstr ""
-
-#: includes/templates/settings.php:20
-msgid "Changelog"
-msgstr ""
-
-#: includes/templates/settings.php:22
-msgid "Discussion"
-msgstr ""
-
-#: includes/templates/settings.php:30
+#: includes/templates/settings.php:36
 msgid "Settings updated."
 msgstr ""
 
-#: includes/templates/settings.php:45
+#: includes/templates/settings.php:44
+#: includes/templates/settings.php:77
+msgid "How to use?"
+msgstr ""
+
+#: includes/templates/settings.php:52
+msgid "Simulator"
+msgstr ""
+
+#: includes/templates/settings.php:57
+#: includes/templates/settings.php:492
+msgid "Premium Version"
+msgstr ""
+
+#: includes/templates/settings.php:62
+msgid "Support"
+msgstr ""
+
+#: includes/templates/settings.php:67
 msgid "Essential Kit"
 msgstr ""
 
-#: includes/templates/settings.php:65
+#: includes/templates/settings.php:78
+msgid "Quick instructions on how to use WPC Estimated Delivery Date."
+msgstr ""
+
+#: includes/templates/settings.php:83
+msgid "1. Default Rule: Under the Settings tab, configure the default delivery calculation rule that applies to all products in your store."
+msgstr ""
+
+#: includes/templates/settings.php:86
+msgid "2. Custom Rules: Add new rules to override estimated delivery dates based on product categories, tags, stock status, or shipping zones."
+msgstr ""
+
+#: includes/templates/settings.php:89
+msgid "3. Skipped Dates: Specify weekends or holidays to exclude them from the delivery time calculation."
+msgstr ""
+
+#: includes/templates/settings.php:92
+msgid "4. Shortcode: Use [wpced] to display the estimated delivery date anywhere on product pages."
+msgstr ""
+
+#: includes/templates/settings.php:115
+msgid "General Settings"
+msgstr ""
+
+#: includes/templates/settings.php:116
+msgid "Configure general display options, messages, and date formatting."
+msgstr ""
+
+#: includes/templates/settings.php:122
 msgid "Position on archive"
 msgstr ""
 
-#: includes/templates/settings.php:75
+#: includes/templates/settings.php:135
 msgid "Position on single"
 msgstr ""
 
-#: includes/templates/settings.php:85
+#: includes/templates/settings.php:148
 msgid "Shortcode"
 msgstr ""
 
 #. translators: shortcode
-#: includes/templates/settings.php:87
+#: includes/templates/settings.php:151
 #, php-format
 msgid "You can use shortcode %s to show the estimated delivery date for current product."
 msgstr ""
 
-#: includes/templates/settings.php:91
+#: includes/templates/settings.php:157
 msgid "Show on cart items"
 msgstr ""
 
-#: includes/templates/settings.php:94
-#: includes/templates/settings.php:104
-#: includes/templates/settings.php:124
-#: includes/templates/settings.php:134
+#: includes/templates/settings.php:161
+#: includes/templates/settings.php:174
+#: includes/templates/settings.php:200
+#: includes/templates/settings.php:213
 msgid "Yes"
 msgstr ""
 
-#: includes/templates/settings.php:95
+#: includes/templates/settings.php:162
 msgid "Yes, as an item's data"
 msgstr ""
 
-#: includes/templates/settings.php:96
-#: includes/templates/settings.php:106
-#: includes/templates/settings.php:125
-#: includes/templates/settings.php:135
+#: includes/templates/settings.php:163
+#: includes/templates/settings.php:176
+#: includes/templates/settings.php:201
+#: includes/templates/settings.php:214
 msgid "No"
 msgstr ""
 
-#: includes/templates/settings.php:101
+#: includes/templates/settings.php:170
 msgid "Show cart overall"
 msgstr ""
 
-#: includes/templates/settings.php:105
+#: includes/templates/settings.php:175
 msgid "Yes, as a plain text"
 msgstr ""
 
-#: includes/templates/settings.php:111
+#: includes/templates/settings.php:183
 msgid "Overall date format"
 msgstr ""
 
-#: includes/templates/settings.php:114
+#: includes/templates/settings.php:187
 msgid "Latest date (default)"
 msgstr ""
 
-#: includes/templates/settings.php:115
+#: includes/templates/settings.php:188
 msgid "Earliest date"
 msgstr ""
 
-#: includes/templates/settings.php:116
+#: includes/templates/settings.php:189
 msgid "Earliest - Latest date"
 msgstr ""
 
-#: includes/templates/settings.php:121
+#: includes/templates/settings.php:196
 msgid "Show on order items"
 msgstr ""
 
-#: includes/templates/settings.php:127
+#: includes/templates/settings.php:203
 msgid "Show the date on order items (order confirmation or emails)."
 msgstr ""
 
-#: includes/templates/settings.php:131
+#: includes/templates/settings.php:209
 msgid "Reload dates"
 msgstr ""
 
-#: includes/templates/settings.php:137
+#: includes/templates/settings.php:216
 msgid "Dates will be reloaded when opening the page? If you use the cache for your site, please turn on this option."
 msgstr ""
 
-#: includes/templates/settings.php:141
+#: includes/templates/settings.php:222
 msgid "Date format"
 msgstr ""
 
-#: includes/templates/settings.php:171
+#: includes/templates/settings.php:253
 msgid "Days count"
 msgstr ""
 
-#: includes/templates/settings.php:172
+#: includes/templates/settings.php:254
 msgid "Custom"
 msgstr ""
 
-#: includes/templates/settings.php:184
+#: includes/templates/settings.php:264
 msgid "Documentation on date and time formatting."
 msgstr ""
 
-#: includes/templates/settings.php:189
+#: includes/templates/settings.php:271
 msgid "Message"
 msgstr ""
 
-#: includes/templates/settings.php:191
+#: includes/templates/settings.php:275
 msgid "Have both minimum and maximum days"
 msgstr ""
 
-#: includes/templates/settings.php:199
+#: includes/templates/settings.php:281
 msgid "Have minimum days only"
 msgstr ""
 
-#: includes/templates/settings.php:207
+#: includes/templates/settings.php:287
 msgid "Have maximum days only"
 msgstr ""
 
-#: includes/templates/settings.php:215
+#: includes/templates/settings.php:293
 msgid "Cart item's data label"
 msgstr ""
 
-#: includes/templates/settings.php:222
+#: includes/templates/settings.php:298
 msgid "Cart overall"
 msgstr ""
 
 #. translators: date
-#: includes/templates/settings.php:229
+#: includes/templates/settings.php:305
 #, php-format
 msgid "Use %s to show the date or date-range. Leave blank to use the default text and its equivalent translation in multiple languages."
 msgstr ""
 
-#: includes/templates/settings.php:233
+#: includes/templates/settings.php:311
 msgid "Current time"
 msgstr ""
 
-#: includes/templates/settings.php:239
+#: includes/templates/settings.php:319
 msgid "Date/time settings"
 msgstr ""
 
-#: includes/templates/settings.php:243
+#: includes/templates/settings.php:326
 msgid "Extra time line"
 msgstr ""
 
-#: includes/templates/settings.php:250
+#: includes/templates/settings.php:332
 msgid "Maximum time to consider an extra day of shipping."
 msgstr ""
 
-#: includes/templates/settings.php:254
+#: includes/templates/settings.php:338
 msgid "Skipped dates"
 msgstr ""
 
-#: includes/templates/settings.php:256
+#: includes/templates/settings.php:343
+msgid "Simple"
+msgstr ""
+
+#: includes/templates/settings.php:344
+msgid "Advanced (Dispatch & Delivery)"
+msgstr ""
+
+#: includes/templates/settings.php:350
 msgid "Select dates to skip in estimated (most shipping don't work on weekends, so you can select Saturday, Sunday and all the saturday and sundays will not be counted in calculating estimated shipping date)."
 msgstr ""
 
-#: includes/templates/settings.php:268
+#: includes/templates/settings.php:364
+#: includes/templates/settings.php:387
+#: includes/templates/settings.php:407
 msgid "+ Add date"
 msgstr ""
 
-#: includes/templates/settings.php:274
+#: includes/templates/settings.php:372
+msgid "Dispatch"
+msgstr ""
+
+#: includes/templates/settings.php:373
+msgid "Days when your warehouse/store does NOT process or dispatch orders (e.g. weekends). Orders placed on these days will be processed on the next available dispatch day."
+msgstr ""
+
+#: includes/templates/settings.php:392
+msgid "Delivery"
+msgstr ""
+
+#: includes/templates/settings.php:393
+msgid "Days when the carrier does NOT deliver packages to buyers (e.g. Sundays). These days will be skipped when counting shipping/transit days."
+msgstr ""
+
+#: includes/templates/settings.php:419
 msgid "Rules"
 msgstr ""
 
-#: includes/templates/settings.php:276
-#: includes/templates/settings.php:331
-msgid "import / export"
+#: includes/templates/settings.php:421
+msgid "Rules are checked from top to bottom. The first matched rule will be applied."
+msgstr ""
+
+#: includes/templates/settings.php:426
+msgid "Expand All"
+msgstr ""
+
+#: includes/templates/settings.php:429
+msgid "Collapse All"
+msgstr ""
+
+#: includes/templates/settings.php:435
+msgid "Import / Export"
+msgstr ""
+
+#: includes/templates/settings.php:472
+msgid "Add rule"
+msgstr ""
+
+#: includes/templates/settings.php:493
+msgid "Unlock powerful features with WPC Estimated Delivery Date Premium."
+msgstr ""
+
+#: includes/templates/settings.php:497
+msgid "Get the Premium Version just $29!"
+msgstr ""
+
+#: includes/templates/settings.php:501
+msgid "Extra features for Premium Version:"
+msgstr ""
+
+#: includes/templates/settings.php:503
+msgid "Use the combined source."
+msgstr ""
+
+#: includes/templates/settings.php:504
+msgid "Add custom skipped dates."
+msgstr ""
+
+#: includes/templates/settings.php:505
+msgid "Add scheduled delivery date for each rule."
+msgstr ""
+
+#: includes/templates/settings.php:506
+msgid "Get the lifetime update & premium support."
 msgstr ""

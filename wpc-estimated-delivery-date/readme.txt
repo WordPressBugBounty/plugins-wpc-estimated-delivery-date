@@ -3,8 +3,7 @@ Contributors: wpclever
 Donate link: https://wpclever.net
 Tags: woocommerce, wpc, estimated, delivery-date, delivery-time
 Tested up to: 7.1
-Version: 3.0.1
-Stable tag: 3.0.1
+Stable tag: 4.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +38,7 @@ Visit our [live demo](https://demo.wpclever.net/wpcstore/product/womens-leather-
 - Show general dates for all items on cart page
 - Visible with customizable positions on the WPC Fly Cart popup
 - Work with common WooCommerce themes & WP add-ons
+- Built-in Delivery Simulator: Test and debug delivery estimates for any product, shipping method, and order time with detailed rule evaluation breakdown
 - Premium: Multiple skipped dates can be configured with the date picker
 - Premium: Extra time line for counting the time with an extra shipping day
 
@@ -68,6 +68,19 @@ The Extra timeline option is available to help sellers have more time processing
 
 Skipped dates are added to let our plugin know when the sellers are unavailable or unable to prepare for the order delivery. So skipped dates can be weekdays, weekends, holidays, vacation time, etc.; what’s more, multiple skipped dates are possible. Dates added as skipped dates will not be counted when calculating the delivery time for the order. This will apply to all products throughout the store.
 
+= Delivery Simulator =
+
+The built-in Delivery Simulator is a powerful diagnostic tool that allows store administrators to test and verify complex delivery date calculations directly from the plugin settings dashboard without having to place real test orders.
+
+By selecting any product (including simple, variable, and variation products), shipping zone, and shipping method, you can simulate an order placed at any specific date and time. The simulator takes into account:
+
+- Daily cut-off time and whether orders placed past the threshold require an extra day for warehouse dispatch.
+- Dispatch skipped dates (weekends, holidays, or warehouse non-operational days).
+- Delivery skipped dates (carrier non-delivery days such as Sundays or public holidays).
+- Priority matching between Global Rules and individual Product Override Rules.
+
+The calculation results provide an end-to-end breakdown: a product overview card, the winning delivery rule, the warehouse dispatch date, the estimated delivery date range, and an evaluated rules report highlighting which rules matched, which were overridden, and why others were excluded.
+
 = Need more features? =
 
 Please try other plugins from us:
@@ -87,6 +100,11 @@ Please try other plugins from us:
 4. Go to WP-admin > WPClever > Estimated Delivery Date to add your rules
 
 == Changelog ==
+
+= 4.0.0 =
+* Added: Delivery simulator
+* Updated: UI improvements
+* Updated: Optimized the code
 
 = 3.0.1 =
 * Updated: Optimized the code
