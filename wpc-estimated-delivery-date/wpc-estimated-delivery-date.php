@@ -8,7 +8,7 @@ Author URI: https://wpclever.net
 Text Domain: wpc-estimated-delivery-date
 Domain Path: /languages/
 Requires Plugins: woocommerce
-Version: 4.0.0
+Version: 4.0.1
 Requires at least: 5.9
 WC requires at least: 3.0
 WC tested up to: 11.1
@@ -18,7 +18,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 defined( 'ABSPATH' ) || exit;   
 
-! defined( 'WPCED_VERSION' ) && define( 'WPCED_VERSION', '4.0.0' );
+! defined( 'WPCED_VERSION' ) && define( 'WPCED_VERSION', '4.0.1' );
 ! defined( 'WPCED_LITE' ) && define( 'WPCED_LITE', __FILE__ );
 ! defined( 'WPCED_FILE' ) && define( 'WPCED_FILE', __FILE__ );
 ! defined( 'WPCED_DIR' ) && define( 'WPCED_DIR', plugin_dir_path( __FILE__ ) );

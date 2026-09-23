@@ -315,9 +315,14 @@
             width: 520,
             dialogClass: 'wpc-dialog wpced-dialog wpced-summary-dialog',
             open: function () {
-                $('.ui-widget-overlay').bind('click', function () {
+                $(this).dialog('widget').siblings('.ui-widget-overlay').addClass('wpced-overlay');
+                $(document).on('click.wpced-summary', '.wpced-overlay', function () {
                     $('#wpced-summary-modal').dialog('close');
                 });
+            },
+            close: function () {
+                $(document).off('click.wpced-summary');
+                $('.wpced-overlay').removeClass('wpced-overlay');
             },
             buttons: {
                 'Close': function () {
@@ -376,9 +381,14 @@
             modal: true,
             dialogClass: 'wpc-dialog',
             open: function () {
-                $('.ui-widget-overlay').bind('click', function () {
+                $(this).dialog('widget').siblings('.ui-widget-overlay').addClass('wpced-overlay');
+                $(document).on('click.wpced-order', '.wpced-overlay', function () {
                     $('#wpced_update_dates_dialog').dialog('close');
                 });
+            },
+            close: function () {
+                $(document).off('click.wpced-order');
+                $('.wpced-overlay').removeClass('wpced-overlay');
             },
         });
 

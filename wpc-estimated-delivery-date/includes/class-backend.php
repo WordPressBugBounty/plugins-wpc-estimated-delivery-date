@@ -432,7 +432,14 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
             wp_die();
         }
 
-        public function enqueue_scripts() {
+        public function enqueue_scripts( $hook ) {
+            $screen = get_current_screen();
+
+            // Only enqueue on the plugin settings page or product add/edit pages.
+            if ( ! str_contains( $hook, 'wpced' ) && ! ( $screen && $screen->post_type === 'product' && in_array( $screen->base, [ 'post', 'post-new' ], true ) ) ) {
+                return;
+            }
+
             // hint
             wp_enqueue_style( 'hint', WPCED_URI . 'assets/css/hint.css', [], WPCED_VERSION );
 

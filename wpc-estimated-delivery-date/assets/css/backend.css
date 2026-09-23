@@ -286,13 +286,15 @@
 
 /* ──── Current Time Badges ───────────────────────────────────── */
 .wpced-current-time-badges {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
 }
 .wpced-current-time-badges code {
-  background: #f1f5f9;
+  background: #e2e8f0;
   border: 1px solid var(--wpced-border);
   border-radius: 6px;
   padding: 5px 10px;
@@ -463,19 +465,19 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  height: 32px;
+  padding: 0 12px;
   background: #f8fafc;
   border: 1px solid var(--wpced-border);
-  color: var(--wpced-muted);
-  padding: 6px 12px;
   border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
+  color: var(--wpced-muted);
+  font-size: 13px;
+  font-weight: 400;
   text-decoration: none;
-  transition: all 0.2s;
   white-space: nowrap;
-  height: 32px;
   box-sizing: border-box;
   cursor: pointer;
+  transition: all 0.2s;
 }
 .wpced-action-tool-btn:hover {
   background: #f1f5f9;
@@ -483,10 +485,10 @@
   border-color: #cbd5e1;
 }
 .wpced-action-tool-btn .dashicons {
-  font-size: 15px;
-  width: 15px;
-  height: 15px;
-  line-height: 15px;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  line-height: 1;
 }
 
 .wpced-import-export-btn {
@@ -499,7 +501,7 @@
   padding: 6px 14px;
   border-radius: 6px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.2s;
   box-shadow: var(--wpced-shadow);
@@ -895,6 +897,10 @@
 .wpced-item .wpced-item-line .wpced-item-input {
   flex: 1;
   min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 .wpced-item .wpced-item-line .wpced-item-input input[type=text],
 .wpced-item .wpced-item-line .wpced-item-input input[type=number],
@@ -928,16 +934,9 @@
   padding-right: 32px;
 }
 .wpced-item .wpced-item-line .wpced-item-input .wpced_apply_stock {
-  margin-top: 10px;
   display: flex;
   align-items: center;
   gap: 8px;
-}
-.wpced-item .wpced-item-line .wpced-item-input .wpced_apply_combined {
-  margin-top: 10px;
-}
-.wpced-item .wpced-item-line .wpced-item-input .wpced_apply_combined .wpced_apply_conditions {
-  margin-top: 8px;
 }
 .wpced-item .wpced-item-line .wpced-item-input .wpced_apply_combined .wpced_apply_conditions p.description {
   margin-bottom: 10px;
@@ -993,6 +992,9 @@
 .wpced-item .wpced-item-line .wpced-item-input .wpced_apply_combined .wpced_add_apply_condition {
   margin-top: 8px;
 }
+.wpced-item .wpced-item-line .wpced-item-input .description {
+  margin-left: 0;
+}
 .wpced-item .select2-container {
   width: 100% !important;
   max-width: 100% !important;
@@ -1000,7 +1002,10 @@
   float: none !important;
   box-sizing: border-box !important;
   display: inline-block !important;
-  margin-top: 8px;
+}
+.wpced-item .select2-container .select2-selection {
+  border-radius: 6px;
+  border: 1px solid var(--wpced-border);
 }
 .wpced-item .select2-container .select2-search__field {
   border: none !important;
@@ -1154,13 +1159,14 @@ body.rtl .wpced-sum-relation {
 .wpced-settings label {
   float: none !important;
   margin: 0 !important;
+  width: auto !important;
 }
 .wpced-product-settings .wpced-settings, .wpced-variation-settings .wpced-settings {
   padding: 12px;
 }
 .wpced-settings .wpced-select-wrapper select {
   float: none !important;
-  margin: 0 !important;
+  margin: 0 0 0 10px !important;
 }
 .wpced-settings .wpced-single-product {
   margin-top: 12px;
@@ -1611,19 +1617,41 @@ body.rtl .wpced-sum-relation {
   border-color: var(--wpced-primary) !important;
 }
 
-.wpced_date_time_input {
+.wpced_date_time_input,
+.wpced_scheduled,
+.wpced-date-val,
+.wpced-order-item-date-val {
   padding-left: 40px !important;
   background-color: #fff;
   background-repeat: no-repeat !important;
   background-position: 12px center !important;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%2364748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>') !important;
 }
-.wpced_date_time_input:focus {
+.wpced_date_time_input:focus,
+.wpced_scheduled:focus,
+.wpced-date-val:focus,
+.wpced-order-item-date-val:focus {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%2310b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>') !important;
   border-color: var(--wpced-primary) !important;
 }
 
+.wpced-time-val {
+  padding-left: 40px !important;
+  background-color: #fff;
+  background-repeat: no-repeat !important;
+  background-position: 12px center !important;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%2364748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>') !important;
+}
+.wpced-time-val:focus {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%2310b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>') !important;
+  border-color: var(--wpced-primary) !important;
+}
+
 body.rtl .wpced_date_time_input,
+body.rtl .wpced_scheduled,
+body.rtl .wpced-date-val,
+body.rtl .wpced-order-item-date-val,
+body.rtl .wpced-time-val,
 body.rtl .wpced-sim-row input.wpced_date_time_input {
   padding-left: 12px !important;
   padding-right: 40px !important;
@@ -1653,47 +1681,6 @@ body.rtl .wpced-sim-row input.wpced_date_time_input {
 .wpced-sim-datetime-wrap input {
   flex: 1;
   min-width: 0;
-}
-
-.wpced-action-tool-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  height: 32px;
-  padding: 0 12px;
-  border: 1px solid var(--wpced-border);
-  border-radius: 6px;
-  background: #fff;
-  color: var(--wpced-text);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s;
-}
-.wpced-action-tool-btn:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
-}
-.wpced-action-tool-btn .dashicons {
-  font-size: 16px;
-  width: 16px;
-  height: 16px;
-}
-
-.wpced-current-time-badges {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.wpced-current-time-badges code {
-  background: #e2e8f0;
-  color: var(--wpced-text);
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-size: 12px;
 }
 
 .wpced-sim-actions {

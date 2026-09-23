@@ -90,7 +90,7 @@ $rule = array_merge( Wpced_Backend()->get_base_rule(), $rule );
                         <option value="outofstock" <?php selected( $rule['apply'], 'outofstock' ); ?>><?php esc_html_e( 'Out of stock', 'wpc-estimated-delivery-date' ); ?></option>
                         <option value="backorder" <?php selected( $rule['apply'], 'backorder' ); ?>><?php esc_html_e( 'On backorder', 'wpc-estimated-delivery-date' ); ?></option>
                         <option value="stock" <?php selected( $rule['apply'], 'stock' ); ?>><?php esc_html_e( 'Stock quantity', 'wpc-estimated-delivery-date' ); ?></option>
-                        <option value="combined" <?php selected( $rule['apply'], 'combined' ); ?>><?php esc_html_e( 'Combined', 'wpc-estimated-delivery-date' ); ?></option>
+                        <option value="combined" disabled><?php esc_html_e( 'Combined (Premium)', 'wpc-estimated-delivery-date' ); ?></option>
 						<?php
 						$taxonomies = get_object_taxonomies( 'product', 'objects' );
 
@@ -125,26 +125,6 @@ $rule = array_merge( Wpced_Backend()->get_base_rule(), $rule );
 								}
 							} ?>
                         </select> </label>
-                </div>
-                <div class="wpced_apply_combined<?php echo esc_attr( $rule['apply'] !== 'combined' ? ' wpced-hidden' : '' ); ?>">
-                    <div class="wpced_apply_conditions">
-                        <p class="description"><?php esc_html_e( '* Configure to find products that match all listed conditions.', 'wpc-estimated-delivery-date' ); ?></p>
-                        <?php
-                        $combined_conditions = ! empty( $rule['apply_conditions'] ) ? (array) $rule['apply_conditions'] : [];
-
-                        if ( ! empty( $combined_conditions ) ) {
-                            foreach ( $combined_conditions as $condition_key => $condition_item ) {
-                                echo Wpced_Backend()::render_apply_condition( $key, $name, $condition_key, $condition_item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML is fully escaped internally by render_apply_condition() using esc_attr() and esc_html() on all dynamic values
-                            }
-                        }
-                        ?>
-                    </div>
-                    <div class="wpced_add_apply_condition">
-                        <a class="wpced_new_apply_condition button"
-                           data-rule_key="<?php echo esc_attr( $key ); ?>"
-                           data-name="<?php echo esc_attr( $name ); ?>"
-                           href="#"><?php esc_html_e( '+ Add condition', 'wpc-estimated-delivery-date' ); ?></a>
-                    </div>
                 </div>
             </div>
         </div>

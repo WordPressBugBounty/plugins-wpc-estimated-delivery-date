@@ -495,14 +495,13 @@ $rules      = Wpced_Backend()->get_rules();
                 </div>
                 <div class="wpced-settings-page-content-text">
                     <p><?php esc_html_e( 'Get the Premium Version just $29!', 'wpc-estimated-delivery-date' ); ?>
-                        <a href="https://wpclever.net/downloads/wpc-estimated-delivery-date?utm_source=pro&utm_medium=wpced&utm_campaign=wporg"
-                           target="_blank">https://wpclever.net/downloads/wpc-estimated-delivery-date</a>
+                        <a href="https://wpclever.net/downloads/wpc-estimated-delivery-date/?utm_source=pro&utm_medium=wpced&utm_campaign=wporg"
+                           target="_blank">https://wpclever.net/downloads/wpc-estimated-delivery-date/</a>
                     </p>
                     <p><strong><?php esc_html_e( 'Extra features for Premium Version:', 'wpc-estimated-delivery-date' ); ?></strong></p>
                     <ul class="wpced-mb-0">
                         <li>- <?php esc_html_e( 'Use the combined source.', 'wpc-estimated-delivery-date' ); ?></li>
                         <li>- <?php esc_html_e( 'Add custom skipped dates.', 'wpc-estimated-delivery-date' ); ?></li>
-                        <li>- <?php esc_html_e( 'Add scheduled delivery date for each rule.', 'wpc-estimated-delivery-date' ); ?></li>
                         <li>- <?php esc_html_e( 'Get the lifetime update & premium support.', 'wpc-estimated-delivery-date' ); ?></li>
                     </ul>
                 </div>
