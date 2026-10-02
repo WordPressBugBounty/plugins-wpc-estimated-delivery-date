@@ -383,12 +383,18 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
         }
 
         public function ajax_add_rule() {
+            check_ajax_referer( 'wpced-security', 'nonce' );
+
+            if ( ! current_user_can( 'manage_woocommerce' ) ) {
+                wp_die( esc_html__( 'Permissions check failed!', 'wpc-estimated-delivery-date' ) );
+            }
+
             $key          = Wpced_Helper()->generate_key();
-            $product_id   = absint( sanitize_text_field( wp_unslash( $_POST['product_id'] ?? 0 ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- read-only AJAX handler that only renders UI template, does not write to DB
-            $is_variation = wc_string_to_bool( sanitize_text_field( wp_unslash( $_POST['is_variation'] ?? 'no' ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- read-only AJAX handler that only renders UI template, does not write to DB
+            $product_id   = absint( sanitize_text_field( wp_unslash( $_POST['product_id'] ?? 0 ) ) );
+            $is_variation = wc_string_to_bool( sanitize_text_field( wp_unslash( $_POST['is_variation'] ?? 'no' ) ) );
             $rule_name    = $is_variation ? 'wpced_rules_v' : 'wpced_rules';
-            $rule_data = wp_unslash( $_POST['rule_data'] ?? '' ); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- read-only AJAX handler; URL-encoded string decoded via parse_str() then sanitized via Wpced_Helper()->sanitize_array()
-            $rule_arr  = [];
+            $rule_data    = wp_unslash( $_POST['rule_data'] ?? '' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- URL-encoded string decoded via parse_str() then sanitized via Wpced_Helper()->sanitize_array()
+            $rule_arr     = [];
 
             if ( ! empty( $rule_data ) ) {
                 $form_rule = [];
@@ -414,8 +420,14 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
         }
 
         public function ajax_add_apply_condition() {
-            $rule_key       = sanitize_text_field( wp_unslash( $_POST['rule_key'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- read-only AJAX handler that only renders apply condition UI, does not write to DB
-            $name           = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- read-only AJAX handler that only renders apply condition UI, does not write to DB
+            check_ajax_referer( 'wpced-security', 'nonce' );
+
+            if ( ! current_user_can( 'manage_woocommerce' ) ) {
+                wp_die( esc_html__( 'Permissions check failed!', 'wpc-estimated-delivery-date' ) );
+            }
+
+            $rule_key       = sanitize_text_field( wp_unslash( $_POST['rule_key'] ?? '' ) );
+            $name           = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) );
             $condition_key  = Wpced_Helper()->generate_key();
             $condition_item = [];
 
@@ -425,8 +437,14 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
         }
 
         public function ajax_add_date() {
+            check_ajax_referer( 'wpced-security', 'nonce' );
+
+            if ( ! current_user_can( 'manage_woocommerce' ) ) {
+                wp_die( esc_html__( 'Permissions check failed!', 'wpc-estimated-delivery-date' ) );
+            }
+
             $date         = [];
-            $date_context = sanitize_text_field( wp_unslash( $_POST['context'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- read-only AJAX handler that only renders date template, does not write to DB
+            $date_context = sanitize_text_field( wp_unslash( $_POST['context'] ?? '' ) );
             include WPCED_DIR . 'includes/templates/date.php';
 
             wp_die();
@@ -461,6 +479,12 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
         }
 
         function ajax_search_term() {
+            check_ajax_referer( 'wpced-security', 'nonce' );
+
+            if ( ! current_user_can( 'manage_woocommerce' ) ) {
+                wp_send_json_error( [ 'message' => esc_html__( 'Permissions check failed!', 'wpc-estimated-delivery-date' ) ] );
+            }
+
             $return = [];
 
             $args = [
@@ -484,8 +508,14 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
         }
 
         function ajax_date_format_preview() {
+            check_ajax_referer( 'wpced-security', 'nonce' );
+
+            if ( ! current_user_can( 'manage_woocommerce' ) ) {
+                wp_die( esc_html__( 'Permissions check failed!', 'wpc-estimated-delivery-date' ) );
+            }
+
             /* translators: %s: date preview */
-            echo sprintf( esc_html__( 'Preview: %s', 'wpc-estimated-delivery-date' ), esc_html( current_time( sanitize_text_field( wp_unslash( $_POST['date_format'] ?? '' ) ) ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- read-only AJAX handler that only previews date format, does not write to DB
+            echo sprintf( esc_html__( 'Preview: %s', 'wpc-estimated-delivery-date' ), esc_html( current_time( sanitize_text_field( wp_unslash( $_POST['date_format'] ?? '' ) ) ) ) );
             wp_die();
         }
 
@@ -683,7 +713,6 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
                 <div class="wpced-card-header">
                     <div>
                         <h2 class="wpced-card-title">
-                            <span class="dashicons dashicons-calculator"></span>
                             <?php esc_html_e( 'Delivery Simulator', 'wpc-estimated-delivery-date' ); ?>
                         </h2>
                         <p class="wpced-card-desc">
@@ -788,7 +817,7 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
         public function ajax_simulate() {
             check_ajax_referer( 'wpced-security', 'nonce' );
 
-            if ( ! current_user_can( 'manage_options' ) ) {
+            if ( ! current_user_can( 'manage_woocommerce' ) ) {
                 wp_send_json_error( [ 'message' => esc_html__( 'Unauthorized permission.', 'wpc-estimated-delivery-date' ) ] );
             }
 

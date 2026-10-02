@@ -82,6 +82,7 @@
 
         $.post(ajaxurl, {
             action: 'wpced_add_apply_condition',
+            nonce: wpced_vars.nonce,
             rule_key: rule_key,
             name: name,
         }, function (response) {
@@ -139,6 +140,7 @@
 
         $.post(ajaxurl, {
             action: 'wpced_add_rule',
+            nonce: wpced_vars.nonce,
             product_id: product_id,
             is_variation: is_variation,
         }, function (response) {
@@ -163,6 +165,7 @@
 
         $.post(ajaxurl, {
             action: 'wpced_add_rule',
+            nonce: wpced_vars.nonce,
             product_id: product_id,
             is_variation: is_variation,
             rule_data: rule_data,
@@ -349,6 +352,7 @@
 
         $.post(ajaxurl, {
             action: 'wpced_add_date',
+            nonce: wpced_vars.nonce,
             context: context,
         }, function (response) {
             $container.append(response);
@@ -546,7 +550,7 @@
                 ajax: {
                     url: ajaxurl, dataType: 'json', delay: 250, data: function (params) {
                         return {
-                            q: params.term, action: 'wpced_search_term', taxonomy: apply,
+                            q: params.term, action: 'wpced_search_term', nonce: wpced_vars.nonce, taxonomy: apply,
                         };
                     }, processResults: function (data) {
                         var options = [];
@@ -577,6 +581,7 @@
 
         $.post(ajaxurl, {
             action: 'wpced_date_format_preview',
+            nonce: wpced_vars.nonce,
             date_format: $('.wpced-date-format-custom').val(),
         }, function (response) {
             $('.wpced-date-format-preview').html(response);
