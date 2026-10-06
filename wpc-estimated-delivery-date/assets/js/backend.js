@@ -371,7 +371,11 @@
     });
 
     $(document).on('click touch', '.wpced-update-dates', function (e) {
-        var order_id = $('#post_ID').val();
+        var order_id = $(this).attr('data-id') || $('#post_ID').val();
+
+        if ($('#wpced_update_dates_dialog').length === 0) {
+            $('body').append('<div class="wpced-update-dates-dialog" id="wpced_update_dates_dialog" style="display: none" title="' + wpced_vars.i18n_update_delivery_dates + '"></div>');
+        }
 
         var data = {
             action: 'wpced_get_order_dates',
@@ -424,6 +428,7 @@
         };
 
         $.post(ajaxurl, data, function (response) {
+            $('#wpced_update_dates_dialog').removeClass('loading');
             $('#wpced_update_dates_dialog').dialog('close');
             $('#woocommerce-order-items').trigger('wc_order_items_reload');
         });
@@ -675,6 +680,7 @@
                             q: params.term,
                             action: 'wpced_search_term',
                             taxonomy: currentTaxonomy,
+                            nonce: wpced_vars.nonce
                         };
                     },
                     processResults: function (data) {

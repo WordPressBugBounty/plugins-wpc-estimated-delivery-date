@@ -453,8 +453,12 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
         public function enqueue_scripts( $hook ) {
             $screen = get_current_screen();
 
-            // Only enqueue on the plugin settings page or product add/edit pages.
-            if ( ! str_contains( $hook, 'wpced' ) && ! ( $screen && $screen->post_type === 'product' && in_array( $screen->base, [ 'post', 'post-new' ], true ) ) ) {
+            // Only enqueue on the plugin settings page, product, or order edit pages.
+            $is_wpced   = str_contains( $hook, 'wpced' );
+            $is_product = ( $screen && $screen->post_type === 'product' && in_array( $screen->base, [ 'post', 'post-new' ], true ) );
+            $is_order   = ( $screen && $screen->post_type === 'shop_order' && in_array( $screen->base, [ 'post', 'post-new' ], true ) ) || $hook === 'woocommerce_page_wc-orders';
+            
+            if ( ! $is_wpced && ! $is_product && ! $is_order ) {
                 return;
             }
 
@@ -474,7 +478,8 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
                     'selectWoo'
             ], WPCED_VERSION, true );
             wp_localize_script( 'wpced-backend', 'wpced_vars', [
-                    'nonce' => wp_create_nonce( 'wpced-security' )
+                    'nonce'                      => wp_create_nonce( 'wpced-security' ),
+                    'i18n_update_delivery_dates' => esc_html__( 'Update delivery dates', 'wpc-estimated-delivery-date' )
             ] );
         }
 
@@ -566,9 +571,9 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
             wp_die();
         }
 
-        function add_action_buttons() {
-            echo '<button type="button" class="button wpced-update-dates">' . esc_html__( 'Update delivery dates', 'wpc-estimated-delivery-date' ) . '</button>';
-            echo '<div class="wpced-update-dates-dialog" id="wpced_update_dates_dialog" style="display: none" title="' . esc_attr__( 'Update delivery dates', 'wpc-estimated-delivery-date' ) . '"></div>';
+        function add_action_buttons( $order ) {
+            $order_id = ( $order instanceof WC_Order ) ? $order->get_id() : 0;
+            echo '<button type="button" class="button wpced-update-dates" data-id="' . esc_attr( $order_id ) . '">' . esc_html__( 'Update delivery dates', 'wpc-estimated-delivery-date' ) . '</button>';
         }
 
         public static function get_base_rule() {
