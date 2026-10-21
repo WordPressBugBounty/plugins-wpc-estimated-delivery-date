@@ -309,14 +309,18 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				$max_time = self::get_date( $rule['max'], $rule['scheduled'] );
 
 				if ( $rule['min'] !== '' ) {
-					$delivery_date   .= apply_filters( 'wpced_dates_separator', ' - ' );
-					$delivery_date_u .= apply_filters( 'wpced_dates_separator', ' - ' );
+					// both min and max are set: allow showing the min date only
+					if ( apply_filters( 'wpced_show_max_date', true, $product, $rule, $type, $context ) ) {
+						$delivery_date   .= apply_filters( 'wpced_dates_separator', ' - ' );
+						$delivery_date_u .= apply_filters( 'wpced_dates_separator', ' - ' );
+						$delivery_date   .= self::format_date( $max_time );
+						$delivery_date_u .= $max_time;
+					}
 				} else {
-					$is_max = true;
+					$is_max          = true;
+					$delivery_date   .= self::format_date( $max_time );
+					$delivery_date_u .= $max_time;
 				}
-
-				$delivery_date   .= self::format_date( $max_time );
-				$delivery_date_u .= $max_time;
 			}
 
 			if ( $type === 'u' || $type === 'U' ) {
