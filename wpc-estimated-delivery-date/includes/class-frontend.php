@@ -64,6 +64,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 
 			// AJAX
 			add_action( 'wc_ajax_wpced_reload_dates', [ $this, 'ajax_reload_dates' ] );
+			add_action( 'wc_ajax_wpced_countdown_refresh', [ $this, 'ajax_countdown_refresh' ] );
 
 			// Cart
 			if ( Wpced_Backend()->get_setting( 'cart_item', 'no' ) === 'yes' ) {
@@ -94,7 +95,8 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			wp_localize_script( 'wpced-frontend', 'wpced_vars', [
 				'wc_ajax_url'  => WC_AJAX::get_endpoint( '%%endpoint%%' ),
 				'nonce'        => wp_create_nonce( 'wpced-security' ),
-				'reload_dates' => apply_filters( 'wpced_reload_dates', wc_string_to_bool( Wpced_Backend()->get_setting( 'reload_dates', 'no' ) ) )
+				'reload_dates' => apply_filters( 'wpced_reload_dates', wc_string_to_bool( Wpced_Backend()->get_setting( 'reload_dates', 'no' ) ) ),
+				'server_time'  => time(), // UTC timestamp used to sync the countdown timer with the server clock
 			] );
 		}
 
@@ -110,7 +112,35 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				}
 			}
 
+			// current server time, used by the countdown timer to stay in sync
+			$dates['wpced_server_time'] = time();
+
 			wp_send_json( $dates );
+		}
+
+		function ajax_countdown_refresh() {
+			// phpcs:disable WordPress.Security.NonceVerification.Missing -- read-only endpoint that only returns public delivery messages
+			$items = isset( $_POST['items'] ) && is_array( $_POST['items'] ) ? wp_unslash( $_POST['items'] ) : []; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- each value is sanitized below
+			// phpcs:enable WordPress.Security.NonceVerification.Missing
+			$dates = [];
+
+			foreach ( array_slice( $items, 0, 50 ) as $item ) {
+				if ( ! is_array( $item ) ) {
+					continue;
+				}
+
+				$id      = absint( $item['id'] ?? 0 );
+				$context = sanitize_key( $item['context'] ?? '' ) ?: 'product';
+
+				if ( $id ) {
+					$dates[ $id . '|' . $context ] = self::get_product_date( $id, 'full', $context );
+				}
+			}
+
+			wp_send_json( [
+				'server_time' => time(),
+				'dates'       => $dates,
+			] );
 		}
 
 		public static function get_rule( $product, $shipping_method = null ) {
@@ -276,7 +306,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			echo wp_kses_post( self::get_product_date( $product ) );
 		}
 
-		function get_product_date( $product, $type = 'full', $context = 'product' ) {
+		function get_product_date( $product, $type = 'full', $context = 'product', $countdown = true ) {
 			if ( is_numeric( $product ) ) {
 				$product_id = $product;
 				$product    = wc_get_product( $product_id );
@@ -362,8 +392,28 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 				$wrapper_id    = is_a( $product, 'WC_Product_Variation' ) ? $product->get_parent_id() : $product_id;
 				$wrapper_class = apply_filters( 'wpced_wrapper_class', 'wpced wpced-' . $wrapper_id . ' wpced-' . $context . ' wpced-' . ( $rule['key'] ?? 'default' ), $product, $type, $context );
 
+				// cut-off countdown: {countdown} or {time_left} tags
+				$countdown_target = 0;
+
+				if ( self::has_countdown_tag( $delivery_text ) ) {
+					if ( $countdown && ! empty( $delivery_date ) ) {
+						$countdown_target = self::get_countdown_target( $rule['scheduled'] ?? '' );
+					}
+
+					if ( ! $countdown_target ) {
+						// no cut-off time, or the message is stored statically (e.g. order items), use the default text
+						$delivery_text = $default_text;
+					}
+				}
+
 				if ( ! empty( $delivery_date ) ) {
-					$product_date = '<div class="' . esc_attr( $wrapper_class ) . '" data-id="' . esc_attr( $wrapper_id ) . '"><div class="wpced-inner">' . sprintf( $delivery_text, $delivery_date ) . '</div></div>';
+					$delivery_message = self::replace_date_tag( sprintf( $delivery_text, $delivery_date ), $delivery_date );
+
+					if ( $countdown_target ) {
+						$delivery_message = self::replace_countdown_tags( $delivery_message, $countdown_target, $product_id, $context );
+					}
+
+					$product_date = '<div class="' . esc_attr( $wrapper_class ) . '" data-id="' . esc_attr( $wrapper_id ) . '"><div class="wpced-inner">' . $delivery_message . '</div></div>';
 				} else {
 					// keep wrapper for variable product
 					$product_date = '<div class="' . esc_attr( $wrapper_class ) . '" data-id="' . esc_attr( $wrapper_id ) . '"></div>';
@@ -371,6 +421,126 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			}
 
 			return apply_filters( 'wpced_get_product_date', $product_date, $product, $type, $context );
+		}
+
+		function replace_date_tag( $text, $date ) {
+			return preg_replace_callback( '/\{date\}/i', function () use ( $date ) {
+				return $date;
+			}, (string) $text );
+		}
+
+		function has_countdown_tag( $text ) {
+			return (bool) preg_match( '/\{(?:countdown|time_left)\}/i', (string) $text );
+		}
+
+		function replace_countdown_tags( $text, $target, $product_id = 0, $context = 'product' ) {
+			$format    = self::get_countdown_format();
+			$remaining = max( 0, (int) $target - time() );
+			$countdown = '<span class="wpced-countdown" role="timer" data-target="' . esc_attr( (int) $target ) . '" data-format="' . esc_attr( $format ) . '" data-product="' . esc_attr( absint( $product_id ) ) . '" data-context="' . esc_attr( $context ) . '">' . esc_html( self::format_countdown( $remaining, $format ) ) . '</span>';
+
+			return preg_replace_callback( '/\{(?:countdown|time_left)\}/i', function () use ( $countdown ) {
+				return $countdown;
+			}, $text );
+		}
+
+		function get_countdown_format() {
+			/* translators: countdown format, {h}: hours, {m}: minutes, {s}: seconds */
+			$default_format = __( '{h}h {m}m {s}s', 'wpc-estimated-delivery-date' );
+			$format         = Wpced_Backend()->get_setting( 'countdown_format', $default_format );
+
+			if ( empty( $format ) ) {
+				$format = $default_format;
+			}
+
+			return apply_filters( 'wpced_countdown_format', $format );
+		}
+
+		/**
+		 * Format the remaining seconds. Supported tokens: {d} {h} {m} {s} and zero-padded {hh} {mm} {ss}.
+		 * A unit that isn't used in the format is folded into the next smaller unit.
+		 * Keep this in sync with wpcedFormatCountdown() in assets/js/frontend.js.
+		 */
+		function format_countdown( $seconds, $format ) {
+			$seconds   = max( 0, (int) $seconds );
+			$use_days  = strpos( $format, '{d}' ) !== false;
+			$use_hours = strpos( $format, '{h}' ) !== false || strpos( $format, '{hh}' ) !== false;
+			$use_mins  = strpos( $format, '{m}' ) !== false || strpos( $format, '{mm}' ) !== false;
+			$days      = 0;
+			$hours     = 0;
+			$minutes   = 0;
+
+			if ( $use_days ) {
+				$days    = (int) floor( $seconds / 86400 );
+				$seconds -= $days * 86400;
+			}
+
+			if ( $use_hours ) {
+				$hours   = (int) floor( $seconds / 3600 );
+				$seconds -= $hours * 3600;
+			}
+
+			if ( $use_mins ) {
+				$minutes = (int) floor( $seconds / 60 );
+				$seconds -= $minutes * 60;
+			}
+
+			return strtr( $format, [
+				'{d}'  => $days,
+				'{h}'  => $hours,
+				'{hh}' => str_pad( $hours, 2, '0', STR_PAD_LEFT ),
+				'{m}'  => $minutes,
+				'{mm}' => str_pad( $minutes, 2, '0', STR_PAD_LEFT ),
+				'{s}'  => $seconds,
+				'{ss}' => str_pad( $seconds, 2, '0', STR_PAD_LEFT ),
+			] );
+		}
+
+		/**
+		 * Get the next cut-off moment as a real (UTC) timestamp, calculated in the WordPress timezone.
+		 * Days that are skipped for dispatch are passed over, so the countdown always points to the
+		 * cut-off of the next day on which orders are actually dispatched.
+		 *
+		 * @param string $scheduled Optional scheduled start date of the rule.
+		 *
+		 * @return int Timestamp, 0 if there is no cut-off time or no upcoming cut-off.
+		 */
+		function get_countdown_target( $scheduled = '' ) {
+			$cutoff = Wpced_Backend()->get_setting( 'extra_time_line' );
+
+			if ( empty( $cutoff ) ) {
+				return 0;
+			}
+
+			try {
+				$tz     = wp_timezone();
+				$now    = new DateTimeImmutable( 'now', $tz );
+				$now_ts = $now->getTimestamp();
+				$day    = $now->setTime( 0, 0 );
+
+				if ( ! empty( $scheduled ) ) {
+					$scheduled_ts = strtotime( $scheduled );
+
+					if ( $scheduled_ts && ( $scheduled_ts > strtotime( $now->format( 'm/d/Y' ) ) ) ) {
+						$day = new DateTimeImmutable( gmdate( 'Y-m-d', $scheduled_ts ) . ' 00:00:00', $tz );
+					}
+				}
+
+				for ( $i = 0; $i < 100; $i ++ ) {
+					if ( ! self::check_skipped( $day->format( 'm/d/Y' ), $day->format( 'w' ), 'dispatch' ) ) {
+						$cutoff_ts = ( new DateTimeImmutable( $day->format( 'Y-m-d' ) . ' ' . $cutoff, $tz ) )->getTimestamp();
+
+						if ( $cutoff_ts >= $now_ts ) {
+							return (int) apply_filters( 'wpced_countdown_target', $cutoff_ts, $scheduled );
+						}
+					}
+
+					$day = $day->modify( '+1 day' );
+				}
+			} catch ( Exception $e ) {
+				return 0;
+			}
+
+			return 0;
 		}
 
 		function show_date_archive_position( $pos = 'none' ) {
@@ -508,12 +678,13 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 					$default_text  = esc_html__( 'Overall estimated dispatch date: %s', 'wpc-estimated-delivery-date' );
 					$delivery_text = Wpced_Backend()->get_setting( 'text_cart_overall', $default_text );
 
-					if ( empty( $delivery_text ) ) {
+					if ( empty( $delivery_text ) || self::has_countdown_tag( $delivery_text ) ) {
+						// the countdown isn't supported in the cart overall message
 						/* translators: %s: delivery date */
 						$delivery_text = esc_html__( 'Overall estimated dispatch date: %s', 'wpc-estimated-delivery-date' );
 					}
 
-					return apply_filters( 'wpced_get_overall_date', sprintf( $delivery_text, $delivery_date ), $shipping_method );
+					return apply_filters( 'wpced_get_overall_date', self::replace_date_tag( sprintf( $delivery_text, $delivery_date ), $delivery_date ), $shipping_method );
 				}
 			}
 
@@ -527,7 +698,7 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 			$available            = [];
 			$days                 = absint( $days );
 			$current_unix         = current_time( 'U' );
-			$current_time         = current_time( 'h:i a' );
+			$current_time         = current_time( 'h:i:s a' ); // seconds precision, so the cut-off matches the countdown timer
 			$current_date         = current_time( 'm/d/Y' );
 			$current_weekday      = current_time( 'w' );
 			$extra_time_line      = Wpced_Backend()->get_setting( 'extra_time_line' );
@@ -658,7 +829,8 @@ if ( ! class_exists( 'Wpced_Frontend' ) ) {
 		}
 
 		function create_order_line_item( $order_item, $cart_item_key, $values ) {
-			$order_item->update_meta_data( '_wpced_date', self::get_product_date( $values['data'] ) );
+			// the countdown can't be stored in an order, so it's disabled here
+			$order_item->update_meta_data( '_wpced_date', self::get_product_date( $values['data'], 'full', 'product', false ) );
 		}
 
 		function hidden_order_itemmeta( $hidden ) {

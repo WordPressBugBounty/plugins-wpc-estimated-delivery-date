@@ -1295,7 +1295,7 @@ if ( ! class_exists( 'Wpced_Backend' ) ) {
                 $delivery_tpl = self::get_setting( 'text', $default_text ) ?: $default_text;
             }
 
-            $delivery_text_preview = sprintf( $delivery_tpl, $date_range_display );
+            $delivery_text_preview = Wpced_Frontend()->replace_date_tag( sprintf( $delivery_tpl, $date_range_display ), $date_range_display );
 
             return [
                 'dispatch_date_unix'      => $dispatch_date_unix,

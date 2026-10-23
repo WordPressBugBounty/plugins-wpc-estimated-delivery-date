@@ -91,6 +91,9 @@ $rules      = Wpced_Backend()->get_rules();
                     <p>
                         <?php esc_html_e( '4. Shortcode: Use [wpced] to display the estimated delivery date anywhere on product pages.', 'wpc-estimated-delivery-date' ); ?>
                     </p>
+                    <p>
+                        <?php esc_html_e( '5. Cut-off countdown: Set an Extra time line, then add {countdown} (or {time_left}) to a delivery message. The timer follows the WordPress timezone and rolls over to the next dispatch day after the cut-off.', 'wpc-estimated-delivery-date' ); ?>
+                    </p>
                 </div>
             </div>
         <?php } elseif ( $active_tab === 'settings' ) {
@@ -276,19 +279,19 @@ $rules      = Wpced_Backend()->get_rules();
                                 <input type="text" name="wpced_settings[text]" class="large-text wpced-input-full"
                                        value="<?php echo esc_attr( Wpced_Backend()->get_setting( 'text' ) ); ?>"
                                        placeholder="<?php /* translators: %s: delivery date */
-                                       esc_attr_e( 'Estimated delivery dates: %s', 'wpc-estimated-delivery-date' ); ?>"/>
+                                       echo esc_attr( str_replace( '%s', '{date}', __( 'Estimated delivery dates: %s', 'wpc-estimated-delivery-date' ) ) ); ?>"/>
 
                                 <label class="wpced-field-sublabel"><?php esc_html_e( 'Have minimum days only', 'wpc-estimated-delivery-date' ); ?></label>
                                 <input type="text" name="wpced_settings[text_min]" class="large-text wpced-input-full"
                                        value="<?php echo esc_attr( Wpced_Backend()->get_setting( 'text_min' ) ); ?>"
                                        placeholder="<?php /* translators: %s: delivery date */
-                                       esc_attr_e( 'Earliest estimated delivery date: %s', 'wpc-estimated-delivery-date' ); ?>"/>
+                                       echo esc_attr( str_replace( '%s', '{date}', __( 'Earliest estimated delivery date: %s', 'wpc-estimated-delivery-date' ) ) ); ?>"/>
 
                                 <label class="wpced-field-sublabel"><?php esc_html_e( 'Have maximum days only', 'wpc-estimated-delivery-date' ); ?></label>
                                 <input type="text" name="wpced_settings[text_max]" class="large-text wpced-input-full"
                                        value="<?php echo esc_attr( Wpced_Backend()->get_setting( 'text_max' ) ); ?>"
                                        placeholder="<?php /* translators: %s: delivery date */
-                                       esc_attr_e( 'Latest estimated delivery date: %s', 'wpc-estimated-delivery-date' ); ?>"/>
+                                       echo esc_attr( str_replace( '%s', '{date}', __( 'Latest estimated delivery date: %s', 'wpc-estimated-delivery-date' ) ) ); ?>"/>
 
                                 <label class="wpced-field-sublabel"><?php esc_html_e( 'Cart item\'s data label', 'wpc-estimated-delivery-date' ); ?></label>
                                 <input type="text" name="wpced_settings[text_cart_item]" class="large-text wpced-input-full"
@@ -299,10 +302,25 @@ $rules      = Wpced_Backend()->get_rules();
                                 <input type="text" name="wpced_settings[text_cart_overall]" class="large-text wpced-input-full"
                                        value="<?php echo esc_attr( Wpced_Backend()->get_setting( 'text_cart_overall' ) ); ?>"
                                        placeholder="<?php /* translators: %s: delivery date */
-                                       esc_attr_e( 'Overall estimated dispatch date: %s', 'wpc-estimated-delivery-date' ); ?>"/>
+                                       echo esc_attr( str_replace( '%s', '{date}', __( 'Overall estimated dispatch date: %s', 'wpc-estimated-delivery-date' ) ) ); ?>"/>
                             </div>
-                            <span class="description"><?php /* translators: date */
-                                esc_html_e( 'Use %s to show the date or date-range. Leave blank to use the default text and its equivalent translation in multiple languages.', 'wpc-estimated-delivery-date' ); ?></span>
+                            <span class="description"><?php echo sprintf( /* translators: date tag */ esc_html__( 'Use %s to show the date or date-range. Leave blank to use the default text and its equivalent translation in multiple languages.', 'wpc-estimated-delivery-date' ), '<code>{date}</code>' ); ?></span>
+                            <span class="description">
+                                <?php echo sprintf( /* translators: 1: countdown tag, 2: alternative countdown tag, 3: example */ esc_html__( 'Use %1$s or %2$s to show a live cut-off countdown (requires the Extra time line below), e.g. %3$s', 'wpc-estimated-delivery-date' ), '<code>{countdown}</code>', '<code>{time_left}</code>', '<code>Order within {countdown} to receive it by {date}</code>' ); ?>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="wpced-settings-row">
+                        <div class="wpced-settings-label">
+                            <strong><?php esc_html_e( 'Countdown format', 'wpc-estimated-delivery-date' ); ?></strong>
+                        </div>
+                        <div class="wpced-settings-field">
+                            <input type="text" name="wpced_settings[countdown_format]" class="large-text wpced-input-full"
+                                   value="<?php echo esc_attr( Wpced_Backend()->get_setting( 'countdown_format' ) ); ?>"
+                                   placeholder="<?php echo esc_attr( Wpced_Frontend()->get_countdown_format() ); ?>"/>
+                            <span class="description"><?php echo sprintf( /* translators: tokens */ esc_html__( 'Format of the countdown timer. Available tokens: %s. Leave blank to use the default format.', 'wpc-estimated-delivery-date' ), '<code>{d}</code> <code>{h}</code> <code>{m}</code> <code>{s}</code> <code>{hh}</code> <code>{mm}</code> <code>{ss}</code>' ); ?></span>
+                            <span class="description"><?php esc_html_e( 'If your site uses a page cache, please turn on the Reload dates option so the timer always starts from the current server time.', 'wpc-estimated-delivery-date' ); ?></span>
                         </div>
                     </div>
 
@@ -315,6 +333,7 @@ $rules      = Wpced_Backend()->get_rules();
                                 <code><?php echo esc_html( current_time( 'l' ) ); ?></code>
                                 <code><?php echo esc_html( current_time( 'm/d/Y' ) ); ?></code>
                                 <code><?php echo esc_html( current_time( 'h:i a' ) ); ?></code>
+                                <code><?php echo esc_html( wp_timezone_string() ); ?></code>
                                 <a href="<?php echo esc_url( admin_url( 'options-general.php' ) ); ?>"
                                    target="_blank"><?php esc_html_e( 'Date/time settings', 'wpc-estimated-delivery-date' ); ?></a>
                             </div>
@@ -329,7 +348,7 @@ $rules      = Wpced_Backend()->get_rules();
                             <input type="text" name="wpced_settings[extra_time_line]" class="wpced-time-val"
                                    value="<?php echo esc_attr( Wpced_Backend()->get_setting( 'extra_time_line' ) ); ?>"
                                    readonly/>
-                            <span class="description"><?php esc_html_e( 'Maximum time to consider an extra day of shipping.', 'wpc-estimated-delivery-date' ); ?></span>
+                            <span class="description"><?php esc_html_e( 'Maximum time to consider an extra day of shipping. It is also the daily cut-off time of the countdown timer, calculated in the WordPress timezone.', 'wpc-estimated-delivery-date' ); ?></span>
                         </div>
                     </div>
 

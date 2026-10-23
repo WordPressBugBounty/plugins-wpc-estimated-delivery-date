@@ -3,7 +3,7 @@ Contributors: wpclever
 Donate link: https://wpclever.net
 Tags: woocommerce, wpc, estimated, delivery-date, delivery-time
 Tested up to: 7.1
-Stable tag: 4.0.4
+Stable tag: 4.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,12 @@ Please try other plugins from us:
 4. Go to WP-admin > WPClever > Estimated Delivery Date to add your rules
 
 == Changelog ==
+
+= 4.0.5 =
+* Added: Real-time cut-off countdown timer, use the {countdown} or {time_left} tag in the delivery messages
+* Added: Option to customize the countdown format
+* Added: {date} tag to show the date or date-range in the delivery messages (%s is still supported)
+* Updated: The countdown follows the WordPress timezone and rolls over to the next dispatch day after the cut-off
 
 = 4.0.4 =
 * Added: Filter hook 'wpced_show_max_date'
